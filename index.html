@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -8,161 +8,198 @@
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 <style>
-:root {
-  --bg: #0d0f14;
-  --s1: #141820;
-  --s2: #1b2030;
-  --s3: #232a3b;
-  --border: rgba(255,255,255,0.07);
-  --accent: #4f8ef7;
-  --accent-d: #2563eb;
-  --green: #22c55e;
-  --red: #f43f5e;
-  --gold: #f59e0b;
-  --text: #eef2ff;
-  --muted: #5a6582;
-  --muted2: #8492b4;
+:root{
+  --bg:#08090e;--s1:#0f111a;--s2:#161b27;--s3:#1e2535;--s4:#252d40;
+  --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.12);
+  --accent:#4f8ef7;--accent2:#3b7de8;--green:#22c55e;--red:#f43f5e;
+  --gold:#f59e0b;--purple:#a855f7;--cyan:#06b6d4;
+  --text:#eef2ff;--muted:#4a5478;--muted2:#7a87aa;
+  --card-shadow:0 4px 24px rgba(0,0,0,0.5);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-body{font-family:'Golos Text',sans-serif;background:var(--bg);color:var(--text);height:100dvh;overflow:hidden;display:flex;flex-direction:column;position:relative;}
-h1,h2,h3,.logo{font-family:'Unbounded',sans-serif;}
-
-/* ── SCROLLBAR ── */
-::-webkit-scrollbar{width:3px;height:3px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--s3);border-radius:99px}
+body{font-family:'Golos Text',sans-serif;background:var(--bg);color:var(--text);height:100dvh;overflow:hidden;display:flex;flex-direction:column;}
+h1,h2,h3,.logo,.mono{font-family:'Unbounded',sans-serif;}
+::-webkit-scrollbar{width:2px;height:2px}
+::-webkit-scrollbar-thumb{background:var(--s4);border-radius:99px}
 
 /* ── AUTH ── */
 #auth-screen{position:fixed;inset:0;background:var(--bg);z-index:10000;display:flex;align-items:center;justify-content:center;overflow-y:auto;
-  background-image:radial-gradient(ellipse 60% 40% at 30% 60%,rgba(79,142,247,0.1) 0%,transparent 70%),
-  radial-gradient(ellipse 40% 60% at 80% 20%,rgba(245,158,11,0.05) 0%,transparent 60%);}
-.auth-wrap{width:320px;padding:36px 28px;background:var(--s1);border:1px solid var(--border);border-radius:24px;
-  box-shadow:0 32px 80px rgba(0,0,0,0.6);}
-.auth-logo{font-size:26px;font-weight:900;letter-spacing:-1px;margin-bottom:4px;}
-.auth-logo span{color:var(--accent);}
-.auth-sub{color:var(--muted2);font-size:12px;margin-bottom:24px;}
-.inp{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:13px 15px;color:var(--text);
-  font-family:'Golos Text',sans-serif;font-size:14px;outline:none;transition:.2s;margin-bottom:9px;}
-.inp:focus{border-color:rgba(79,142,247,0.5);}
+  background-image:radial-gradient(ellipse 70% 50% at 20% 70%,rgba(79,142,247,0.08)0%,transparent 70%),
+  radial-gradient(ellipse 50% 60% at 85% 15%,rgba(168,85,247,0.06)0%,transparent 60%);}
+.auth-wrap{width:320px;padding:36px 28px;background:var(--s1);border:1px solid var(--border);border-radius:24px;box-shadow:0 40px 100px rgba(0,0,0,0.7);}
+.auth-logo{font-size:24px;font-weight:900;letter-spacing:-1px;margin-bottom:3px;background:linear-gradient(135deg,var(--accent),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.auth-sub{color:var(--muted2);font-size:11px;margin-bottom:22px;}
+.inp{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:13px 15px;color:var(--text);font-family:'Golos Text',sans-serif;font-size:14px;outline:none;transition:.2s;margin-bottom:9px;}
+.inp:focus{border-color:rgba(79,142,247,0.45);}
 .inp::placeholder{color:var(--muted);}
-.btn{border:none;border-radius:12px;font-family:'Unbounded',sans-serif;font-weight:700;font-size:11px;cursor:pointer;transition:.2s;width:100%;padding:13px;}
-.btn-p{background:var(--accent);color:#fff;letter-spacing:.3px;}
-.btn-p:active{background:var(--accent-d);transform:scale(.98);}
-.btn-r{background:rgba(244,63,94,0.12);color:var(--red);border:1px solid rgba(244,63,94,0.25);margin-top:7px;}
+.btn{border:none;border-radius:12px;font-family:'Unbounded',sans-serif;font-weight:700;font-size:10px;cursor:pointer;transition:.15s;width:100%;padding:13px;letter-spacing:.3px;}
+.btn-p{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;}
+.btn-p:active{opacity:.85;transform:scale(.98);}
+.btn-r{background:rgba(244,63,94,0.1);color:var(--red);border:1px solid rgba(244,63,94,0.2);margin-top:7px;}
 .btn-g{background:var(--s2);color:var(--text);border:1px solid var(--border);margin-top:7px;}
+.btn-gold{background:rgba(245,158,11,0.12);color:var(--gold);border:1px solid rgba(245,158,11,0.25);margin-top:7px;}
 .acc-chip{display:flex;align-items:center;gap:10px;background:var(--s2);border:1px solid var(--border);border-radius:11px;padding:10px 14px;margin-top:6px;cursor:pointer;transition:.15s;}
 .acc-chip:hover{border-color:rgba(79,142,247,0.3);}
 .acc-dot{width:7px;height:7px;background:var(--green);border-radius:50%;flex-shrink:0;}
-.acc-name{color:var(--accent);font-weight:600;font-size:13px;}
 
-/* ── BOTTOM NAV (Monobank style) ── */
-.bnav{
-  display:flex;align-items:stretch;background:var(--s1);
-  border-top:1px solid var(--border);flex-shrink:0;
-  padding:0 4px;padding-bottom:env(safe-area-inset-bottom);
-}
-.bnav-item{
-  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:3px;padding:10px 4px 8px;cursor:pointer;position:relative;
-  color:var(--muted);font-size:9px;font-weight:600;letter-spacing:.3px;transition:.15s;
-  border-top:2px solid transparent;
-}
-.bnav-item .ico{font-size:20px;line-height:1;}
+/* ── BOTTOM NAV ── */
+.bnav{display:flex;background:rgba(15,17,26,0.95);border-top:1px solid var(--border);flex-shrink:0;
+  padding:0 2px;padding-bottom:env(safe-area-inset-bottom);backdrop-filter:blur(20px);}
+.bnav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  padding:8px 2px 7px;cursor:pointer;color:var(--muted);font-size:8.5px;font-weight:700;letter-spacing:.3px;
+  transition:.15s;border-top:2px solid transparent;position:relative;min-width:0;}
+.bnav-item .ico{font-size:19px;line-height:1;}
 .bnav-item.active{color:var(--accent);border-top-color:var(--accent);}
-.bnav-item:active{opacity:.7;}
-/* bell badge */
-.bell-badge{position:absolute;top:6px;right:calc(50% - 14px);background:var(--red);color:#fff;font-size:9px;font-weight:800;
-  border-radius:99px;padding:1px 5px;min-width:16px;text-align:center;display:none;}
-.bell-badge.show{display:block;}
+.bnav-item:active{opacity:.6;}
+.bell-badge{position:absolute;top:5px;right:calc(50% - 16px);background:var(--red);color:#fff;font-size:8px;font-weight:800;border-radius:99px;padding:1px 5px;min-width:15px;text-align:center;display:none;}
+.bell-badge.on{display:block;}
 
-/* ── MAIN SCROLL ── */
-.main{flex:1;overflow-y:auto;padding:14px 14px 0;}
+/* ── MAIN ── */
+.main{flex:1;overflow-y:auto;padding:14px 13px 6px;position:relative;}
 
-/* ── PAGE ── */
+/* ── PAGES ── */
 .page{display:none;animation:pgIn .18s ease;}
 .page.active{display:block;}
 @keyframes pgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 
-/* ── SECTION LABEL ── */
-.sec-lbl{font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin:18px 0 8px;}
+/* ── LABELS ── */
+.sec{font-family:'Unbounded',sans-serif;font-size:9px;font-weight:700;color:var(--muted);letter-spacing:.8px;text-transform:uppercase;margin:16px 0 8px;}
 
 /* ── BALANCE CARD ── */
-.bal-card{
-  border-radius:22px;padding:22px 20px 20px;margin-bottom:12px;position:relative;overflow:hidden;
-  background:linear-gradient(135deg,#1a3a7a 0%,#1e52c4 55%,#3b82f6 100%);
-}
-.bal-card::before{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.05);top:-60px;right:-40px;}
-.bal-card::after{content:'';position:absolute;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,0.04);bottom:-50px;left:-20px;}
-.bal-tag{font-size:11px;color:rgba(255,255,255,0.55);font-weight:500;margin-bottom:2px;}
-.bal-amount{font-family:'Unbounded',sans-serif;font-size:32px;font-weight:900;letter-spacing:-1.5px;margin-bottom:18px;position:relative;}
-.bal-row{display:flex;align-items:center;justify-content:space-between;position:relative;}
+.bal-card{border-radius:22px;padding:0;margin-bottom:12px;position:relative;overflow:hidden;background:linear-gradient(145deg,#0e2056 0%,#1440a8 50%,#2563eb 80%,#3b82f6 100%);}
+.bal-inner{padding:20px 20px 16px;position:relative;z-index:2;}
+.bal-card::before{content:'';position:absolute;width:240px;height:240px;border-radius:50%;background:rgba(255,255,255,0.04);top:-80px;right:-60px;}
+.bal-card::after{content:'';position:absolute;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.03);bottom:-70px;left:-30px;}
+.bal-tag{font-size:10px;color:rgba(255,255,255,0.5);font-weight:500;margin-bottom:2px;}
+.bal-amount{font-family:'Unbounded',sans-serif;font-size:34px;font-weight:900;letter-spacing:-1.5px;margin-bottom:4px;}
+.bal-amount.negative{color:#fca5a5;}
+.bal-sub{font-size:10px;color:rgba(255,255,255,0.45);margin-bottom:16px;}
+.bal-row{display:flex;align-items:center;justify-content:space-between;}
 .bal-user{display:flex;align-items:center;gap:10px;}
 .bal-ava-wrap{position:relative;flex-shrink:0;}
-.bal-ava{width:38px;height:38px;border-radius:50%;border:2.5px solid rgba(255,255,255,0.35);object-fit:cover;}
-.crown{position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-size:14px;filter:drop-shadow(0 0 4px gold);}
-.bal-nick{font-weight:700;font-size:14px;}
-.bal-role{font-size:10px;color:rgba(255,255,255,0.55);margin-top:1px;}
-.work-fab{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.2);backdrop-filter:blur(8px);
-  color:#fff;border-radius:12px;padding:9px 14px;font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;
-  cursor:pointer;transition:.2s;}
-.work-fab:active{background:rgba(255,255,255,0.25);}
+.bal-ava{width:36px;height:36px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);object-fit:cover;}
+.crown{position:absolute;top:-11px;left:50%;transform:translateX(-50%);font-size:14px;filter:drop-shadow(0 0 5px gold);}
+.bal-nick{font-weight:700;font-size:13px;}
+.bal-role{font-size:9px;color:rgba(255,255,255,0.5);margin-top:1px;}
+.work-fab{background:rgba(255,255,255,0.13);border:1px solid rgba(255,255,255,0.18);color:#fff;border-radius:11px;padding:8px 13px;font-family:'Unbounded',sans-serif;font-size:9px;font-weight:700;cursor:pointer;transition:.15s;backdrop-filter:blur(8px);}
+.work-fab:active{background:rgba(255,255,255,0.22);}
+/* Card chips row */
+.card-chips{display:flex;gap:8px;padding:0 20px 16px;position:relative;z-index:2;overflow-x:auto;scrollbar-width:none;}
+.card-chips::-webkit-scrollbar{display:none;}
+.chip{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:7px 12px;cursor:pointer;flex-shrink:0;transition:.15s;backdrop-filter:blur(8px);}
+.chip:hover{background:rgba(255,255,255,0.15);}
+.chip .flag{font-size:14px;}
+.chip .sym{font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;color:rgba(255,255,255,0.9);}
+.chip .amt{font-size:9px;color:rgba(255,255,255,0.5);}
 
-/* QUICK STATS */
-.qs-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px;}
-.qs{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:14px;}
+/* QUICK ACTIONS */
+.qa-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
+.qa{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:12px 6px;text-align:center;cursor:pointer;transition:.15s;}
+.qa:active{background:var(--s2);transform:scale(.96);}
+.qa .ico{font-size:22px;display:block;margin-bottom:4px;}
+.qa .lbl{font-size:8px;color:var(--muted2);font-weight:600;letter-spacing:.2px;}
+
+/* STATS */
+.qs-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px;}
+.qs{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:14px 13px;}
 .qs-ico{font-size:20px;margin-bottom:5px;}
-.qs-val{font-family:'Unbounded',sans-serif;font-size:15px;font-weight:700;}
-.qs-lbl{font-size:10px;color:var(--muted2);margin-top:2px;}
+.qs-val{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:700;}
+.qs-lbl{font-size:9px;color:var(--muted2);margin-top:2px;}
 
-/* ACTION BTNS ROW */
-.act-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;}
-.act-btn{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:12px 6px;text-align:center;cursor:pointer;transition:.15s;}
-.act-btn:active{background:var(--s2);}
-.act-btn .ico{font-size:22px;display:block;margin-bottom:4px;}
-.act-btn .lbl{font-size:9px;color:var(--muted2);font-weight:600;letter-spacing:.2px;}
-
-/* INV ITEMS */
+/* INV */
 .inv-item{background:var(--s1);border:1px solid var(--border);border-radius:13px;padding:12px 14px;display:flex;align-items:center;gap:12px;margin-bottom:7px;}
 .inv-ico{font-size:26px;flex-shrink:0;}
 .inv-name{font-weight:600;font-size:13px;}
-.inv-sub{font-size:11px;color:var(--muted2);}
+.inv-sub{font-size:10px;color:var(--muted2);}
+.inv-upgrade{background:var(--s3);border:1px solid var(--border);border-radius:8px;padding:5px 10px;font-family:'Unbounded',sans-serif;font-size:8px;font-weight:700;color:var(--gold);cursor:pointer;margin-left:auto;white-space:nowrap;flex-shrink:0;}
+.inv-upgrade:active{background:var(--s4);}
 
 /* SHOP */
 .shop-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:6px;}
-.shop-card{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:14px 13px;position:relative;}
-.shop-emoji{font-size:30px;margin-bottom:7px;display:block;}
-.shop-name{font-weight:700;font-size:13px;margin-bottom:3px;}
-.shop-price{font-family:'Unbounded',sans-serif;font-size:13px;color:var(--accent);margin-bottom:6px;}
-.shop-income{font-size:10px;color:var(--green);margin-bottom:8px;}
-.shop-buy-btn{background:var(--accent);color:#fff;border:none;border-radius:9px;padding:8px;width:100%;
-  font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;cursor:pointer;transition:.15s;}
-.shop-buy-btn:active{background:var(--accent-d);}
+.shop-card{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:14px 12px;}
+.shop-emoji{font-size:28px;margin-bottom:6px;display:block;}
+.shop-name{font-weight:700;font-size:12px;margin-bottom:2px;}
+.shop-price{font-family:'Unbounded',sans-serif;font-size:12px;color:var(--accent);margin-bottom:5px;}
+.shop-income{font-size:9px;color:var(--green);margin-bottom:7px;}
+.shop-buy-btn{background:var(--accent);color:#fff;border:none;border-radius:9px;padding:8px;width:100%;font-family:'Unbounded',sans-serif;font-size:9px;font-weight:700;cursor:pointer;transition:.15s;}
+.shop-buy-btn:active{opacity:.8;}
 
 /* TRADE */
 .trade-post-card{background:var(--s1);border:1px solid var(--border);border-radius:18px;padding:16px;margin-bottom:12px;}
-.trade-item{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:13px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
-.trade-ico{font-size:28px;flex-shrink:0;}
+.trade-item{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.trade-ico{font-size:26px;flex-shrink:0;}
 .trade-info{flex:1;min-width:0;}
-.trade-name{font-weight:700;font-size:13px;}
-.trade-seller{font-size:11px;color:var(--muted2);}
-.trade-price{font-family:'Unbounded',sans-serif;font-size:14px;color:var(--accent);font-weight:700;margin-right:8px;flex-shrink:0;}
-.trade-buy{background:var(--accent);color:#fff;border:none;border-radius:9px;padding:9px 13px;
-  font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;cursor:pointer;flex-shrink:0;}
-.trade-buy:active{background:var(--accent-d);}
+.trade-name{font-weight:700;font-size:12px;}
+.trade-seller{font-size:10px;color:var(--muted2);}
+.trade-price{font-family:'Unbounded',sans-serif;font-size:13px;color:var(--accent);font-weight:700;margin-right:7px;flex-shrink:0;}
+.trade-buy{background:var(--accent);color:#fff;border:none;border-radius:9px;padding:8px 12px;font-family:'Unbounded',sans-serif;font-size:9px;font-weight:700;cursor:pointer;flex-shrink:0;}
 
-/* CHAT */
-.chat-box{height:calc(100dvh - 210px);overflow-y:auto;display:flex;flex-direction:column;gap:8px;padding:10px;}
-.msg-wrap{display:flex;flex-direction:column;}
-.msg-wrap.me{align-items:flex-end;}
-.msg-wrap.other{align-items:flex-start;}
-.msg-sender{font-size:10px;color:var(--muted2);margin-bottom:2px;padding:0 4px;}
-.msg-bubble{padding:9px 13px;border-radius:16px;max-width:80%;font-size:13px;line-height:1.45;}
-.msg-wrap.me .msg-bubble{background:var(--accent);border-bottom-right-radius:4px;}
-.msg-wrap.other .msg-bubble{background:var(--s2);border:1px solid var(--border);border-bottom-left-radius:4px;}
-.chat-bar{display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--border);background:var(--s1);flex-shrink:0;}
-.chat-send{background:var(--accent);border:none;border-radius:11px;width:44px;color:#fff;font-size:16px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+/* CHAT (Telegram style) */
+.chat-list-wrap{overflow-y:auto;}
+.chat-row{display:flex;align-items:center;gap:12px;padding:11px 14px;cursor:pointer;border-radius:14px;transition:.15s;}
+.chat-row:active{background:var(--s2);}
+.chat-ava{width:46px;height:46px;border-radius:50%;border:2px solid var(--border);object-fit:cover;flex-shrink:0;font-size:22px;display:flex;align-items:center;justify-content:center;background:var(--s3);}
+.chat-right{flex:1;min-width:0;}
+.chat-name-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;}
+.chat-name{font-weight:700;font-size:13px;}
+.chat-time{font-size:10px;color:var(--muted);}
+.chat-preview{font-size:12px;color:var(--muted2);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.chat-unread{background:var(--accent);color:#fff;font-size:9px;font-weight:800;border-radius:99px;padding:2px 6px;min-width:18px;text-align:center;flex-shrink:0;}
+/* DM view */
+#dm-view{display:none;flex-direction:column;height:100%;position:absolute;inset:0;background:var(--bg);z-index:100;}
+.dm-header{display:flex;align-items:center;gap:11px;padding:12px 14px;background:var(--s1);border-bottom:1px solid var(--border);flex-shrink:0;}
+.dm-back{font-size:20px;cursor:pointer;padding:2px 8px 2px 0;}
+.dm-ava{width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid var(--border);background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.dm-name{font-weight:700;font-size:14px;}
+.dm-status{font-size:10px;color:var(--green);}
+.dm-msgs{flex:1;overflow-y:auto;padding:10px 13px;display:flex;flex-direction:column;gap:7px;}
+.dm-msg-wrap{display:flex;flex-direction:column;}
+.dm-msg-wrap.me{align-items:flex-end;}
+.dm-msg-wrap.other{align-items:flex-start;}
+.dm-bubble{padding:9px 13px;border-radius:16px;max-width:78%;font-size:13px;line-height:1.45;}
+.dm-msg-wrap.me .dm-bubble{background:linear-gradient(135deg,var(--accent),var(--accent2));border-bottom-right-radius:4px;}
+.dm-msg-wrap.other .dm-bubble{background:var(--s2);border:1px solid var(--border);border-bottom-left-radius:4px;}
+.dm-time{font-size:9px;color:var(--muted);margin-top:2px;padding:0 4px;}
+.dm-bar{display:flex;gap:8px;padding:10px 13px;border-top:1px solid var(--border);background:var(--s1);flex-shrink:0;}
+.dm-send{background:var(--accent);border:none;border-radius:11px;width:42px;color:#fff;font-size:16px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+/* Search bar */
+.search-bar{display:flex;align-items:center;gap:8px;background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:10px;}
+.search-bar input{background:none;border:none;outline:none;flex:1;color:var(--text);font-size:13px;font-family:'Golos Text',sans-serif;}
+.search-bar input::placeholder{color:var(--muted);}
 
-/* INBOX / NOTIFICATIONS */
+/* EXCHANGE */
+.exch-card{background:var(--s1);border:1px solid var(--border);border-radius:18px;padding:18px;margin-bottom:12px;}
+.rates-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
+.rate-chip{background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:11px 13px;text-align:center;}
+.rate-flag{font-size:20px;margin-bottom:3px;}
+.rate-pair{font-size:10px;color:var(--muted2);}
+.rate-val{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:700;color:var(--accent);}
+
+/* LEADERBOARD */
+.lb-item{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:13px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;}
+.lb-rank{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:900;width:28px;text-align:center;flex-shrink:0;}
+.lb-rank.r1{color:var(--gold);}
+.lb-rank.r2{color:#94a3b8;}
+.lb-rank.r3{color:#cd7c2f;}
+.lb-ava{width:38px;height:38px;border-radius:50%;border:2px solid var(--border);object-fit:cover;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.lb-info{flex:1;}
+.lb-name{font-weight:700;font-size:13px;}
+.lb-role{font-size:10px;color:var(--muted2);}
+.lb-bal{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;color:var(--green);text-align:right;}
+.lb-bal.neg{color:var(--red);}
+
+/* FINES */
+.fine-item{background:var(--s1);border:1px solid rgba(244,63,94,0.2);border-radius:14px;padding:14px;margin-bottom:8px;}
+.fine-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
+.fine-amount{font-family:'Unbounded',sans-serif;font-size:16px;color:var(--red);font-weight:700;}
+.fine-status{font-size:9px;font-weight:700;border-radius:6px;padding:3px 8px;}
+.fine-status.unpaid{background:rgba(244,63,94,0.12);color:var(--red);}
+.fine-status.paid{background:rgba(34,197,94,0.12);color:var(--green);}
+.fine-reason{font-size:12px;color:var(--muted2);margin-bottom:8px;line-height:1.4;}
+.fine-pay-btn{background:var(--red);color:#fff;border:none;border-radius:9px;padding:9px;width:100%;font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;cursor:pointer;}
+.fine-pay-btn:active{opacity:.8;}
+
+/* INBOX */
 .notif-item{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:8px;position:relative;}
 .notif-item.unread{border-color:rgba(79,142,247,0.3);}
 .notif-item.unread::before{content:'';position:absolute;top:14px;right:14px;width:7px;height:7px;border-radius:50%;background:var(--accent);}
@@ -172,132 +209,243 @@ h1,h2,h3,.logo{font-family:'Unbounded',sans-serif;}
 .notif-body{font-size:12px;color:var(--muted2);line-height:1.4;}
 .notif-time{font-size:10px;color:var(--muted);margin-top:4px;}
 .notif-action{margin-top:10px;display:flex;gap:7px;}
-.notif-confirm{background:var(--green);color:#fff;border:none;border-radius:9px;padding:8px 16px;
-  font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;cursor:pointer;}
-.notif-decline{background:var(--s2);color:var(--muted2);border:1px solid var(--border);border-radius:9px;padding:8px 16px;
-  font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;cursor:pointer;}
+.notif-confirm{background:var(--green);color:#fff;border:none;border-radius:9px;padding:8px 16px;font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;cursor:pointer;}
+.notif-decline{background:var(--s2);color:var(--muted2);border:1px solid var(--border);border-radius:9px;padding:8px 16px;font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;cursor:pointer;}
 
 /* PROFILE */
-.prof-head{background:var(--s1);border:1px solid var(--border);border-radius:20px;padding:24px;text-align:center;margin-bottom:12px;position:relative;}
+.prof-head{background:var(--s1);border:1px solid var(--border);border-radius:20px;padding:24px;text-align:center;margin-bottom:12px;}
 .prof-ava-wrap{position:relative;display:inline-block;margin-bottom:10px;}
 .prof-ava{width:76px;height:76px;border-radius:50%;border:3px solid var(--accent);object-fit:cover;}
 .prof-crown{position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-size:18px;}
 .prof-name{font-family:'Unbounded',sans-serif;font-size:16px;font-weight:700;margin-bottom:3px;}
 .prof-role{font-size:11px;color:var(--muted2);}
 .color-pick-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:11px;}
-.csw{width:32px;height:32px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:.15s;}
+.csw{width:30px;height:30px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:.15s;}
 .csw.on,.csw:hover{border-color:#fff;transform:scale(1.1);}
 
 /* ADMIN */
 .adm-action{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:10px;}
-.adm-title{font-family:'Unbounded',sans-serif;font-size:11px;font-weight:700;color:var(--muted2);letter-spacing:.5px;margin-bottom:10px;}
+.adm-title{font-family:'Unbounded',sans-serif;font-size:10px;font-weight:700;color:var(--muted2);letter-spacing:.5px;margin-bottom:10px;}
 
 /* TOAST */
-.toast{position:fixed;bottom:74px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--s2);
-  border:1px solid var(--border);border-radius:12px;padding:10px 18px;font-size:13px;font-weight:600;
-  z-index:9999;opacity:0;transition:.25s;white-space:nowrap;pointer-events:none;}
+.toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:10px 18px;font-size:13px;font-weight:600;z-index:9999;opacity:0;transition:.25s;white-space:nowrap;pointer-events:none;max-width:calc(100vw - 40px);text-align:center;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .toast.ok{border-color:rgba(34,197,94,0.4);color:var(--green);}
 .toast.err{border-color:rgba(244,63,94,0.4);color:var(--red);}
+.toast.info{border-color:rgba(79,142,247,0.4);color:var(--accent);}
+
+/* MODAL */
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:8000;align-items:flex-end;justify-content:center;}
+.modal-ov.on{display:flex;}
+.modal-box{background:var(--s1);border:1px solid var(--border);border-top:1px solid var(--border2);border-radius:24px 24px 0 0;padding:22px 18px 36px;width:100%;max-width:500px;animation:slideUp .2s ease;}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:none}}
+.modal-title{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;margin-bottom:14px;}
+.modal-close{float:right;cursor:pointer;color:var(--muted);font-size:18px;margin-top:-2px;}
 
 /* BANNED */
 #banned-screen{display:none;position:fixed;inset:0;background:#000;z-index:20000;align-items:center;justify-content:center;flex-direction:column;gap:12px;text-align:center;padding:30px;}
 
-/* MODAL */
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:8000;align-items:flex-end;justify-content:center;}
-.modal-overlay.show{display:flex;}
-.modal-box{background:var(--s1);border:1px solid var(--border);border-radius:24px 24px 0 0;padding:24px 20px 36px;width:100%;max-width:480px;}
-.modal-title{font-family:'Unbounded',sans-serif;font-size:14px;font-weight:700;margin-bottom:16px;}
+/* UPGRADE BADGE */
+.upg-badge{font-size:9px;background:rgba(245,158,11,0.15);color:var(--gold);border:1px solid rgba(245,158,11,0.25);border-radius:5px;padding:2px 5px;margin-left:5px;}
+
+/* TRANSACTION LIST */
+.tx-item{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid var(--border);}
+.tx-item:last-child{border-bottom:none;}
+.tx-ico{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.tx-ico.inc{background:rgba(34,197,94,0.12);}
+.tx-ico.out{background:rgba(244,63,94,0.12);}
+.tx-info{flex:1;}
+.tx-label{font-weight:600;font-size:13px;}
+.tx-sub{font-size:10px;color:var(--muted2);}
+.tx-amt{font-family:'Unbounded',sans-serif;font-size:13px;font-weight:700;}
+.tx-amt.inc{color:var(--green);}
+.tx-amt.out{color:var(--red);}
 </style>
 </head>
 <body>
 
+<!-- BANNED -->
 <div id="banned-screen">
-  <div style="font-size:56px;">🚫</div>
-  <h2 style="font-family:'Unbounded',sans-serif;color:var(--red);font-size:22px;">ЗАБЛОКИРОВАНО</h2>
-  <p style="color:var(--muted2);font-size:13px;">Ваш аккаунт заблокирован администратором.</p>
-  <button class="btn btn-g" style="max-width:180px;margin-top:8px;" onclick="exitAcc()">ВЫЙТИ</button>
+  <div style="font-size:56px">🚫</div>
+  <h2 style="font-family:'Unbounded',sans-serif;color:var(--red);font-size:22px">ЗАБЛОКОВАНО</h2>
+  <p style="color:var(--muted2);font-size:13px">Аккаунт заблоковано адміністрацією</p>
+  <button class="btn btn-g" style="max-width:180px;margin-top:10px" onclick="exitAcc()">ВИЙТИ</button>
 </div>
 
+<!-- AUTH -->
 <div id="auth-screen">
   <div class="auth-wrap">
-    <div class="auth-logo">MAGNIY <span>OS</span></div>
-    <div class="auth-sub">Цифровая экономика</div>
-    <input id="l-in" class="inp" placeholder="Логин">
+    <div class="auth-logo">MAGNIY OS</div>
+    <div class="auth-sub">Цифровий банк нового покоління</div>
+    <input id="l-in" class="inp" placeholder="Логін">
     <input id="p-in" class="inp" type="password" placeholder="Пароль">
-    <input id="a-code" class="inp" placeholder="Код (для создателя)">
-    <button class="btn btn-p" onclick="auth()">ВОЙТИ / СОЗДАТЬ АККАУНТ</button>
-    <div id="acc-list" style="margin-top:16px;"></div>
+    <input id="a-code" class="inp" placeholder="Код творця (необов'язково)">
+    <button class="btn btn-p" onclick="auth()">УВІЙТИ / СТВОРИТИ</button>
+    <div id="acc-list" style="margin-top:14px"></div>
   </div>
 </div>
 
-<div class="main" id="main-scroll">
+<!-- MAIN -->
+<div class="main" id="main">
 
+  <!-- HOME -->
   <div id="p-home" class="page active">
     <div class="bal-card" id="bal-card">
-      <div class="bal-tag">Баланс рахунку</div>
-      <div class="bal-amount" id="u-bal">0 ₴</div>
-      <div class="bal-row">
-        <div class="bal-user">
-          <div class="bal-ava-wrap">
-            <img class="bal-ava" id="u-ava" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-            <div class="crown" id="u-crown" style="display:none">👑</div>
+      <div class="bal-inner">
+        <div class="bal-tag">Основний рахунок · UAH</div>
+        <div class="bal-amount" id="u-bal">0 ₴</div>
+        <div class="bal-sub" id="bal-sub-txt">Доступно</div>
+        <div class="bal-row">
+          <div class="bal-user">
+            <div class="bal-ava-wrap">
+              <img class="bal-ava" id="u-ava" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
+              <div class="crown" id="u-crown" style="display:none">👑</div>
+            </div>
+            <div>
+              <div class="bal-nick" id="u-nick">...</div>
+              <div class="bal-role" id="u-role">Гравець</div>
+            </div>
           </div>
-          <div>
-            <div class="bal-nick" id="u-nick">...</div>
-            <div class="bal-role" id="u-role">Гравець</div>
-          </div>
+          <button class="work-fab" onclick="work()">⚡ ЗАРОБИТИ</button>
         </div>
-        <button class="work-fab" onclick="work()">+ РАБОТАТЬ</button>
+      </div>
+      <div class="card-chips" id="card-chips">
+        <div class="chip" onclick="showCard('usd')">
+          <div class="flag">🇺🇸</div>
+          <div class="sym">USD</div>
+          <div class="amt" id="usd-chip">–</div>
+        </div>
+        <div class="chip" onclick="showCard('eur')">
+          <div class="flag">🇪🇺</div>
+          <div class="sym">EUR</div>
+          <div class="amt" id="eur-chip">–</div>
+        </div>
+        <div class="chip" style="cursor:pointer" onclick="openModal('modal-newcard')">
+          <div class="flag">➕</div>
+          <div class="sym" style="font-size:8px">КАРТКА</div>
+          <div class="amt">Нова</div>
+        </div>
       </div>
     </div>
-    <div class="act-row">
-      <div class="act-btn" onclick="sw('shop',3)"><span class="ico">🏪</span><span class="lbl">МАГАЗИН</span></div>
-      <div class="act-btn" onclick="sw('trade',2)"><span class="ico">🤝</span><span class="lbl">РЫНОК</span></div>
-      <div class="act-btn" onclick="sw('chat',1)"><span class="ico">💬</span><span class="lbl">ЧАТ</span></div>
-      <div class="act-btn" onclick="sw('inbox',4)"><span class="ico">📬</span><span class="lbl">ПОЧТА</span></div>
+
+    <div class="qa-row">
+      <div class="qa" onclick="openModal('modal-transfer')"><span class="ico">💸</span><span class="lbl">ПЕРЕКАЗ</span></div>
+      <div class="qa" onclick="sw('exchange',4)"><span class="ico">💱</span><span class="lbl">ОБМІН</span></div>
+      <div class="qa" onclick="sw('shop',1)"><span class="ico">🛍</span><span class="lbl">МАГАЗИН</span></div>
+      <div class="qa" onclick="sw('trade',2)"><span class="ico">🤝</span><span class="lbl">РИНОК</span></div>
     </div>
+
     <div class="qs-row">
       <div class="qs"><div class="qs-ico">📦</div><div class="qs-val" id="qs-inv">0</div><div class="qs-lbl">Об'єктів</div></div>
       <div class="qs"><div class="qs-ico">💼</div><div class="qs-val" id="qs-inc">0 ₴</div><div class="qs-lbl">Дохід/год</div></div>
     </div>
-    <div class="sec-lbl">Моє майно</div>
+
+    <div class="sec">Останні операції</div>
+    <div id="tx-list"></div>
+
+    <div class="sec">Моє майно</div>
     <div id="inv-container"></div>
     <div style="height:14px"></div>
   </div>
 
+  <!-- SHOP -->
   <div id="p-shop" class="page">
-    <div class="sec-lbl" style="margin-top:6px">🚗 Автосалон</div>
-    <div id="s-car" class="shop-grid"></div>
-    <div class="sec-lbl">🏠 Нерухомість</div>
-    <div id="s-house" class="shop-grid"></div>
-    <div class="sec-lbl">💼 Бізнес</div>
-    <div id="s-biz" class="shop-grid"></div>
+    <div class="sec" style="margin-top:6px">🚗 Автопарк</div><div id="s-car" class="shop-grid"></div>
+    <div class="sec">🏠 Нерухомість</div><div id="s-house" class="shop-grid"></div>
+    <div class="sec">💼 Бізнес</div><div id="s-biz" class="shop-grid"></div>
     <div style="height:14px"></div>
   </div>
 
+  <!-- TRADE -->
   <div id="p-trade" class="page">
     <div class="trade-post-card">
       <div class="adm-title">ВИСТАВИТИ НА ПРОДАЖ</div>
       <select id="tr-obj" class="inp"></select>
       <input id="tr-pr" class="inp" type="number" placeholder="Ціна (₴)">
-      <button class="btn btn-p" onclick="postToTrade()">ВИСТАВИТИ НА РИНОК</button>
+      <button class="btn btn-p" onclick="postToTrade()">ВИСТАВИТИ</button>
     </div>
-    <div class="sec-lbl">Активні лоти</div>
+    <div class="sec">Активні лоти</div>
     <div id="trade-board"></div>
     <div style="height:14px"></div>
   </div>
 
-  <div id="p-chat" class="page" style="display:none;flex-direction:column;height:calc(100dvh - 112px);">
-    <div class="chat-box" id="chat-list"></div>
+  <!-- CHAT (TG style) -->
+  <div id="p-chat" class="page" style="position:relative;">
+    <div class="search-bar">
+      <span style="color:var(--muted)">🔍</span>
+      <input id="chat-search" placeholder="Пошук гравця..." oninput="searchUsers()">
+    </div>
+    <div id="search-results" style="display:none;margin-bottom:8px;"></div>
+    <div class="sec">Переписки</div>
+    <div class="chat-list-wrap" id="chat-list-wrap"></div>
+
+    <!-- DM VIEW -->
+    <div id="dm-view">
+      <div class="dm-header">
+        <span class="dm-back" onclick="closeDm()">←</span>
+        <div class="dm-ava" id="dm-ava">👤</div>
+        <div>
+          <div class="dm-name" id="dm-name">...</div>
+          <div class="dm-status">онлайн</div>
+        </div>
+      </div>
+      <div class="dm-msgs" id="dm-msgs"></div>
+      <div class="dm-bar">
+        <input id="dm-in" class="inp" style="margin:0;flex:1" placeholder="Повідомлення...">
+        <button class="dm-send" onclick="sendDm()">➤</button>
+      </div>
+    </div>
+    <div style="height:14px"></div>
   </div>
 
+  <!-- EXCHANGE -->
+  <div id="p-exchange" class="page">
+    <div class="sec" style="margin-top:6px">Курси валют</div>
+    <div class="rates-row">
+      <div class="rate-chip"><div class="rate-flag">🇺🇸</div><div class="rate-pair">USD → UAH</div><div class="rate-val" id="rate-usd">42.5</div></div>
+      <div class="rate-chip"><div class="rate-flag">🇪🇺</div><div class="rate-pair">EUR → UAH</div><div class="rate-val" id="rate-eur">46.2</div></div>
+    </div>
+    <div class="exch-card">
+      <div class="adm-title">ОБМІНЯТИ</div>
+      <select id="exch-from" class="inp" onchange="calcExch()">
+        <option value="uah">₴ UAH (Гривня)</option>
+        <option value="usd">$ USD (Долар)</option>
+        <option value="eur">€ EUR (Євро)</option>
+      </select>
+      <input id="exch-amt" class="inp" type="number" placeholder="Сума" oninput="calcExch()">
+      <select id="exch-to" class="inp" onchange="calcExch()">
+        <option value="usd">$ USD (Долар)</option>
+        <option value="eur">€ EUR (Євро)</option>
+        <option value="uah">₴ UAH (Гривня)</option>
+      </select>
+      <div id="exch-result" style="text-align:center;font-family:'Unbounded',sans-serif;font-size:18px;color:var(--accent);margin:12px 0;"></div>
+      <button class="btn btn-p" onclick="doExchange()">ОБМІНЯТИ</button>
+    </div>
+    <div style="height:14px"></div>
+  </div>
+
+  <!-- LEADERBOARD -->
+  <div id="p-lb" class="page">
+    <div class="sec" style="margin-top:6px">🏆 Топ гравців</div>
+    <div id="lb-list"></div>
+    <div style="height:14px"></div>
+  </div>
+
+  <!-- FINES -->
+  <div id="p-fines" class="page">
+    <div class="sec" style="margin-top:6px">Мої штрафи</div>
+    <div id="fines-list"></div>
+    <div style="height:14px"></div>
+  </div>
+
+  <!-- INBOX -->
   <div id="p-inbox" class="page">
-    <div class="sec-lbl" style="margin-top:6px">Повідомлення</div>
+    <div class="sec" style="margin-top:6px">Сповіщення</div>
     <div id="inbox-list"></div>
     <div style="height:14px"></div>
   </div>
 
+  <!-- PROFILE -->
   <div id="p-prof" class="page">
     <div class="prof-head">
       <div class="prof-ava-wrap">
@@ -307,138 +455,176 @@ h1,h2,h3,.logo{font-family:'Unbounded',sans-serif;}
       <div class="prof-name" id="prof-nick">...</div>
       <div class="prof-role" id="prof-role-lbl">Гравець</div>
     </div>
-    
-    <div class="adm-action" style="background: rgba(79,142,247,0.05); border-color: rgba(79,142,247,0.2);">
-      <div class="adm-title" style="color:var(--accent);">👥 МУЛЬТИ-АККАУНТ</div>
-      <div id="prof-acc-list" style="margin-bottom:12px;"></div>
-      <button class="btn btn-g" onclick="exitAcc()">ДОДАТИ / ЗМІНИТИ АККАУНТ</button>
-      <button class="btn btn-r" style="margin-top:8px;" onclick="logoutCurrent()">ВИЙТИ З ЦЬОГО АККАУНТА</button>
-    </div>
-
     <div class="adm-action">
-      <div class="adm-title">РЕДАГУВАТИ ПРОФІЛЬ</div>
+      <div class="adm-title">РЕДАГУВАТИ</div>
       <input id="st-n" class="inp" placeholder="Нікнейм">
       <input id="st-a" class="inp" placeholder="URL аватарки">
-      <div style="font-size:11px;color:var(--muted2);margin-bottom:8px;">Колір акценту:</div>
+      <div style="font-size:11px;color:var(--muted2);margin-bottom:8px">Колір:</div>
       <div class="color-pick-row" id="color-swatches"></div>
-      <input type="color" id="st-c" class="inp" style="height:48px;padding:6px;cursor:pointer;">
+      <input type="color" id="st-c" class="inp" style="height:46px;padding:6px;cursor:pointer">
       <button class="btn btn-p" onclick="saveProf()">ЗБЕРЕГТИ</button>
     </div>
     <div style="height:14px"></div>
   </div>
 
+  <!-- ADMIN -->
   <div id="p-adm" class="page">
-    <div class="sec-lbl" style="margin-top:6px">Панель адміністратора</div>
-
-    <div class="adm-action" id="adm-give-block">
+    <div class="sec" style="margin-top:6px">Адмін панель</div>
+    <div class="adm-action" id="adm-give-block" style="display:none">
       <div class="adm-title">💰 ВИДАТИ ГРОШІ</div>
-      <input id="ad-u-give" class="inp" placeholder="Логін гравця">
-      <input id="ad-v-give" class="inp" type="number" placeholder="Сума (₴)">
+      <input id="ad-u-give" class="inp" placeholder="Логін"><input id="ad-v-give" class="inp" type="number" placeholder="Сума">
       <button class="btn btn-p" onclick="adm('give')">ВИДАТИ</button>
     </div>
-
     <div class="adm-action">
       <div class="adm-title">💸 ШТРАФ</div>
-      <input id="ad-u-fine" class="inp" placeholder="Логін гравця">
-      <input id="ad-v-fine" class="inp" type="number" placeholder="Сума штрафу (₴)">
+      <input id="ad-u-fine" class="inp" placeholder="Логін"><input id="ad-v-fine" class="inp" type="number" placeholder="Сума">
       <input id="ad-r-fine" class="inp" placeholder="Причина штрафу">
-      <button class="btn" style="background:rgba(245,158,11,0.12);color:var(--gold);border:1px solid rgba(245,158,11,0.3);margin-top:4px;" onclick="adm('fine')">ВИПИСАТИ ШТРАФ</button>
+      <button class="btn btn-gold" onclick="adm('fine')">ВИПИСАТИ ШТРАФ</button>
     </div>
-
-    <div class="adm-action" id="adm-offer-block">
+    <div class="adm-action" id="adm-offer-block" style="display:none">
       <div class="adm-title">⚡ ЗАПРОПОНУВАТИ АДМІНКУ</div>
-      <input id="ad-u-offer" class="inp" placeholder="Логін гравця">
-      <button class="btn" style="background:rgba(79,142,247,0.12);color:var(--accent);border:1px solid rgba(79,142,247,0.3);" onclick="adm('offer')">ВІДПРАВИТИ ПРОПОЗИЦІЮ (500M ₴)</button>
+      <input id="ad-u-offer" class="inp" placeholder="Логін">
+      <button class="btn btn-p" onclick="adm('offer')" style="background:linear-gradient(135deg,var(--purple),#7c3aed)">ВІДПРАВИТИ (500M ₴)</button>
     </div>
-
     <div class="adm-action">
       <div class="adm-title">🚫 БАН / РОЗБАН</div>
-      <input id="ad-u-ban" class="inp" placeholder="Логін гравця">
+      <input id="ad-u-ban" class="inp" placeholder="Логін">
       <button class="btn btn-r" onclick="adm('ban')">ЗАБЛОКУВАТИ</button>
-      <button class="btn btn-g" style="margin-top:7px;" onclick="adm('unban')">✅ РОЗБЛОКУВАТИ</button>
+      <button class="btn btn-g" style="margin-top:7px" onclick="adm('unban')">✅ РОЗБЛОКУВАТИ</button>
     </div>
-
     <div style="height:14px"></div>
   </div>
 
 </div>
 
-<div class="chat-bar" id="chat-bar" style="display:none;">
-  <input id="m-in" class="inp" style="margin:0;flex:1;" placeholder="Повідомлення...">
-  <button class="chat-send" onclick="sendMsg()">➤</button>
+<!-- BOTTOM NAV -->
+<div class="bnav" id="bnav">
+  <div class="bnav-item active" id="nav-home" onclick="sw('home',0)"><span class="ico">🏠</span>ГОЛОВНА</div>
+  <div class="bnav-item" id="nav-shop" onclick="sw('shop',1)"><span class="ico">🛍</span>МАГАЗИН</div>
+  <div class="bnav-item" id="nav-trade" onclick="sw('trade',2)"><span class="ico">🤝</span>РИНОК</div>
+  <div class="bnav-item" id="nav-chat" onclick="sw('chat',3)"><span class="ico">💬</span>ЧАТ</div>
+  <div class="bnav-item" id="nav-lb" onclick="sw('lb',5)"><span class="ico">🏆</span>ТОП</div>
+  <div class="bnav-item" id="nav-inbox" onclick="sw('inbox',6)"><span class="ico">🔔</span><div class="bell-badge" id="bell-badge">0</div>ПОШТА</div>
+  <div class="bnav-item" id="nav-prof" onclick="sw('prof',7)"><span class="ico">👤</span>ПРОФІЛЬ</div>
+  <div class="bnav-item" id="nav-adm" style="display:none;color:var(--red)" onclick="sw('adm',8)"><span class="ico">🛠</span>АДМІН</div>
 </div>
 
-<div class="bnav" id="bnav">
-  <div class="bnav-item active" id="nav-home" onclick="sw('home',0)">
-    <span class="ico">🏠</span>ГОЛОВНА
+<!-- TRANSFER MODAL -->
+<div class="modal-ov" id="modal-transfer">
+  <div class="modal-box">
+    <span class="modal-close" onclick="closeModal('modal-transfer')">✕</span>
+    <div class="modal-title">💸 Переказ коштів</div>
+    <input id="tf-to" class="inp" placeholder="Логін отримувача">
+    <select id="tf-cur" class="inp">
+      <option value="uah">₴ UAH</option>
+      <option value="usd">$ USD</option>
+      <option value="eur">€ EUR</option>
+    </select>
+    <input id="tf-amt" class="inp" type="number" placeholder="Сума">
+    <input id="tf-note" class="inp" placeholder="Коментар (необов'язково)">
+    <button class="btn btn-p" onclick="doTransfer()">ВІДПРАВИТИ</button>
   </div>
-  <div class="bnav-item" id="nav-shop" onclick="sw('shop',3)">
-    <span class="ico">🛍</span>МАГАЗИН
+</div>
+
+<!-- NEW CARD MODAL -->
+<div class="modal-ov" id="modal-newcard">
+  <div class="modal-box">
+    <span class="modal-close" onclick="closeModal('modal-newcard')">✕</span>
+    <div class="modal-title">➕ Відкрити валютний рахунок</div>
+    <p style="font-size:13px;color:var(--muted2);margin-bottom:14px">Вартість відкриття: 1 000 ₴</p>
+    <button class="btn btn-p" onclick="openFxCard('usd')" style="margin-bottom:8px">🇺🇸 Відкрити USD рахунок</button>
+    <button class="btn btn-p" onclick="openFxCard('eur')" style="background:linear-gradient(135deg,var(--purple),#7c3aed)">🇪🇺 Відкрити EUR рахунок</button>
   </div>
-  <div class="bnav-item" id="nav-trade" onclick="sw('trade',2)">
-    <span class="ico">🤝</span>РИНОК
+</div>
+
+<!-- UPGRADE MODAL -->
+<div class="modal-ov" id="modal-upgrade">
+  <div class="modal-box">
+    <span class="modal-close" onclick="closeModal('modal-upgrade')">✕</span>
+    <div class="modal-title" id="upg-title">⬆️ Покращення</div>
+    <p id="upg-desc" style="font-size:13px;color:var(--muted2);margin-bottom:14px"></p>
+    <button class="btn btn-gold" onclick="confirmUpgrade()">КУПИТИ ПОКРАЩЕННЯ</button>
   </div>
-  <div class="bnav-item" id="nav-chat" onclick="sw('chat',1)">
-    <span class="ico">💬</span>ЧАТ
-  </div>
-  <div class="bnav-item" id="nav-inbox" onclick="sw('inbox',4)">
-    <span class="ico">🔔</span>
-    <div class="bell-badge" id="bell-badge">0</div>
-    ПОШТА
-  </div>
-  <div class="bnav-item" id="nav-prof" onclick="sw('prof',5)">
-    <span class="ico">👤</span>ПРОФІЛЬ
-  </div>
-  <div class="bnav-item" id="nav-adm" style="display:none;color:var(--red);" onclick="sw('adm',6)">
-    <span class="ico">🛠</span>АДМІН
+</div>
+
+<!-- CARD INFO MODAL -->
+<div class="modal-ov" id="modal-card">
+  <div class="modal-box">
+    <span class="modal-close" onclick="closeModal('modal-card')">✕</span>
+    <div class="modal-title" id="modal-card-title">Картка</div>
+    <div id="modal-card-body" style="font-size:13px;color:var(--muted2)"></div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const firebaseConfig = {
-  apiKey:"AIzaSyDmf-lcDM5hXBwBqzymGlzdoHdTGfT2pRg",
-  authDomain:"magniybank.firebaseapp.com",
-  databaseURL:"https://magniybank-default-rtdb.firebaseio.com",
-  projectId:"magniybank",
-  storageBucket:"magniybank.firebasestorage.app",
-  messagingSenderId:"1006815080708",
-  appId:"1:1006815080708:web:e9c3afd0a15d8abbe46051"
-};
+const firebaseConfig={apiKey:"AIzaSyDmf-lcDM5hXBwBqzymGlzdoHdTGfT2pRg",authDomain:"magniybank.firebaseapp.com",databaseURL:"https://magniybank-default-rtdb.firebaseio.com",projectId:"magniybank",storageBucket:"magniybank.firebasestorage.app",messagingSenderId:"1006815080708",appId:"1:1006815080708:web:e9c3afd0a15d8abbe46051"};
 firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+const db=firebase.database();
 
-let user = localStorage.getItem('mag_active_u');
-let uData = null;
-const CREATOR_CODE = 'MAG777';
-const ADMIN_PRICE = 500000000;
+let user=localStorage.getItem('mag_active_u');
+let uData=null;
+const CREATOR_CODE='MAG777';
+const ADMIN_PRICE=500000000;
+const RATES={usd:42.5,eur:46.2};
 
-const COLORS = ['#4f8ef7','#7c3aed','#ec4899','#f97316','#22c55e','#06b6d4','#eab308','#ef4444'];
+let pendingUpgrade={};
+let currentDmUser=null;
 
-const SHOP_DB = {
+const COLORS=['#4f8ef7','#7c3aed','#ec4899','#f97316','#22c55e','#06b6d4','#eab308','#ef4444'];
+
+// ═══ SHOP DATA ═══
+const SHOP_DB={
   car:[
-    {n:"Запорожець",e:"🚗",p:1000},{n:"Лада",e:"🚙",p:5000},{n:"BMW M5",e:"🏎",p:150000},
-    {n:"Гелендваген",e:"🚐",p:400000},{n:"Ferrari",e:"🏁",p:1200000}
+    {n:"Таврія",e:"🚗",p:800},
+    {n:"Лада Приора",e:"🚙",p:4500},
+    {n:"Toyota Camry",e:"🚘",p:45000},
+    {n:"BMW M5",e:"🏎",p:150000},
+    {n:"Mercedes G63",e:"🚐",p:380000},
+    {n:"Ferrari 812",e:"🔴",p:1200000},
+    {n:"Lamborghini",e:"💛",p:2000000},
+    {n:"Rolls Royce",e:"⚫",p:5000000},
   ],
   house:[
-    {n:"Гараж",e:"🏚",p:8000},{n:"Квартира",e:"🏢",p:60000},{n:"Дача",e:"🏡",p:120000},
-    {n:"Особняк",e:"🏰",p:800000},{n:"Острів",e:"🏝",p:10000000}
+    {n:"Гараж",e:"🏚",p:8000},
+    {n:"Студія",e:"🏠",p:40000},
+    {n:"Квартира",e:"🏢",p:80000},
+    {n:"Дача",e:"🏡",p:150000},
+    {n:"Таунхаус",e:"🏘",p:400000},
+    {n:"Особняк",e:"🏰",p:900000},
+    {n:"Пентхаус",e:"🌆",p:3000000},
+    {n:"Острів",e:"🏝",p:12000000},
   ],
   biz:[
-    {n:"Ларьок",e:"🏪",p:25000,i:1000},{n:"Автомийка",e:"🚿",p:100000,i:4000},
-    {n:"ТЦ",e:"🏬",p:2000000,i:50000}
+    {n:"Ларьок",e:"🏪",p:20000,i:800,upgrades:[{n:"Розширення",bonus:400,cost:15000},{n:"Автоматизація",bonus:800,cost:40000}]},
+    {n:"Кав'ярня",e:"☕",p:60000,i:2500,upgrades:[{n:"Нове меню",bonus:1000,cost:35000},{n:"Франшиза",bonus:2500,cost:90000}]},
+    {n:"Автомийка",e:"🚿",p:100000,i:4000,upgrades:[{n:"Хімчистка",bonus:2000,cost:60000},{n:"Преміум",bonus:4000,cost:120000}]},
+    {n:"Ресторан",e:"🍽",p:400000,i:12000,upgrades:[{n:"Мішлен",bonus:6000,cost:200000},{n:"Мережа",bonus:12000,cost:500000}]},
+    {n:"Готель",e:"🏨",p:800000,i:25000,upgrades:[{n:"Ренов.",bonus:10000,cost:300000},{n:"5 зірок",bonus:25000,cost:800000}]},
+    {n:"ТЦ",e:"🏬",p:2000000,i:55000,upgrades:[{n:"Реклама",bonus:20000,cost:500000},{n:"Розширення",bonus:55000,cost:1500000}]},
+    {n:"Завод",e:"🏭",p:5000000,i:120000,upgrades:[{n:"Автолінія",bonus:50000,cost:2000000},{n:"Експорт",bonus:120000,cost:5000000}]},
+    {n:"Медіахолдинг",e:"📺",p:10000000,i:280000,upgrades:[{n:"Стрімінг",bonus:100000,cost:4000000},{n:"Глобал",bonus:280000,cost:10000000}]},
   ]
 };
 
-// ── TOAST ──
-function toast(msg, type='ok'){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.className='toast show '+type;
-  setTimeout(()=>t.className='toast',2600);
+// ═══ UTILS ═══
+function fmt(n){return Number(n).toLocaleString('uk');}
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function toast(msg,type='ok'){const t=document.getElementById('toast');t.textContent=msg;t.className='toast show '+type;setTimeout(()=>t.className='toast',2800);}
+function openModal(id){document.getElementById(id).classList.add('on');}
+function closeModal(id){document.getElementById(id).classList.remove('on');}
+function pushNotif(tgt,notif){db.ref('notifications/'+tgt).push({...notif,read:false,time:new Date().toLocaleString('uk')});}
+function addTx(uid,label,amt,type){
+  db.ref('users/'+uid+'/txs').push({label,amt,type,ts:Date.now()});
 }
+function timeAgo(ts){let d=(Date.now()-ts)/1000;if(d<60)return 'щойно';if(d<3600)return Math.floor(d/60)+'хв';if(d<86400)return Math.floor(d/3600)+'год';return Math.floor(d/86400)+'д';}
 
-// ── AUTH ──
+// ═══ THEME ═══
+function applyTheme(c){document.documentElement.style.setProperty('--accent',c);document.documentElement.style.setProperty('--accent2',c);localStorage.setItem('mag_theme_'+user,c);}
+(()=>{if(user){let t=localStorage.getItem('mag_theme_'+user);if(t)applyTheme(t);}})();
+
+// ═══ AUTH ═══
 function auth(){
   let l=document.getElementById('l-in').value.toLowerCase().trim();
   let p=document.getElementById('p-in').value;
@@ -446,13 +632,11 @@ function auth(){
   if(!l||!p){toast('Введіть логін і пароль','err');return;}
   db.ref('users/'+l).once('value',s=>{
     if(!s.exists()){
-      db.ref('users/'+l).set({
-        login:l,pass:p,bal:5000,nick:l,ava:'',theme:'#4f8ef7',
-        inv:{},isCreator:(code===CREATOR_CODE),isAdmin:(code===CREATOR_CODE),isBanned:false
-      });
+      db.ref('users/'+l).set({login:l,pass:p,bal:5000,nick:l,ava:'',theme:'#4f8ef7',inv:{},txs:{},
+        usd:0,eur:0,hasUsd:false,hasEur:false,
+        isCreator:(code===CREATOR_CODE),isAdmin:(code===CREATOR_CODE),isBanned:false});
     } else {
-      let d=s.val();
-      if(d.pass!==p){toast('Неправильний пароль','err');return;}
+      let d=s.val();if(d.pass!==p){toast('Неправильний пароль','err');return;}
     }
     let accs=JSON.parse(localStorage.getItem('mag_accs')||'[]');
     if(!accs.includes(l))accs.push(l);
@@ -461,276 +645,235 @@ function auth(){
     location.reload();
   });
 }
-
-// Рендерим аккаунты в окне логина
 function renderAccs(){
   let list=document.getElementById('acc-list');
   let accs=JSON.parse(localStorage.getItem('mag_accs')||'[]');
   if(!accs.length)return;
-  list.innerHTML='<p style="color:var(--muted);font-size:10px;margin-bottom:6px;">ЗБЕРЕЖЕНІ АККАУНТИ</p>';
-  accs.forEach(a=>{
-    list.innerHTML+=`<div class="acc-chip" onclick="switchAcc('${a}')"><div class="acc-dot"></div><span class="acc-name">${a}</span></div>`;
-  });
+  list.innerHTML='<p style="color:var(--muted);font-size:10px;margin-bottom:6px">ЗБЕРЕЖЕНІ</p>';
+  accs.forEach(a=>{list.innerHTML+=`<div class="acc-chip" onclick="switchAcc('${a}')"><div class="acc-dot"></div><span style="color:var(--accent);font-weight:600;font-size:13px">${a}</span></div>`;});
 }
-
-// Рендерим аккаунты в профиле (мультиаккаунт)
-function renderProfileAccs(){
-  let list=document.getElementById('prof-acc-list');
-  if(!list) return;
-  let accs=JSON.parse(localStorage.getItem('mag_accs')||'[]');
-  list.innerHTML = '';
-  accs.forEach(a => {
-    let isActive = (a === user);
-    list.innerHTML += `
-      <div class="acc-chip" onclick="switchAcc('${a}')" style="${isActive ? 'border-color:var(--accent); background:rgba(79,142,247,0.1);' : ''}">
-        <div class="acc-dot" style="${isActive ? '' : 'background:var(--muted);'}"></div>
-        <span class="acc-name" style="${isActive ? 'font-weight:800;' : ''}">${a} ${isActive ? '(активний)' : ''}</span>
-      </div>`;
-  });
-}
-
 renderAccs();
-
 function switchAcc(a){localStorage.setItem('mag_active_u',a);location.reload();}
 function exitAcc(){localStorage.removeItem('mag_active_u');location.reload();}
 
-// Полный выход (удаление из списка сохраненных)
-function logoutCurrent(){
-  if(!confirm('Вийти з цього аккаунта та видалити його зі списку швидкого доступу?')) return;
-  let accs=JSON.parse(localStorage.getItem('mag_accs')||'[]');
-  accs = accs.filter(a => a !== user);
-  localStorage.setItem('mag_accs', JSON.stringify(accs));
-  exitAcc();
-}
-
-// ── APPLY THEME ──
-function applyTheme(c){
-  document.documentElement.style.setProperty('--accent',c);
-  document.documentElement.style.setProperty('--accent-d',c);
-  localStorage.setItem('mag_theme_'+user,c);
-}
-(()=>{if(user){let t=localStorage.getItem('mag_theme_'+user);if(t)applyTheme(t);}})();
-
-// ── MAIN LISTENER ──
+// ═══ MAIN LISTENER ═══
 if(user){
   db.ref('users/'+user).on('value',s=>{
-    uData=s.val();
-    if(!uData)return;
-    if(uData.isBanned){
-      document.getElementById('auth-screen').style.display='none';
-      document.getElementById('banned-screen').style.display='flex';
-      return;
-    }
+    uData=s.val();if(!uData)return;
+    if(uData.isBanned){document.getElementById('auth-screen').style.display='none';document.getElementById('banned-screen').style.display='flex';return;}
     document.getElementById('auth-screen').style.display='none';
     applyTheme(uData.theme||'#4f8ef7');
 
-    document.getElementById('u-bal').textContent=Number(uData.bal).toLocaleString('uk')+' ₴';
+    let bal=uData.bal||0;
+    document.getElementById('u-bal').textContent=fmt(bal)+' ₴';
+    document.getElementById('u-bal').className='bal-amount'+(bal<0?' negative':'');
+    document.getElementById('bal-sub-txt').textContent=bal<0?'⚠️ Борг':'Доступно';
+
     let ava=uData.ava||'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
-    document.getElementById('u-ava').src=ava;
+    ['u-ava','prof-ava'].forEach(id=>{document.getElementById(id).src=ava;});
     document.getElementById('u-nick').textContent=uData.nick;
-    document.getElementById('prof-ava').src=ava;
     document.getElementById('prof-nick').textContent=uData.nick;
+    let role=uData.isCreator?'👑 Творець':uData.isAdmin?'⚡ Адміністратор':'Гравець';
+    ['u-role','prof-role-lbl'].forEach(id=>{document.getElementById(id).textContent=role;});
 
-    let roleText = uData.isCreator?'👑 Творець':uData.isAdmin?'⚡ Адміністратор':'Гравець';
-    document.getElementById('u-role').textContent=roleText;
-    document.getElementById('prof-role-lbl').textContent=roleText;
+    let sc=uData.isCreator;
+    document.getElementById('u-crown').style.display=sc?'block':'none';
+    document.getElementById('prof-crown').style.display=sc?'block':'none';
 
-    let showCrown=uData.isCreator;
-    document.getElementById('u-crown').style.display=showCrown?'block':'none';
-    document.getElementById('prof-crown').style.display=showCrown?'block':'none';
+    // Currency chips
+    document.getElementById('usd-chip').textContent=uData.hasUsd?'$'+fmt(uData.usd||0):'Не відкрито';
+    document.getElementById('eur-chip').textContent=uData.hasEur?'€'+fmt(uData.eur||0):'Не відкрито';
 
     if(uData.isAdmin||uData.isCreator){
       document.getElementById('nav-adm').style.display='flex';
       document.getElementById('adm-give-block').style.display=uData.isCreator?'block':'none';
       document.getElementById('adm-offer-block').style.display=uData.isCreator?'block':'none';
     }
-
     document.getElementById('st-n').value=uData.nick;
     document.getElementById('st-a').value=uData.ava||'';
     document.getElementById('st-c').value=uData.theme||'#4f8ef7';
     initSwatches();
     renderInv();
     renderTradeSelect();
-    renderProfileAccs();
+    renderTxs();
   });
 
+  // Trade board
   db.ref('global_trade').on('value',s=>{
-    let board=document.getElementById('trade-board');
-    board.innerHTML='';
-    let count=0;
+    let board=document.getElementById('trade-board');board.innerHTML='';let count=0;
     s.forEach(child=>{
-      let d=child.val(); count++;
-      board.innerHTML+=`
-        <div class="trade-item">
-          <div class="trade-ico">${d.e||'📦'}</div>
-          <div class="trade-info">
-            <div class="trade-name">${d.n}</div>
-            <div class="trade-seller">Продавець: ${d.sn}</div>
-          </div>
-          <div class="trade-price">${Number(d.p).toLocaleString('uk')}₴</div>
-          <button class="trade-buy" onclick="buyTrade('${child.key}')">КУПИТИ</button>
-        </div>`;
+      let d=child.val();count++;
+      board.innerHTML+=`<div class="trade-item"><div class="trade-ico">${d.e||'📦'}</div><div class="trade-info"><div class="trade-name">${esc(d.n)}</div><div class="trade-seller">від ${esc(d.sn)}</div></div><div class="trade-price">${fmt(d.p)}₴</div><button class="trade-buy" onclick="buyTrade('${child.key}')">КУПИТИ</button></div>`;
     });
-    if(!count)board.innerHTML='<div style="color:var(--muted2);text-align:center;padding:24px;font-size:13px;">Ринок порожній</div>';
+    if(!count)board.innerHTML='<div style="color:var(--muted2);text-align:center;padding:24px;font-size:13px">Ринок порожній</div>';
   });
 
-  db.ref('chat').limitToLast(40).on('value',s=>{
-    if(!uData)return;
-    let box=document.getElementById('chat-list');
-    let wasBottom=box.scrollHeight-box.scrollTop-box.clientHeight<40;
-    box.innerHTML='';
-    s.forEach(m=>{
-      let d=m.val();
-      let isMe=d.f===uData.nick;
-      box.innerHTML+=`
-        <div class="msg-wrap ${isMe?'me':'other'}">
-          ${!isMe?`<div class="msg-sender">${d.f}</div>`:''}
-          <div class="msg-bubble">${escHtml(d.t)}</div>
-        </div>`;
+  // DM threads
+  db.ref('dms').on('value',s=>{
+    let wrap=document.getElementById('chat-list-wrap');wrap.innerHTML='';
+    let threads=[];
+    s.forEach(child=>{
+      let key=child.key;
+      if(!key.includes(user))return;
+      let msgs=[];
+      child.forEach(m=>msgs.push(m.val()));
+      if(msgs.length){
+        let last=msgs[msgs.length-1];
+        let other=key.replace(user,'').replace('_','').replace('_','');
+        threads.push({key,other,last,msgs});
+      }
     });
-    if(wasBottom)box.scrollTop=box.scrollHeight;
+    threads.sort((a,b)=>b.last.ts-a.last.ts);
+    threads.forEach(th=>{
+      let ava=`<div class="chat-ava">👤</div>`;
+      wrap.innerHTML+=`<div class="chat-row" onclick="openDm('${th.other}')">
+        ${ava}
+        <div class="chat-right">
+          <div class="chat-name-row"><span class="chat-name">${esc(th.other)}</span><span class="chat-time">${timeAgo(th.last.ts)}</span></div>
+          <div class="chat-preview">${esc(th.last.t||'')}</div>
+        </div>
+      </div>`;
+    });
+    if(!threads.length)wrap.innerHTML='<div style="color:var(--muted2);text-align:center;padding:30px;font-size:13px">Немає переписок<br><span style="font-size:11px">Знайдіть гравця через пошук ⬆️</span></div>';
   });
 
+  // Inbox
   db.ref('notifications/'+user).on('value',s=>{
-    let list=document.getElementById('inbox-list');
-    list.innerHTML='';
-    let unread=0;
-    let items=[];
-    s.forEach(child=>{items.push({key:child.key,...child.val()});});
+    let list=document.getElementById('inbox-list');list.innerHTML='';let unread=0;
+    let items=[];s.forEach(child=>items.push({key:child.key,...child.val()}));
     items.reverse();
-    if(!items.length){
-      list.innerHTML='<div style="color:var(--muted2);text-align:center;padding:30px;font-size:13px;">Немає повідомлень</div>';
-    }
+    if(!items.length)list.innerHTML='<div style="color:var(--muted2);text-align:center;padding:30px;font-size:13px">Немає сповіщень</div>';
     items.forEach(d=>{
       if(!d.read)unread++;
       let extra='';
-      if(d.type==='admin_offer'&&!d.responded){
-        extra=`<div class="notif-action">
-          <button class="notif-confirm" onclick="respondAdminOffer('${d.key}','accept')">✅ ПІДТВЕРДИТИ</button>
-          <button class="notif-decline" onclick="respondAdminOffer('${d.key}','decline')">❌ ВІДХИЛИТИ</button>
-        </div>`;
-      }
-      list.innerHTML+=`
-        <div class="notif-item ${d.read?'':'unread'}">
-          <div class="notif-top">
-            <span class="notif-ico">${d.ico||'📩'}</span>
-            <span class="notif-title">${d.title||''}</span>
-          </div>
-          <div class="notif-body">${d.body||''}</div>
-          <div class="notif-time">${d.time||''}</div>
-          ${extra}
-        </div>`;
-      if(!d.read){
-        setTimeout(()=>db.ref('notifications/'+user+'/'+d.key+'/read').set(true),2000);
-      }
+      if(d.type==='admin_offer'&&!d.responded)extra=`<div class="notif-action"><button class="notif-confirm" onclick="respondAdminOffer('${d.key}','accept')">✅ ПРИЙНЯТИ</button><button class="notif-decline" onclick="respondAdminOffer('${d.key}','decline')">❌ ВІДХИЛИТИ</button></div>`;
+      list.innerHTML+=`<div class="notif-item ${d.read?'':'unread'}"><div class="notif-top"><span class="notif-ico">${d.ico||'📩'}</span><span class="notif-title">${esc(d.title||'')}</span></div><div class="notif-body">${esc(d.body||'')}</div><div class="notif-time">${d.time||''}</div>${extra}</div>`;
+      if(!d.read)setTimeout(()=>db.ref('notifications/'+user+'/'+d.key+'/read').set(true),2000);
     });
     let badge=document.getElementById('bell-badge');
-    if(unread>0){badge.textContent=unread;badge.classList.add('show');}
-    else{badge.classList.remove('show');}
+    if(unread>0){badge.textContent=unread;badge.classList.add('on');}
+    else badge.classList.remove('on');
+  });
+
+  // Fines
+  db.ref('fines/'+user).on('value',s=>{
+    let list=document.getElementById('fines-list');list.innerHTML='';
+    let items=[];s.forEach(c=>items.push({key:c.key,...c.val()}));
+    items.reverse();
+    if(!items.length){list.innerHTML='<div style="color:var(--muted2);text-align:center;padding:30px;font-size:13px">Штрафів немає 🎉</div>';return;}
+    items.forEach(d=>{
+      list.innerHTML+=`<div class="fine-item">
+        <div class="fine-head">
+          <div class="fine-amount">${fmt(d.amt)} ₴</div>
+          <div class="fine-status ${d.paid?'paid':'unpaid'}">${d.paid?'СПЛАЧЕНО':'НЕСПЛАЧЕНО'}</div>
+        </div>
+        <div class="fine-reason">📋 ${esc(d.reason||'')}</div>
+        <div style="font-size:10px;color:var(--muted)">${d.time||''}</div>
+        ${!d.paid?`<button class="fine-pay-btn" onclick="payFine('${d.key}',${d.amt})">ОПЛАТИТИ ШТРАФ</button>`:''}
+      </div>`;
+    });
+  });
+
+  // Leaderboard
+  db.ref('users').orderByChild('bal').limitToLast(20).on('value',s=>{
+    let list=document.getElementById('lb-list');list.innerHTML='';
+    let players=[];
+    s.forEach(c=>players.push(c.val()));
+    players.sort((a,b)=>b.bal-a.bal);
+    players.forEach((p,i)=>{
+      let rank=i+1;
+      let rc=rank===1?'r1':rank===2?'r2':rank===3?'r3':'';
+      let cr=p.isCreator?'<span style="font-size:10px;margin-left:3px">👑</span>':'';
+      let isMe=p.login===user;
+      list.innerHTML+=`<div class="lb-item" style="${isMe?'border-color:rgba(79,142,247,0.35);background:rgba(79,142,247,0.05)':''}">
+        <div class="lb-rank ${rc}">${rank<=3?['🥇','🥈','🥉'][rank-1]:rank}</div>
+        <div class="lb-ava">${p.ava?`<img src="${esc(p.ava)}" style="width:38px;height:38px;border-radius:50%;object-fit:cover">` :'👤'}</div>
+        <div class="lb-info"><div class="lb-name">${esc(p.nick||p.login)}${cr}${isMe?'<span style="font-size:9px;color:var(--accent);margin-left:4px">ТИ</span>':''}</div><div class="lb-role">${p.isCreator?'Творець':p.isAdmin?'Адмін':'Гравець'}</div></div>
+        <div class="lb-bal ${(p.bal||0)<0?'neg':''}">${fmt(p.bal||0)} ₴</div>
+      </div>`;
+    });
   });
 }
 
-function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-
-function pushNotif(targetUser, notif){
-  db.ref('notifications/'+targetUser).push({...notif, read:false, time:new Date().toLocaleString('uk')});
-}
-
-// ── SWATCHES ──
+// ═══ SWATCHES ═══
 function initSwatches(){
-  let wrap=document.getElementById('color-swatches');
-  if(!wrap) return;
-  wrap.innerHTML='';
+  let wrap=document.getElementById('color-swatches');wrap.innerHTML='';
   COLORS.forEach(c=>{
-    let d=document.createElement('div');
-    d.className='csw'+(uData&&uData.theme===c?' on':'');
-    d.style.background=c;
-    d.onclick=()=>{
-      document.getElementById('st-c').value=c;
-      applyTheme(c);
-      wrap.querySelectorAll('.csw').forEach(s=>s.classList.remove('on'));
-      d.classList.add('on');
-    };
+    let d=document.createElement('div');d.className='csw'+(uData&&uData.theme===c?' on':'');d.style.background=c;
+    d.onclick=()=>{document.getElementById('st-c').value=c;applyTheme(c);wrap.querySelectorAll('.csw').forEach(s=>s.classList.remove('on'));d.classList.add('on');};
     wrap.appendChild(d);
   });
 }
 
-// ── INV RENDER ──
+// ═══ INVENTORY ═══
 function renderInv(){
-  let c=document.getElementById('inv-container');
-  if(!c) return;
-  c.innerHTML='';
+  let c=document.getElementById('inv-container');c.innerHTML='';
   if(!uData)return;
-  let inv=uData.inv||{};
-  let keys=Object.keys(inv);
+  let inv=uData.inv||{};let keys=Object.keys(inv);
   document.getElementById('qs-inv').textContent=keys.length;
   let bizInc=0;
-  if(!keys.length){
-    c.innerHTML='<div style="color:var(--muted2);font-size:13px;padding:10px 0;">Майна немає</div>';
-    document.getElementById('qs-inc').textContent='0 ₴';
-    return;
-  }
+  if(!keys.length){c.innerHTML='<div style="color:var(--muted2);font-size:13px;padding:10px 0">Майна немає</div>';document.getElementById('qs-inc').textContent='0 ₴';return;}
   keys.forEach(k=>{
     let item=inv[k];
-    if(item.i)bizInc+=item.i;
-    c.innerHTML+=`<div class="inv-item"><span class="inv-ico">${item.e||'📦'}</span><div><div class="inv-name">${item.n}</div>${item.i?`<div class="inv-sub">+${item.i.toLocaleString('uk')} ₴/год</div>`:''}</div></div>`;
+    if(item.i){let upgTotal=item.upgTotal||0;bizInc+=(item.i+upgTotal);}
+    let upgBtn='';
+    if(item.upgrades&&item.upgrades.length){
+      let upglvl=item.upgLevel||0;
+      if(upglvl<item.upgrades.length){
+        let nxt=item.upgrades[upglvl];
+        upgBtn=`<button class="inv-upgrade" onclick="openUpgrade('${k}')">⬆️ +${fmt(nxt.bonus)} ₴</button>`;
+      }
+    }
+    let upgBadge=item.upgLevel?`<span class="upg-badge">LVL ${item.upgLevel}</span>`:'';
+    c.innerHTML+=`<div class="inv-item"><span class="inv-ico">${item.e||'📦'}</span><div style="flex:1"><div class="inv-name">${esc(item.n)}${upgBadge}</div>${item.i?`<div class="inv-sub">+${fmt(item.i+(item.upgTotal||0))} ₴/год</div>`:''}</div>${upgBtn}</div>`;
   });
-  document.getElementById('qs-inc').textContent=bizInc.toLocaleString('uk')+' ₴';
+  document.getElementById('qs-inc').textContent=fmt(bizInc)+' ₴';
 }
 
-// ── TRADE SELECT ──
+// ═══ TRANSACTIONS ═══
+function renderTxs(){
+  let box=document.getElementById('tx-list');box.innerHTML='';
+  if(!uData||!uData.txs){box.innerHTML='<div style="color:var(--muted2);font-size:13px">Операцій немає</div>';return;}
+  let txs=[];
+  Object.entries(uData.txs).forEach(([k,v])=>txs.push(v));
+  txs.sort((a,b)=>b.ts-a.ts);
+  txs.slice(0,6).forEach(tx=>{
+    let isInc=tx.type==='inc';
+    box.innerHTML+=`<div class="tx-item"><div class="tx-ico ${tx.type}">${isInc?'📥':'📤'}</div><div class="tx-info"><div class="tx-label">${esc(tx.label)}</div><div class="tx-sub">${timeAgo(tx.ts)}</div></div><div class="tx-amt ${tx.type}">${isInc?'+':'-'}${fmt(tx.amt)} ₴</div></div>`;
+  });
+  if(!txs.length)box.innerHTML='<div style="color:var(--muted2);font-size:13px">Операцій немає</div>';
+}
+
+// ═══ TRADE SELECT ═══
 function renderTradeSelect(){
-  let sel=document.getElementById('tr-obj');
-  if(!sel) return;
-  sel.innerHTML='';
-  let inv=(uData&&uData.inv)||{};
-  let keys=Object.keys(inv);
+  let sel=document.getElementById('tr-obj');sel.innerHTML='';
+  let inv=(uData&&uData.inv)||{};let keys=Object.keys(inv);
   if(!keys.length){sel.innerHTML='<option disabled>— Майна немає —</option>';return;}
-  keys.forEach(k=>{
-    let item=inv[k];
-    sel.innerHTML+=`<option value="${k}">${item.e||'📦'} ${item.n}</option>`;
-  });
+  keys.forEach(k=>{let item=inv[k];sel.innerHTML+=`<option value="${k}">${item.e||'📦'} ${item.n}</option>`;});
 }
 
-// ── NAVIGATION ──
-let curPage='home';
-const navMap={home:0,chat:1,trade:2,shop:3,inbox:4,prof:5,adm:6};
-function sw(id, navIdx){
-  document.querySelectorAll('.page').forEach(p=>{p.classList.remove('active');p.style.display='';});
+// ═══ NAVIGATION ═══
+function sw(id,idx){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.bnav-item').forEach(n=>n.classList.remove('active'));
-
-  curPage=id;
-  let pg=document.getElementById('p-'+id);
-  if(id==='chat'){
-    pg.style.display='flex';
-    setTimeout(()=>{let b=document.getElementById('chat-list');b.scrollTop=b.scrollHeight;},100);
-  } else {
-    pg.classList.add('active');
-  }
-
-  let navEl=document.getElementById('nav-'+id);
-  if(navEl)navEl.classList.add('active');
-
-  document.getElementById('chat-bar').style.display=(id==='chat')?'flex':'none';
-
+  let pg=document.getElementById('p-'+id);if(pg)pg.classList.add('active');
+  let nav=document.getElementById('nav-'+id);if(nav)nav.classList.add('active');
   if(id==='shop')renderShop();
   if(id==='trade')renderTradeSelect();
-  if(id==='prof')renderProfileAccs();
 }
 
-// ── SHOP ──
+// ═══ SHOP ═══
 function renderShop(){
   ['car','house','biz'].forEach(t=>{
-    let c=document.getElementById('s-'+t); c.innerHTML='';
+    let c=document.getElementById('s-'+t);c.innerHTML='';
     SHOP_DB[t].forEach((item,i)=>{
-      c.innerHTML+=`
-        <div class="shop-card">
-          <span class="shop-emoji">${item.e}</span>
-          <div class="shop-name">${item.n}</div>
-          ${item.i?`<div class="shop-income">+${item.i.toLocaleString('uk')} ₴/год</div>`:''}
-          <div class="shop-price">${item.p.toLocaleString('uk')} ₴</div>
-          <button class="shop-buy-btn" onclick="buyShop('${t}',${i})">КУПИТИ</button>
-        </div>`;
+      c.innerHTML+=`<div class="shop-card">
+        <span class="shop-emoji">${item.e}</span>
+        <div class="shop-name">${item.n}</div>
+        ${item.i?`<div class="shop-income">+${fmt(item.i)} ₴/год</div>`:''}
+        <div class="shop-price">${fmt(item.p)} ₴</div>
+        <button class="shop-buy-btn" onclick="buyShop('${t}',${i})">КУПИТИ</button>
+      </div>`;
     });
   });
 }
@@ -740,104 +883,286 @@ function buyShop(t,i){
   let item=SHOP_DB[t][i];
   if(uData.bal<item.p){toast('Недостатньо коштів','err');return;}
   let inv=uData.inv||{};
-  inv[Date.now().toString()]={...item};
+  let newItem={...item};
+  if(newItem.upgrades)newItem.upgrades=[...item.upgrades.map(u=>({...u}))];
+  inv[Date.now().toString()]=newItem;
   db.ref('users/'+user).update({bal:uData.bal-item.p,inv});
+  addTx(user,`Купівля: ${item.n}`,item.p,'out');
   toast(`${item.e} ${item.n} куплено!`);
 }
 
-// ── TRADE ──
+// ═══ UPGRADE ═══
+function openUpgrade(invKey){
+  if(!uData)return;
+  let item=uData.inv[invKey];if(!item||!item.upgrades)return;
+  let lvl=item.upgLevel||0;
+  if(lvl>=item.upgrades.length){toast('Максимальний рівень!','info');return;}
+  let upg=item.upgrades[lvl];
+  pendingUpgrade={invKey,upg,lvl};
+  document.getElementById('upg-title').textContent=`⬆️ ${item.n} → Рівень ${lvl+1}`;
+  document.getElementById('upg-desc').textContent=`${upg.n}: +${fmt(upg.bonus)} ₴/год | Ціна: ${fmt(upg.cost)} ₴`;
+  openModal('modal-upgrade');
+}
+function confirmUpgrade(){
+  if(!pendingUpgrade.invKey||!uData)return;
+  let {invKey,upg,lvl}=pendingUpgrade;
+  let item=uData.inv[invKey];
+  if(uData.bal<upg.cost){toast('Недостатньо коштів','err');return;}
+  let newInv={...uData.inv};
+  let newItem={...item,upgLevel:(lvl+1),upgTotal:((item.upgTotal||0)+upg.bonus)};
+  if(newItem.upgrades)newItem.upgrades=item.upgrades;
+  newInv[invKey]=newItem;
+  db.ref('users/'+user).update({bal:uData.bal-upg.cost,inv:newInv});
+  addTx(user,`Покращення: ${item.n}`,upg.cost,'out');
+  toast(`+${fmt(upg.bonus)} ₴/год додано!`);
+  closeModal('modal-upgrade');
+}
+
+// ═══ TRADE ═══
 function postToTrade(){
   let key=document.getElementById('tr-obj').value;
   let price=parseInt(document.getElementById('tr-pr').value);
-  if(!key||!price||price<=0){toast('Оберіть об\'єкт та вкажіть ціну','err');return;}
-  let inv=uData.inv||{};
-  let item=inv[key];
+  if(!key||!price||price<=0){toast('Оберіть об\'єкт та ціну','err');return;}
+  let inv=uData.inv||{};let item=inv[key];
   if(!item){toast('Об\'єкт не знайдено','err');return;}
-  let newInv={...inv};
-  delete newInv[key];
+  let newInv={...inv};delete newInv[key];
   db.ref('users/'+user).update({inv:newInv}).then(()=>{
     db.ref('global_trade').push({n:item.n,e:item.e||'📦',p:price,s:user,sn:uData.nick,raw:{...item}}).then(()=>{
-      document.getElementById('tr-pr').value='';
-      toast('Лот виставлено ✓');
+      document.getElementById('tr-pr').value='';toast('Лот виставлено ✓');
     });
   });
 }
-
 function buyTrade(id){
   db.ref('global_trade/'+id).once('value',s=>{
-    let d=s.val();
-    if(!d){toast('Лот вже куплено','err');return;}
+    let d=s.val();if(!d){toast('Лот вже куплено','err');return;}
     if(uData.bal<d.p){toast('Недостатньо коштів','err');return;}
     if(d.s===user){toast('Не можна купити своє','err');return;}
-    let inv=uData.inv||{};
-    inv[Date.now().toString()]=d.raw;
+    let inv=uData.inv||{};inv[Date.now().toString()]=d.raw;
     db.ref('users/'+user).update({bal:uData.bal-d.p,inv}).then(()=>{
       db.ref('users/'+d.s+'/bal').transaction(c=>(c||0)+d.p);
       db.ref('global_trade/'+id).remove();
-      pushNotif(d.s,{ico:'💰',title:'Ваш лот куплено!',body:`${d.e||'📦'} ${d.n} продано за ${Number(d.p).toLocaleString('uk')} ₴`,type:'sale'});
+      addTx(user,`Купівля: ${d.n}`,d.p,'out');
+      addTx(d.s,`Продаж: ${d.n}`,d.p,'inc');
+      pushNotif(d.s,{ico:'💰',title:'Ваш лот куплено!',body:`${d.e||'📦'} ${d.n} за ${fmt(d.p)} ₴`,type:'sale'});
       toast(`${d.e||'📦'} ${d.n} куплено!`);
     });
   });
 }
 
-// ── CHAT ──
-function sendMsg(){
-  let t=document.getElementById('m-in').value.trim();
-  if(!t||!uData)return;
-  db.ref('chat').push({f:uData.nick,t:t}).then(()=>{
-    document.getElementById('m-in').value='';
-    let b=document.getElementById('chat-list');
-    b.scrollTop=b.scrollHeight;
+// ═══ TRANSFER ═══
+function doTransfer(){
+  let to=document.getElementById('tf-to').value.toLowerCase().trim();
+  let cur=document.getElementById('tf-cur').value;
+  let amt=parseFloat(document.getElementById('tf-amt').value);
+  let note=document.getElementById('tf-note').value.trim();
+  if(!to||!amt||amt<=0){toast('Заповніть поля','err');return;}
+  if(to===user){toast('Не можна собі','err');return;}
+  db.ref('users/'+to).once('value',s=>{
+    if(!s.exists()){toast('Гравець не знайдений','err');return;}
+    // UAH transfer allows negative (debt)
+    if(cur==='uah'){
+      let newBal=(uData.bal||0)-amt;
+      db.ref('users/'+user+'/bal').set(newBal);
+      db.ref('users/'+to+'/bal').transaction(c=>(c||0)+amt);
+      addTx(user,`Переказ → ${to}${note?' ('+note+')':''}`,amt,'out');
+      addTx(to,`Переказ від ${uData.nick}${note?' ('+note+')':''}`,amt,'inc');
+      pushNotif(to,{ico:'💸',title:'Отримано переказ',body:`${uData.nick} надіслав ${fmt(amt)} ₴${note?' · '+note:''}`,type:'transfer'});
+      toast(`${fmt(amt)} ₴ відправлено!`);
+    } else {
+      if(!uData['has'+cur.charAt(0).toUpperCase()+cur.slice(1)]){toast(`USD/EUR рахунок не відкрито`,'err');return;}
+      let curBal=uData[cur]||0;
+      if(curBal<amt){toast('Недостатньо','err');return;}
+      db.ref('users/'+user+'/'+cur).set(curBal-amt);
+      let recv=s.val();
+      if(recv['has'+cur.charAt(0).toUpperCase()+cur.slice(1)]){
+        db.ref('users/'+to+'/'+cur).transaction(c=>(c||0)+amt);
+      } else {
+        // Convert to UAH
+        let inUah=amt*RATES[cur];
+        db.ref('users/'+to+'/bal').transaction(c=>(c||0)+inUah);
+        pushNotif(to,{ico:'💱',title:`Переказ (конвертовано)`,body:`Отримано ${fmt(inUah)} ₴ (з ${amt} ${cur.toUpperCase()})`,type:'transfer'});
+      }
+      toast(`${fmt(amt)} ${cur.toUpperCase()} відправлено!`);
+    }
+    closeModal('modal-transfer');
+    document.getElementById('tf-amt').value='';document.getElementById('tf-note').value='';
   });
 }
-document.getElementById('m-in').addEventListener('keydown',e=>{if(e.key==='Enter')sendMsg();});
 
-// ── RESPOND ADMIN OFFER ──
-function respondAdminOffer(key, action){
+// ═══ FX CARDS ═══
+function openFxCard(cur){
+  if(!uData){return;}
+  let key='has'+cur.charAt(0).toUpperCase()+cur.slice(1);
+  if(uData[key]){toast('Рахунок вже відкрито','info');closeModal('modal-newcard');return;}
+  if(uData.bal<1000){toast('Потрібно 1 000 ₴','err');return;}
+  db.ref('users/'+user).update({bal:uData.bal-1000,[key]:true,[cur]:0});
+  addTx(user,`Відкриття ${cur.toUpperCase()} рахунку`,1000,'out');
+  toast(`${cur.toUpperCase()} рахунок відкрито!`);
+  closeModal('modal-newcard');
+}
+function showCard(cur){
+  let hasKey='has'+cur.charAt(0).toUpperCase()+cur.slice(1);
+  if(!uData[hasKey]){openModal('modal-newcard');return;}
+  document.getElementById('modal-card-title').textContent=cur==='usd'?'🇺🇸 USD Рахунок':'🇪🇺 EUR Рахунок';
+  let sym=cur==='usd'?'$':'€';
+  document.getElementById('modal-card-body').innerHTML=`<div style="text-align:center;padding:20px 0"><div style="font-size:40px;margin-bottom:8px">${sym}</div><div style="font-family:'Unbounded',sans-serif;font-size:28px;font-weight:700;color:var(--accent)">${sym}${fmt(uData[cur]||0)}</div><div style="font-size:11px;color:var(--muted2);margin-top:4px">Курс: 1 ${cur.toUpperCase()} = ${RATES[cur]} ₴</div></div>`;
+  openModal('modal-card');
+}
+
+// ═══ EXCHANGE ═══
+function calcExch(){
+  let from=document.getElementById('exch-from').value;
+  let to=document.getElementById('exch-to').value;
+  let amt=parseFloat(document.getElementById('exch-amt').value)||0;
+  let res=document.getElementById('exch-result');
+  if(!amt){res.textContent='';return;}
+  let uah=from==='uah'?amt:amt*RATES[from];
+  let out=to==='uah'?uah:uah/RATES[to];
+  let sym={uah:'₴',usd:'$',eur:'€'};
+  res.textContent=`${sym[from]}${fmt(amt)} → ${sym[to]}${fmt(Math.round(out*100)/100)}`;
+}
+function doExchange(){
+  let from=document.getElementById('exch-from').value;
+  let to=document.getElementById('exch-to').value;
+  let amt=parseFloat(document.getElementById('exch-amt').value);
+  if(!amt||amt<=0){toast('Введіть суму','err');return;}
+  if(from===to){toast('Однакова валюта','err');return;}
+  // Check source balance
+  let hasFrom=from==='uah'?true:uData['has'+from.charAt(0).toUpperCase()+from.slice(1)];
+  if(!hasFrom){toast(`${from.toUpperCase()} рахунок не відкрито`,'err');return;}
+  let hasTgt=to==='uah'?true:uData['has'+to.charAt(0).toUpperCase()+to.slice(1)];
+  if(!hasTgt){toast(`${to.toUpperCase()} рахунок не відкрито`,'err');return;}
+  let srcBal=from==='uah'?(uData.bal||0):(uData[from]||0);
+  if(srcBal<amt){toast('Недостатньо','err');return;}
+  let uah=from==='uah'?amt:amt*RATES[from];
+  let out=to==='uah'?uah:uah/RATES[to];
+  out=Math.round(out*100)/100;
+  let updates={};
+  if(from==='uah')updates['bal']=(uData.bal||0)-amt;else updates[from]=(uData[from]||0)-amt;
+  if(to==='uah')updates['bal']=((uData.bal||0)+(from==='uah'?0:uah))-(from==='uah'?amt:0)+out;
+  // recalc cleanly
+  let newFrom=srcBal-amt;
+  let newTo=(to==='uah'?(uData.bal||0):((uData[to]||0)))+out;
+  let up={};
+  up[from==='uah'?'bal':from]=newFrom;
+  up[to==='uah'?'bal':to]=newTo;
+  if(from!==to&&from!=='uah'&&to!=='uah'){
+    // both fx
+    up[from]=(uData[from]||0)-amt;
+    up[to]=(uData[to]||0)+out;
+  }
+  db.ref('users/'+user).update(up);
+  addTx(user,`Обмін ${from.toUpperCase()}→${to.toUpperCase()}`,amt,'out');
+  toast(`Обмін успішний ✓`);
+}
+
+// ═══ CHAT (DM) ═══
+function dmKey(a,b){return [a,b].sort().join('_');}
+function searchUsers(){
+  let q=document.getElementById('chat-search').value.toLowerCase().trim();
+  let res=document.getElementById('search-results');
+  if(!q){res.style.display='none';res.innerHTML='';return;}
+  db.ref('users').once('value',s=>{
+    res.style.display='block';res.innerHTML='';
+    let found=0;
+    s.forEach(c=>{
+      let d=c.val();
+      if(d.login!==user&&(d.login.includes(q)||d.nick.toLowerCase().includes(q))){
+        found++;
+        res.innerHTML+=`<div class="chat-row" onclick="openDm('${d.login}')">
+          <div class="chat-ava">👤</div>
+          <div class="chat-right"><div class="chat-name-row"><span class="chat-name">${esc(d.nick||d.login)}</span></div><div class="chat-preview">Натисніть щоб написати</div></div>
+        </div>`;
+      }
+    });
+    if(!found)res.innerHTML='<div style="color:var(--muted2);font-size:13px;padding:10px 14px">Не знайдено</div>';
+  });
+}
+function openDm(otherUser){
+  currentDmUser=otherUser;
+  document.getElementById('dm-name').textContent=otherUser;
+  document.getElementById('search-results').style.display='none';
+  document.getElementById('chat-search').value='';
+  let view=document.getElementById('dm-view');
+  view.style.display='flex';
+
+  db.ref('dms/'+dmKey(user,otherUser)).on('value',s=>{
+    let msgs=document.getElementById('dm-msgs');msgs.innerHTML='';
+    s.forEach(m=>{
+      let d=m.val();
+      let isMe=d.f===user;
+      msgs.innerHTML+=`<div class="dm-msg-wrap ${isMe?'me':'other'}"><div class="dm-bubble">${esc(d.t)}</div><div class="dm-time">${timeAgo(d.ts)}</div></div>`;
+    });
+    msgs.scrollTop=msgs.scrollHeight;
+  });
+}
+function closeDm(){
+  document.getElementById('dm-view').style.display='none';
+  if(currentDmUser){db.ref('dms/'+dmKey(user,currentDmUser)).off();currentDmUser=null;}
+}
+function sendDm(){
+  if(!currentDmUser||!uData)return;
+  let t=document.getElementById('dm-in').value.trim();
+  if(!t)return;
+  db.ref('dms/'+dmKey(user,currentDmUser)).push({f:user,t,ts:Date.now()}).then(()=>{
+    document.getElementById('dm-in').value='';
+    pushNotif(currentDmUser,{ico:'💬',title:`Нове повідомлення від ${uData.nick}`,body:t.substring(0,60),type:'dm'});
+  });
+}
+document.getElementById('dm-in').addEventListener('keydown',e=>{if(e.key==='Enter')sendDm();});
+
+// ═══ FINES ═══
+function payFine(key,amt){
+  // Allow negative balance
+  let newBal=(uData.bal||0)-amt;
+  db.ref('users/'+user+'/bal').set(newBal);
+  db.ref('fines/'+user+'/'+key).update({paid:true});
+  addTx(user,'Оплата штрафу',amt,'out');
+  toast('Штраф сплачено');
+}
+
+// ═══ ADMIN OFFER ═══
+function respondAdminOffer(key,action){
   if(action==='accept'){
-    if(!uData){return;}
-    if(uData.bal<ADMIN_PRICE){toast('Недостатньо коштів (500M ₴)','err');return;}
+    if(uData.bal<ADMIN_PRICE){toast('Потрібно 500 000 000 ₴','err');return;}
     db.ref('users/'+user).update({bal:uData.bal-ADMIN_PRICE,isAdmin:true});
     db.ref('notifications/'+user+'/'+key).update({responded:true,read:true});
+    addTx(user,'Придбання адміністратора',ADMIN_PRICE,'out');
     toast('Адмінку отримано! ⚡');
-    db.ref('users').orderByChild('isCreator').equalTo(true).once('value',s=>{
-      s.forEach(c=>{
-        pushNotif(c.key,{ico:'⚡',title:'Куплено адмінку',body:`${uData.nick} придбав администраторські права`,type:'info'});
-      });
-    });
   } else {
     db.ref('notifications/'+user+'/'+key).update({responded:true,read:true});
     toast('Відхилено');
   }
 }
 
-// ── WORK ──
-function work(){
-  db.ref('users/'+user+'/bal').transaction(c=>(c||0)+100).then(()=>toast('+100 ₴ отримано'));
-}
+// ═══ WORK ═══
+function work(){db.ref('users/'+user+'/bal').transaction(c=>(c||0)+100).then(()=>{addTx(user,'Робота',100,'inc');toast('+100 ₴ отримано');});}
 
-// ── PROFILE ──
+// ═══ PROFILE ═══
 function saveProf(){
   let n=document.getElementById('st-n').value.trim()||uData.nick;
   let a=document.getElementById('st-a').value.trim();
   let c=document.getElementById('st-c').value;
   db.ref('users/'+user).update({nick:n,ava:a,theme:c}).then(()=>{
     applyTheme(c);
+    document.getElementById('prof-ava').src=a||'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
+    document.getElementById('u-ava').src=a||'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
     toast('Збережено ✓');
   });
 }
 
-// ── ADMIN ──
+// ═══ ADMIN ═══
 function adm(type){
-  if(!uData||((!uData.isAdmin&&!uData.isCreator))){toast('Немає прав','err');return;}
+  if(!uData||(!uData.isAdmin&&!uData.isCreator)){toast('Немає прав','err');return;}
   if(type==='give'){
     if(!uData.isCreator){toast('Тільки для творця','err');return;}
     let t=document.getElementById('ad-u-give').value.toLowerCase().trim();
     let v=parseInt(document.getElementById('ad-v-give').value);
     if(!t||!v){toast('Заповніть поля','err');return;}
     db.ref('users/'+t+'/bal').transaction(c=>(c||0)+v).then(()=>{
-      pushNotif(t,{ico:'💰',title:'Видача коштів',body:`Вам нараховано ${v.toLocaleString('uk')} ₴ від адміністрації`,type:'money'});
-      toast(`+${v.toLocaleString('uk')} ₴ видано ${t}`);
+      addTx(t,'Видача від адміна',v,'inc');
+      pushNotif(t,{ico:'💰',title:'Нарахування коштів',body:`Вам нараховано ${fmt(v)} ₴`,type:'money'});
+      toast(`+${fmt(v)} ₴ видано ${t}`);
     });
   }
   if(type==='fine'){
@@ -847,12 +1172,9 @@ function adm(type){
     if(!t||!v||!reason){toast('Заповніть усі поля','err');return;}
     db.ref('users/'+t).once('value',s=>{
       if(!s.exists()){toast('Гравець не знайдений','err');return;}
-      let d=s.val();
-      let newBal=Math.max(0,(d.bal||0)-v);
-      db.ref('users/'+t+'/bal').set(newBal).then(()=>{
-        pushNotif(t,{ico:'💸',title:'Штраф!',body:`Вам виписано штраф ${v.toLocaleString('uk')} ₴. Причина: ${reason}`,type:'fine'});
-        toast(`Штраф ${v.toLocaleString('uk')} ₴ виписано ${t}`);
-      });
+      db.ref('fines/'+t).push({amt:v,reason,paid:false,time:new Date().toLocaleString('uk'),issuedBy:uData.nick});
+      pushNotif(t,{ico:'💸',title:'Вам виписано штраф!',body:`${fmt(v)} ₴ · Причина: ${reason}`,type:'fine'});
+      toast(`Штраф ${fmt(v)} ₴ виписано ${t}`);
     });
   }
   if(type==='offer'){
@@ -861,21 +1183,15 @@ function adm(type){
     if(!t){toast('Введіть логін','err');return;}
     db.ref('users/'+t).once('value',s=>{
       if(!s.exists()){toast('Гравець не знайдений','err');return;}
-      pushNotif(t,{
-        ico:'⚡',
-        title:'Пропозиція адмінки!',
-        body:`Вам надіслано пропозицію на адміністраторські права вартістю ${ADMIN_PRICE.toLocaleString('uk')} ₴. Натисніть «Підтвердити» для отримання.`,
-        type:'admin_offer',
-        responded:false
-      });
-      toast(`Пропозицію відправлено ${t}`);
+      pushNotif(t,{ico:'⚡',title:'Пропозиція адмінки!',body:`Вам запропоновано адміністраторські права за ${fmt(ADMIN_PRICE)} ₴. Натисніть «Прийняти».`,type:'admin_offer',responded:false});
+      toast(`Пропозицію надіслано ${t}`);
     });
   }
   if(type==='ban'){
     let t=document.getElementById('ad-u-ban').value.toLowerCase().trim();
     if(!t){toast('Введіть логін','err');return;}
     db.ref('users/'+t).update({isBanned:true}).then(()=>{
-      pushNotif(t,{ico:'🚫',title:'Аккаунт заблоковано',body:'Ваш аккаунт заблоковано адміністрацією.',type:'ban'});
+      pushNotif(t,{ico:'🚫',title:'Аккаунт заблоковано',body:'Аккаунт заблоковано адміністрацією.',type:'ban'});
       toast(`${t} заблоковано`);
     });
   }
@@ -885,6 +1201,9 @@ function adm(type){
     db.ref('users/'+t).update({isBanned:false}).then(()=>toast(`${t} розблоковано`));
   }
 }
+
+// close modals on overlay click
+document.querySelectorAll('.modal-ov').forEach(el=>{el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('on');});});
 </script>
 </body>
 </html>
