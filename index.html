@@ -1,1416 +1,745 @@
+
 <!DOCTYPE html>
-<html lang="ru">
-<head>
+<!--[if IE 8]><html class="ie8" ng-app="robloxApp"><![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head data-machine-id="966ee5d6-ca22-d885-5eeb-c95b62b3fdba">
+    <!-- MachineID: 966ee5d6-ca22-d885-5eeb-c95b62b3fdba -->
+    <title>Violations &amp; Appeals - Roblox</title>
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge,requiresActiveX=true" />
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Magniy OS Ultra</title>
-<link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
-:root{
-  --bg:#07080f;--s1:#0d0f1c;--s2:#131627;--s3:#1a1e33;--s4:#222740;
-  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.12);
-  --a:#5b8af0;--a2:#3d6dd4;--ag:linear-gradient(135deg,#5b8af0,#8b5cf6);
-  --green:#10d97a;--red:#ff4466;--gold:#fbbf24;--purple:#8b5cf6;--cyan:#22d3ee;
-  --t:#e8ecff;--t2:#8892b8;--t3:#4a5478;
-  --r:16px;--r2:20px;--r3:26px;
-}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--t);height:100dvh;overflow:hidden;display:flex;flex-direction:column;}
-::-webkit-scrollbar{width:2px;height:2px}::-webkit-scrollbar-thumb{background:var(--s4);border-radius:9px}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Roblox Corporation" />
+<meta name="description" content="Roblox is a global platform that brings people together through play." />
+<meta name="keywords" content="free games, online games, building games, virtual worlds, free mmo, gaming cloud, physics engine" />
 
-/* ─── LAYERS ─── */
-.screen{position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;overflow-y:auto;}
+    <meta name="apple-itunes-app" content="app-id=431946152" />
 
-/* ─── AUTH ─── */
-#s-auth{background:var(--bg);background-image:
-  radial-gradient(ellipse 80% 50% at 10% 90%,rgba(91,138,240,.09) 0%,transparent 65%),
-  radial-gradient(ellipse 60% 60% at 90% 10%,rgba(139,92,246,.07) 0%,transparent 60%);}
-.auth-card{width:320px;padding:36px 28px;background:var(--s1);border:1px solid var(--border);border-radius:var(--r3);
-  box-shadow:0 40px 100px rgba(0,0,0,.7);animation:fadeUp .4s ease;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
-.auth-logo{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;margin-bottom:4px;
-  background:var(--ag);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.auth-sub{font-size:11px;color:var(--t3);margin-bottom:24px;font-family:'Sora',sans-serif;}
-.auth-step{display:none;} .auth-step.on{display:block;animation:fadeUp .25s ease;}
-.step-label{font-size:10px;font-weight:700;color:var(--t3);letter-spacing:.8px;text-transform:uppercase;margin-bottom:14px;}
-.inp{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:13px 15px;color:var(--t);
-  font-family:'Sora',sans-serif;font-size:13px;outline:none;transition:.2s;margin-bottom:9px;}
-.inp:focus{border-color:rgba(91,138,240,.5);background:var(--s3);}
-.inp::placeholder{color:var(--t3);}
-.btn{border:none;border-radius:var(--r);font-family:'Sora',sans-serif;font-weight:700;font-size:12px;cursor:pointer;transition:.15s;width:100%;padding:13px;letter-spacing:.3px;}
-.btn-p{background:var(--ag);color:#fff;background-size:200%;background-position:0%;}
-.btn-p:active{opacity:.8;transform:scale(.98);}
-.btn-s{background:var(--s2);color:var(--t);border:1px solid var(--border);}
-.btn-r{background:rgba(255,68,102,.1);color:var(--red);border:1px solid rgba(255,68,102,.2);}
-.btn-g{background:rgba(16,217,122,.1);color:var(--green);border:1px solid rgba(16,217,122,.2);}
-.btn-gold{background:rgba(251,191,36,.1);color:var(--gold);border:1px solid rgba(251,191,36,.2);}
-.btn+.btn{margin-top:7px;}
-.acc-chip{display:flex;align-items:center;gap:9px;background:var(--s2);border:1px solid var(--border);
-  border-radius:var(--r);padding:10px 13px;margin-top:6px;cursor:pointer;transition:.15s;}
-.acc-chip:hover{border-color:rgba(91,138,240,.35);}
-.acc-dot{width:6px;height:6px;background:var(--green);border-radius:50%;flex-shrink:0;}
 
-/* 2FA PIN */
-.pin-row{display:flex;gap:10px;justify-content:center;margin:16px 0;}
-.pin-box{width:48px;height:56px;background:var(--s2);border:1.5px solid var(--border);border-radius:var(--r);
-  font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:700;color:var(--t);text-align:center;outline:none;
-  transition:.2s;caret-color:var(--a);}
-.pin-box:focus{border-color:var(--a);background:var(--s3);}
-.pin-hint{font-size:11px;color:var(--t3);text-align:center;line-height:1.5;}
+    <link rel="apple-touch-icon" href="https://images.rbxcdn.com/905bd722ee0a6ceda3caacde54c0b081.png" />
 
-/* ─── BANNED ─── */
-#s-banned{background:#000;display:none;flex-direction:column;gap:14px;text-align:center;padding:30px;}
 
-/* ─── BOTTOM NAV ─── */
-.bnav{display:flex;background:rgba(13,15,28,.97);border-top:1px solid var(--border);flex-shrink:0;
-  padding:0;padding-bottom:env(safe-area-inset-bottom);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);}
-.ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
-  padding:9px 2px 8px;cursor:pointer;color:var(--t3);font-size:8px;font-weight:700;letter-spacing:.3px;
-  transition:.15s;border-top:2px solid transparent;position:relative;min-width:0;user-select:none;}
-.ni .ic{font-size:18px;line-height:1;transition:.15s;}
-.ni.on{color:var(--a);border-top-color:var(--a);}
-.ni.on .ic{transform:scale(1.1);}
-.ni:active{opacity:.6;}
-.nbadge{position:absolute;top:5px;right:calc(50% - 16px);background:var(--red);color:#fff;font-size:8px;font-weight:800;
-  border-radius:99px;padding:1px 5px;min-width:15px;text-align:center;display:none;}
-.nbadge.on{display:block;}
+<script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"Organization","name":"Roblox","email":"info@roblox.com","url":"https://www.roblox.com/","image":"https://images.rbxcdn.com/fc3f3e3158fc20ebb5ccc972064ebfe6.png","logo":"https://images.rbxcdn.com/fc3f3e3158fc20ebb5ccc972064ebfe6.png","sameAs":["https://www.facebook.com/roblox/","https://twitter.com/roblox","https://www.linkedin.com/company/147977","https://www.instagram.com/roblox/","https://www.youtube.com/user/roblox","https://www.twitch.tv/roblox"]}
+</script>
 
-/* ─── MAIN ─── */
-.main{flex:1;overflow-y:auto;position:relative;}
-.page{display:none;padding:14px 13px 80px;animation:pgIn .2s ease;}
-.page.active{display:block;}
-@keyframes pgIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+<meta ng-csp="no-unsafe-eval">
 
-/* ─── SECTION LABEL ─── */
-.sl{font-size:9px;font-weight:800;color:var(--t3);letter-spacing:.9px;text-transform:uppercase;margin:18px 0 9px;}
+    <meta name="user-data"
+          data-userid="11152200534"
+          data-name="Floralpepe"
+          data-displayName="Floralpepe"
+          data-isunder13="false" 
+          data-created="06/21/2026 10:51:53" 
+          data-ispremiumuser="false"
+          data-membership=""
+          data-hasverifiedbadge="false"/>
 
-/* ─── BALANCE CARD ─── */
-.bal-card{border-radius:var(--r3);overflow:hidden;margin-bottom:12px;position:relative;
-  background:linear-gradient(145deg,#0c1f5e 0%,#1245b8 45%,#2563eb 75%,#4f8ef7 100%);}
-.bal-card::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='160' cy='40' r='100' fill='rgba(255,255,255,0.04)'/%3E%3Ccircle cx='20' cy='180' r='120' fill='rgba(255,255,255,0.03)'/%3E%3C/svg%3E") no-repeat;background-size:cover;}
-.bal-inner{padding:20px 20px 16px;position:relative;z-index:1;}
-.bal-tag{font-size:10px;color:rgba(255,255,255,.5);font-weight:500;margin-bottom:2px;}
-.bal-num{font-family:'JetBrains Mono',monospace;font-size:36px;font-weight:700;letter-spacing:-1px;margin-bottom:3px;line-height:1;}
-.bal-num.neg{color:#fca5a5;}
-.bal-usd-note{font-size:10px;color:rgba(255,255,255,.4);margin-bottom:16px;}
-.bal-foot{display:flex;align-items:center;justify-content:space-between;}
-.bal-user{display:flex;align-items:center;gap:10px;}
-.bava-wrap{position:relative;}
-.bava{width:36px;height:36px;border-radius:50%;border:2px solid rgba(255,255,255,.3);object-fit:cover;background:var(--s3);}
-.crown{position:absolute;top:-11px;left:50%;transform:translateX(-50%);font-size:13px;filter:drop-shadow(0 0 5px gold);}
-.bname{font-weight:700;font-size:13px;}
-.brole{font-size:9px;color:rgba(255,255,255,.45);margin-top:1px;}
-.earn-btn{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);color:#fff;
-  border-radius:12px;padding:8px 14px;font-family:'Sora',sans-serif;font-size:10px;font-weight:700;cursor:pointer;transition:.15s;}
-.earn-btn:active{background:rgba(255,255,255,.22);}
-/* FX chips */
-.fx-chips{display:flex;gap:8px;padding:0 20px 16px;position:relative;z-index:1;overflow-x:auto;scrollbar-width:none;}
-.fx-chips::-webkit-scrollbar{display:none;}
-.fx-chip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:7px 12px;
-  cursor:pointer;flex-shrink:0;transition:.15s;text-align:center;}
-.fx-chip:active{background:rgba(255,255,255,.2);}
-.fx-flag{font-size:14px;}
-.fx-sym{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:rgba(255,255,255,.9);display:block;margin-top:1px;}
-.fx-amt{font-size:9px;color:rgba(255,255,255,.45);display:block;}
+<meta name="locale-data"
+      data-language-code="en_us"
+      data-language-name="English (United States)"
+      data-url-locale=""
+      data-override-language-header="false" />
+<meta name="device-meta"
+      data-device-type="computer"
+      data-is-in-app="false"
+      data-is-desktop="true"
+      data-is-phone="false"
+      data-is-tablet="false"
+      data-is-console="false"
+      data-is-android-app="false"
+      data-is-ios-app="false"
+      data-is-uwp-app="false"
+      data-is-xbox-app="false"
+      data-is-amazon-app="false"
+      data-is-win32-app="false"
+      data-is-studio="false"
+      data-is-game-client-browser="false"
+      data-is-ios-device="false"
+      data-is-android-device="false"
+      data-is-universal-app="false"
+      data-app-type="unknown"
+      data-is-chrome-os="false"
+      data-is-pcgdk-app="false"
+      data-is-samsung-galaxy-store-app="false"
+/>
 
-/* ─── QUICK ACTIONS ─── */
-.qa-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;}
-.qa{background:var(--s1);border:1px solid var(--border);border-radius:var(--r2);padding:12px 4px;
-  text-align:center;cursor:pointer;transition:.15s;}
-.qa:active{transform:scale(.94);background:var(--s2);}
-.qa .ic{font-size:21px;display:block;margin-bottom:4px;}
-.qa .lb{font-size:8px;color:var(--t2);font-weight:700;letter-spacing:.2px;}
 
-/* ─── STATS ─── */
-.qs-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px;}
-.qs{background:var(--s1);border:1px solid var(--border);border-radius:var(--r2);padding:14px 13px;}
-.qs-ic{font-size:20px;margin-bottom:6px;}
-.qs-v{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;}
-.qs-l{font-size:9px;color:var(--t2);margin-top:2px;}
+<meta name="environment-meta" data-domain="roblox.com"    data-is-testing-site="false" />
 
-/* ─── TX ─── */
-.tx{display:flex;align-items:center;gap:11px;padding:10px 0;border-bottom:1px solid var(--border);}
-.tx:last-child{border-bottom:none;}
-.tx-ic{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0;}
-.tx-ic.inc{background:rgba(16,217,122,.1);}
-.tx-ic.out{background:rgba(255,68,102,.1);}
-.tx-l{font-weight:600;font-size:12px;}
-.tx-s{font-size:10px;color:var(--t3);}
-.tx-a{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:700;margin-left:auto;}
-.tx-a.inc{color:var(--green);}
-.tx-a.out{color:var(--red);}
 
-/* ─── PROPERTY (tabbed) ─── */
-.prop-tabs{display:flex;gap:6px;margin-bottom:12px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
-.prop-tabs::-webkit-scrollbar{display:none;}
-.ptab{background:var(--s2);border:1.5px solid var(--border);border-radius:99px;padding:7px 16px;font-size:11px;
-  font-weight:700;cursor:pointer;transition:.15s;white-space:nowrap;flex-shrink:0;color:var(--t3);}
-.ptab.on{background:var(--a);border-color:var(--a);color:#fff;}
-.prop-section{display:none;}.prop-section.on{display:block;animation:pgIn .15s ease;}
-.inv-item{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:12px 14px;
-  display:flex;align-items:center;gap:12px;margin-bottom:7px;}
-.inv-ic{font-size:26px;flex-shrink:0;}
-.inv-n{font-weight:700;font-size:13px;}
-.inv-s{font-size:10px;color:var(--t2);}
-.upg-btn{background:var(--s3);border:1px solid var(--border);border-radius:8px;padding:5px 10px;
-  font-size:8px;font-weight:800;color:var(--gold);cursor:pointer;margin-left:auto;white-space:nowrap;flex-shrink:0;letter-spacing:.3px;}
-.upg-btn:active{background:var(--s4);}
-.lvl-badge{font-size:8px;background:rgba(251,191,36,.12);color:var(--gold);border:1px solid rgba(251,191,36,.2);
-  border-radius:5px;padding:2px 6px;margin-left:5px;}
+<meta id="roblox-display-names" data-enabled="true"></meta>
 
-/* ─── SHOP ─── */
-.shop-tabs{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
-.shop-tabs::-webkit-scrollbar{display:none;}
-.stab{background:var(--s2);border:1.5px solid var(--border);border-radius:99px;padding:8px 18px;font-size:11px;
-  font-weight:700;cursor:pointer;transition:.15s;white-space:nowrap;flex-shrink:0;color:var(--t3);}
-.stab.on{background:var(--a);border-color:var(--a);color:#fff;}
-.shop-section{display:none;animation:pgIn .15s ease;}
-.shop-section.on{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.shop-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r2);padding:14px 12px;transition:.15s;}
-.shop-card:active{transform:scale(.97);}
-.s-em{font-size:30px;margin-bottom:8px;display:block;}
-.s-n{font-weight:700;font-size:12px;margin-bottom:3px;}
-.s-inc{font-size:9px;color:var(--green);margin-bottom:5px;}
-.s-p{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--a);font-weight:700;margin-bottom:8px;}
-.s-btn{background:var(--a);color:#fff;border:none;border-radius:10px;padding:8px;width:100%;
-  font-family:'Sora',sans-serif;font-size:10px;font-weight:700;cursor:pointer;transition:.15s;}
-.s-btn:active{opacity:.8;}
+<meta name="hardware-backed-authentication-data"
+      data-is-secure-authentication-intent-enabled="true"
+      data-is-bound-auth-token-enabled="true"
+      data-bound-auth-token-whitelist="{&quot;Whitelist&quot;:[{&quot;apiSite&quot;:&quot;auth.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;},{&quot;apiSite&quot;:&quot;accountsettings.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;},{&quot;apiSite&quot;:&quot;inventory.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;},{&quot;apiSite&quot;:&quot;accountinformation.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;billing.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;premiumfeatures.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;trades.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;groups.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;adconfiguration.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;},  {&quot;apiSite&quot;:&quot;ads.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;assetdelivery.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;avatar.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;badges.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;catalog.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;chat.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;chatmoderation.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;clientsettings.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;},  {&quot;apiSite&quot;:&quot;contacts.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;contentstore.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;},  {&quot;apiSite&quot;:&quot;develop.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;economy.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;},  {&quot;apiSite&quot;:&quot;engagementpayouts.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;followings.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;},  {&quot;apiSite&quot;:&quot;friends.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;gameinternationalization.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;gamejoin.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;gamepersistence.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;games.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;groupsmoderation.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;},{&quot;apiSite&quot;:&quot;itemconfiguration.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;locale.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;localizationtables.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;},  {&quot;apiSite&quot;:&quot;metrics.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;moderation.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;},  {&quot;apiSite&quot;:&quot;notifications.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;points.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;presence.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;publish.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;},  {&quot;apiSite&quot;:&quot;privatemessages.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;thumbnailsresizer.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;thumbnails.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;translationroles.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;},  {&quot;apiSite&quot;:&quot;translations.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;twostepverification.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;},  {&quot;apiSite&quot;:&quot;usermoderation.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;users.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;voice.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;realtimenotifications.roblox.com&quot;,&quot;sampleRate&quot;:&quot;100&quot;}, {&quot;apiSite&quot;:&quot;jQuery&quot;,&quot;sampleRate&quot;:&quot;1000000&quot;}]}"
+      data-bound-auth-token-exemptlist="{&quot;Exemptlist&quot;:[]}"
+      data-hba-indexed-db-name="hbaDB"
+      data-hba-indexed-db-obj-store-name="hbaObjectStore"
+      data-hba-indexed-db-key-name="hba_keys"
+      data-hba-indexed-db-version="1"
+      data-bat-event-sample-rate="500" />
+<meta name="account-switching-data"
+      data-is-account-switching-enabled="true" />
 
-/* ─── TRADE ─── */
-.trade-form{background:var(--s1);border:1px solid var(--border);border-radius:var(--r2);padding:16px;margin-bottom:14px;}
-.trade-item{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
-.ti-ic{font-size:26px;flex-shrink:0;}
-.ti-n{font-weight:700;font-size:12px;}
-.ti-s{font-size:10px;color:var(--t2);}
-.ti-p{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--a);font-weight:700;margin:0 8px 0 auto;flex-shrink:0;}
-.ti-buy{background:var(--a);color:#fff;border:none;border-radius:9px;padding:8px 12px;font-family:'Sora',sans-serif;font-size:9px;font-weight:700;cursor:pointer;flex-shrink:0;}
+<meta name="subscription-data"
+      data-is-enabled="true" />
 
-/* ─── CHAT ─── */
-.chat-search{display:flex;align-items:center;gap:8px;background:var(--s2);border:1px solid var(--border);border-radius:var(--r);padding:10px 14px;margin-bottom:10px;}
-.chat-search input{background:none;border:none;outline:none;flex:1;color:var(--t);font-size:13px;font-family:'Sora',sans-serif;}
-.chat-search input::placeholder{color:var(--t3);}
-.chat-row{display:flex;align-items:center;gap:12px;padding:11px 10px;cursor:pointer;border-radius:14px;transition:.15s;}
-.chat-row:active{background:var(--s2);}
-.c-ava{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--border);object-fit:cover;background:var(--s3);
-  display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
-.c-right{flex:1;min-width:0;}
-.c-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;}
-.c-name{font-weight:700;font-size:13px;}
-.c-time{font-size:9px;color:var(--t3);}
-.c-prev{font-size:11px;color:var(--t2);overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
-.c-unread{background:var(--a);color:#fff;font-size:9px;font-weight:800;border-radius:99px;padding:2px 6px;min-width:16px;text-align:center;flex-shrink:0;}
-/* DM */
-#dm-view{display:none;flex-direction:column;position:absolute;inset:0;background:var(--bg);z-index:200;padding-bottom:env(safe-area-inset-bottom);}
-.dm-head{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--s1);border-bottom:1px solid var(--border);flex-shrink:0;}
-.dm-back{font-size:18px;cursor:pointer;padding:4px 10px 4px 0;color:var(--a);}
-.dm-ava{width:34px;height:34px;border-radius:50%;object-fit:cover;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
-.dm-msgs{flex:1;overflow-y:auto;padding:10px 13px;display:flex;flex-direction:column;gap:7px;}
-.dm-wrap{display:flex;flex-direction:column;}
-.dm-wrap.me{align-items:flex-end;}.dm-wrap.other{align-items:flex-start;}
-.dm-bub{padding:9px 13px;border-radius:16px;max-width:78%;font-size:13px;line-height:1.45;}
-.dm-wrap.me .dm-bub{background:linear-gradient(135deg,var(--a),var(--a2));border-bottom-right-radius:4px;}
-.dm-wrap.other .dm-bub{background:var(--s2);border:1px solid var(--border);border-bottom-left-radius:4px;}
-.dm-t{font-size:9px;color:var(--t3);margin-top:2px;padding:0 4px;}
-.dm-bar{display:flex;gap:8px;padding:10px 13px;border-top:1px solid var(--border);background:var(--s1);flex-shrink:0;}
-.dm-send{background:var(--a);border:none;border-radius:11px;width:42px;color:#fff;font-size:16px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+<meta name="passkey-data"
+      data-is-passkey-login-enabled="true" />
+<meta name="passkey-data-android"
+      data-is-passkey-login-enabled-android="true" />
 
-/* ─── EXCHANGE ─── */
-.rate-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;}
-.rate-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r2);padding:13px;text-align:center;}
-.rate-flag{font-size:22px;margin-bottom:4px;}
-.rate-pair{font-size:10px;color:var(--t2);}
-.rate-val{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:var(--a);}
+<meta name="page-meta" data-internal-page-name="ModerationPortalPage" />
+<meta name="page-retry-header-enabled" data-retry-attempt-header-enabled="True" />
+    <meta name="age-badge-control" data-age-badge-control="Select" />
 
-/* ─── LEADERBOARD ─── */
-.lb-item{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:13px 14px;margin-bottom:7px;display:flex;align-items:center;gap:12px;transition:.15s;}
-.lb-rank{font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;width:28px;text-align:center;flex-shrink:0;}
-.lb-rank.g{color:var(--gold);}.lb-rank.s{color:#94a3b8;}.lb-rank.b{color:#cd7c2f;}
-.lb-ava{width:38px;height:38px;border-radius:50%;object-fit:cover;background:var(--s3);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
-.lb-n{font-weight:700;font-size:13px;}
-.lb-r{font-size:10px;color:var(--t2);}
-.lb-b{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;color:var(--green);text-align:right;margin-left:auto;}
-.lb-b.neg{color:var(--red);}
+<script type="text/javascript">
+    var Roblox = Roblox || {};
 
-/* ─── FINES ─── */
-.fine-item{background:var(--s1);border:1px solid rgba(255,68,102,.2);border-radius:14px;padding:14px;margin-bottom:8px;}
-.fine-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:7px;}
-.fine-amt{font-family:'JetBrains Mono',monospace;font-size:18px;color:var(--red);font-weight:700;}
-.fine-st{font-size:9px;font-weight:700;border-radius:6px;padding:3px 8px;}
-.fine-st.unpaid{background:rgba(255,68,102,.1);color:var(--red);}
-.fine-st.paid{background:rgba(16,217,122,.1);color:var(--green);}
-.fine-reason{font-size:12px;color:var(--t2);margin-bottom:8px;line-height:1.5;}
-.fine-pay{background:var(--red);color:#fff;border:none;border-radius:9px;padding:10px;width:100%;
-  font-family:'Sora',sans-serif;font-size:11px;font-weight:700;cursor:pointer;}
+    Roblox.BundleVerifierConstants = {
+        isMetricsApiEnabled: true,
+        eventStreamUrl: "//ecsv2.roblox.com/pe?t=diagnostic",
+        deviceType: "Computer",
+        cdnLoggingEnabled: JSON.parse("true")
+    };
+</script>        <script src="/js/utilities/bundleVerifier.js?v=91dceb4978eda412b09842312dd6cbaa" type="text/javascript"></script>
+    
+<link href="https://images.rbxcdn.com/e854eb7b2951ac03edba9a2681032bba.ico" rel="icon" />
 
-/* ─── INBOX ─── */
-.notif{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:8px;position:relative;}
-.notif.unread{border-color:rgba(91,138,240,.3);}
-.notif.unread::after{content:'';position:absolute;top:13px;right:13px;width:7px;height:7px;border-radius:50%;background:var(--a);}
-.notif-top{display:flex;gap:9px;align-items:center;margin-bottom:5px;}
-.notif-ic{font-size:20px;}
-.notif-tl{font-weight:700;font-size:13px;}
-.notif-bd{font-size:12px;color:var(--t2);line-height:1.45;}
-.notif-ts{font-size:10px;color:var(--t3);margin-top:4px;}
-.notif-acts{margin-top:10px;display:flex;gap:7px;}
-.n-ok{background:var(--green);color:#fff;border:none;border-radius:9px;padding:8px 16px;font-family:'Sora',sans-serif;font-size:10px;font-weight:700;cursor:pointer;}
-.n-no{background:var(--s2);color:var(--t2);border:1px solid var(--border);border-radius:9px;padding:8px 16px;font-family:'Sora',sans-serif;font-size:10px;font-weight:700;cursor:pointer;}
 
-/* ─── PROFILE ─── */
-.prof-head{background:var(--s1);border:1px solid var(--border);border-radius:var(--r3);padding:24px;text-align:center;margin-bottom:12px;}
-.pava-wrap{position:relative;display:inline-block;margin-bottom:10px;}
-.pava{width:76px;height:76px;border-radius:50%;border:3px solid var(--a);object-fit:cover;}
-.pcrown{position:absolute;top:-12px;left:50%;transform:translateX(-50%);font-size:18px;}
-.pname{font-weight:800;font-size:16px;margin-bottom:3px;}
-.prole{font-size:11px;color:var(--t2);}
-.clr-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;}
-.csw{width:30px;height:30px;border-radius:50%;cursor:pointer;border:3px solid transparent;transition:.15s;}
-.csw.on,.csw:hover{border-color:#fff;transform:scale(1.1);}
-/* Language selector */
-.lang-row{display:flex;gap:8px;margin-bottom:12px;}
-.lang-btn{flex:1;background:var(--s2);border:1.5px solid var(--border);border-radius:var(--r);padding:10px;
-  font-size:12px;font-weight:700;cursor:pointer;color:var(--t2);transition:.15s;text-align:center;}
-.lang-btn.on{background:var(--a);border-color:var(--a);color:#fff;}
 
-/* ─── ADMIN ─── */
-.adm-block{background:var(--s1);border:1px solid var(--border);border-radius:var(--r2);padding:16px;margin-bottom:10px;}
-.adm-lbl{font-size:9px;font-weight:800;color:var(--t3);letter-spacing:.7px;text-transform:uppercase;margin-bottom:11px;}
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="FoundationCss" data-bundle-source="Main" href="https://css.rbxcdn.com/04f0603c9d207351f843c05666d1fab59924c4947c0ce5d6a83e1f0f60f1ab3c-FoundationCss.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="ReactStyleGuide" data-bundle-source="Main" href="https://css.rbxcdn.com/c01f541c73f530d01262962e8290884bdd1d1d823c031a984d166d7afffc0722-ReactStyleGuide.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="StyleGuide" data-bundle-source="Main" href="https://css.rbxcdn.com/43d0191ac8f6cbfd0d690529f7f43c212abb45213c43d7575e44b3c9141b10a6-StyleGuide.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="Builder" data-bundle-source="Main" href="https://css.rbxcdn.com/ef552f4ac70dd3209c70b94a377f66e3828905b9672bb67c661122403a6d15b7-Builder.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="Thumbnails" data-bundle-source="Main" href="https://css.rbxcdn.com/d7d4183c8033d692e0ca8ad5222b943fe27879f9a771c9bd98165ccc4e270d7b-Thumbnails.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="CaptchaCore" data-bundle-source="Main" href="https://css.rbxcdn.com/b8f8f15a57a66e73469ae72eea7d8905346afa78b9f2397627cd099f7dcc779a-CaptchaCore.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="EmailVerifyCodeModal" data-bundle-source="Main" href="https://css.rbxcdn.com/425750fcea32cbd87363ee2d46539a13eee157b6c0b565dbe4389b416614f269-EmailVerifyCodeModal.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="Challenge" data-bundle-source="Main" href="https://css.rbxcdn.com/35eeb539938d75bc8acaf963f36f47337ee389d29fe5f03d6341d944b222dd9c-Challenge.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="VerificationUpsell" data-bundle-source="Main" href="https://css.rbxcdn.com/f77e16b9fa5823882aaa0cdabade9706b9ba2b7e050d23d2831da138a58e5f7f-VerificationUpsell.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="RobloxBadges" data-bundle-source="Main" href="https://css.rbxcdn.com/b2cff71de0c286e8f85b1a26a8b87a8cd7f77422c592849ad5114ac5d929c575.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="AccountSwitcher" data-bundle-source="Main" href="https://css.rbxcdn.com/f4ed959380b4fc9cde4a75ee094409f2223b0279a6ab0c2ef2f75fc81d87fe15-AccountSwitcher.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="PriceTag" data-bundle-source="Main" href="https://css.rbxcdn.com/9bfc48ea40a698035ea8cbe3d3e94bd06d3aac48969bedceb6d8ba5ff17ff84d.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="SearchLandingPage" data-bundle-source="Main" href="https://css.rbxcdn.com/32d58c1c5a9ae6e2513c0b90531f2cef316c923dcef15ac0cbf496a6e4326b67-SearchLandingPage.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="Navigation" data-bundle-source="Main" href="https://css.rbxcdn.com/c2a3d9199cc0af7a8fbe9bc68e10f8145f94e400d2d65c5db0cb8587b717226b-Navigation.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="CookieBannerV3" data-bundle-source="Main" href="https://css.rbxcdn.com/0f638d9cad3d450dec6771c2db09c9e8954b25b6ef84423d94f291b6c480471f-CookieBannerV3.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="Footer" data-bundle-source="Main" href="https://css.rbxcdn.com/02d4ecbc73d33b96f0489c327af814617ada8f908fe279d406634adc368b5ee0-Footer.css" />
 
-/* ─── MODAL ─── */
-.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:8000;align-items:flex-end;justify-content:center;}
-.modal-ov.on{display:flex;}
-.modal-box{background:var(--s1);border:1px solid var(--border2);border-radius:24px 24px 0 0;
-  padding:22px 18px 38px;width:100%;max-width:500px;animation:slideUp .22s cubic-bezier(.34,1.2,.64,1);}
-@keyframes slideUp{from{transform:translateY(100%)}to{transform:none}}
-.modal-tl{font-weight:800;font-size:14px;margin-bottom:16px;}
-.modal-cl{float:right;cursor:pointer;color:var(--t2);font-size:20px;margin-top:-3px;line-height:1;}
+    <link rel="canonical" href="https://www.roblox.com/report-appeals" />
+    
 
-/* ─── TOAST ─── */
-.toast{position:fixed;bottom:75px;left:50%;transform:translateX(-50%) translateY(8px);background:var(--s2);
-  border:1px solid var(--border2);border-radius:14px;padding:10px 20px;font-size:12px;font-weight:700;
-  z-index:9999;opacity:0;transition:.25s;white-space:nowrap;pointer-events:none;max-width:85vw;text-align:center;}
-.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
-.toast.ok{border-color:rgba(16,217,122,.4);color:var(--green);}
-.toast.err{border-color:rgba(255,68,102,.4);color:var(--red);}
-.toast.info{border-color:rgba(91,138,240,.4);color:var(--a);}
-</style>
-</head>
-<body>
+    <link rel="alternate" href="https://www.roblox.com/report-appeals" hreflang="x-default" />
+    <link rel="alternate" href="https://www.roblox.com/report-appeals" hreflang="en" />
+    <link rel="alternate" href="https://www.roblox.com/de/report-appeals" hreflang="de" />
+    <link rel="alternate" href="https://www.roblox.com/es/report-appeals" hreflang="es" />
+    <link rel="alternate" href="https://www.roblox.com/fr/report-appeals" hreflang="fr" />
+    <link rel="alternate" href="https://www.roblox.com/id/report-appeals" hreflang="id" />
+    <link rel="alternate" href="https://www.roblox.com/it/report-appeals" hreflang="it" />
+    <link rel="alternate" href="https://www.roblox.com/ja/report-appeals" hreflang="ja" />
+    <link rel="alternate" href="https://www.roblox.com/ko/report-appeals" hreflang="ko" />
+    <link rel="alternate" href="https://www.roblox.com/pl/report-appeals" hreflang="pl" />
+    <link rel="alternate" href="https://www.roblox.com/pt/report-appeals" hreflang="pt" />
+    <link rel="alternate" href="https://www.roblox.com/th/report-appeals" hreflang="th" />
+    <link rel="alternate" href="https://www.roblox.com/tr/report-appeals" hreflang="tr" />
+    <link rel="alternate" href="https://www.roblox.com/vi/report-appeals" hreflang="vi" />
+    <link rel="alternate" href="https://www.roblox.com/ar/report-appeals" hreflang="ar" />
 
-<!-- BANNED -->
-<div id="s-banned" class="screen" style="display:none">
-  <div style="font-size:60px">🚫</div>
-  <div style="font-family:'JetBrains Mono',monospace;font-size:22px;color:var(--red);font-weight:700" id="ban-txt">ЗАБЛОКИРОВАНО</div>
-  <div style="color:var(--t2);font-size:13px" id="ban-sub">Аккаунт заблокирован администрацией</div>
-  <button class="btn btn-s" style="max-width:200px;margin-top:12px" onclick="exitAcc()" id="ban-btn">ВЫЙТИ</button>
-</div>
+    
+<link onerror='Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)' rel='stylesheet'  href='https://static.rbxcdn.com/css/leanbase___80400f5d6146e08bcf1e66a17ee0554e_m.css/fetch' />
 
-<!-- AUTH -->
-<div id="s-auth" class="screen">
-  <div class="auth-card">
-    <div class="auth-logo">MAGNIY OS</div>
-    <div class="auth-sub" id="at-sub">Банк нового поколения</div>
 
-    <!-- STEP 1: login/pass -->
-    <div class="auth-step on" id="step1">
-      <div class="step-label" id="at-s1">ВХОД / РЕГИСТРАЦИЯ</div>
-      <input id="l-in" class="inp" placeholder="Логин">
-      <input id="p-in" class="inp" type="password" placeholder="Пароль">
-      <input id="a-code" class="inp" placeholder="Код создателя (необязательно)">
-      <button class="btn btn-p" onclick="authStep1()" id="at-btn1">ПРОДОЛЖИТЬ</button>
-      <div id="acc-list" style="margin-top:14px"></div>
-    </div>
+    
 
-    <!-- STEP 2: set 2FA PIN (new user) -->
-    <div class="auth-step" id="step2">
-      <div class="step-label" id="at-s2">СОЗДАЙТЕ СЕКРЕТНЫЙ КОД</div>
-      <div class="pin-hint" id="at-ph1">Этот 4-значный код будет защищать ваш аккаунт.<br>Запомните его — восстановить нельзя.</div>
-      <div class="pin-row">
-        <input class="pin-box" maxlength="1" id="pin0" oninput="pinNext(0)" type="password" inputmode="numeric">
-        <input class="pin-box" maxlength="1" id="pin1" oninput="pinNext(1)" type="password" inputmode="numeric">
-        <input class="pin-box" maxlength="1" id="pin2" oninput="pinNext(2)" type="password" inputmode="numeric">
-        <input class="pin-box" maxlength="1" id="pin3" oninput="pinNext(3)" type="password" inputmode="numeric">
-      </div>
-      <button class="btn btn-p" onclick="authStep2()" id="at-btn2">СОХРАНИТЬ КОД</button>
-    </div>
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="AccountSecurityPrompt" data-bundle-source="Main" href="https://css.rbxcdn.com/49a56a4fac355350240a9d8509afdf86e79a9ad39cf487de26ad6241642e50e9-AccountSecurityPrompt.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="AccessManagementUpsellV2" data-bundle-source="Main" href="https://css.rbxcdn.com/2152a305a6a0a3d5a56e402aa4e3e9db865ff7bfa813e7b7ad780bf9876b5cc4-AccessManagementUpsellV2.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="ModerationPortalPage" data-bundle-source="Main" href="https://css.rbxcdn.com/2ac700e5b5d1c8aae025a4efa691ff4771cb09b9435df87eb4f53d221ebc2215-ModerationPortalPage.css" />
 
-    <!-- STEP 3: verify 2FA PIN (existing user) -->
-    <div class="auth-step" id="step3">
-      <div class="step-label" id="at-s3">ВВЕДИТЕ СЕКРЕТНЫЙ КОД</div>
-      <div class="pin-hint" id="at-ph3">Введите 4-значный код для входа.</div>
-      <div class="pin-row">
-        <input class="pin-box" maxlength="1" id="vpin0" oninput="vpinNext(0)" type="password" inputmode="numeric">
-        <input class="pin-box" maxlength="1" id="vpin1" oninput="vpinNext(1)" type="password" inputmode="numeric">
-        <input class="pin-box" maxlength="1" id="vpin2" oninput="vpinNext(2)" type="password" inputmode="numeric">
-        <input class="pin-box" maxlength="1" id="vpin3" oninput="vpinNext(3)" type="password" inputmode="numeric">
-      </div>
-      <button class="btn btn-p" onclick="authStep3()" id="at-btn3">ВОЙТИ</button>
-      <button class="btn btn-s" style="margin-top:7px" onclick="backToStep1()">← НАЗАД</button>
-    </div>
-  </div>
-</div>
+    <link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="RobuxIcon" data-bundle-source="Main" href="https://css.rbxcdn.com/7dfc7837b5da6850e13413c630b37da7e88aeb610ca2c7d4e8b71b02cbdc6ba6.css" />
 
-<!-- MAIN -->
-<div class="main" id="main-wrap">
 
-  <!-- HOME -->
-  <div id="p-home" class="page active">
-    <div class="bal-card">
-      <div class="bal-inner">
-        <div class="bal-tag" id="bal-tag">Основной счёт · USD</div>
-        <div class="bal-num" id="u-bal">$0.00</div>
-        <div class="bal-usd-note" id="u-bal-uah"></div>
-        <div class="bal-foot">
-          <div class="bal-user">
-            <div class="bava-wrap">
-              <img class="bava" id="u-ava" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
-              <div class="crown" id="u-crown" style="display:none">👑</div>
-            </div>
-            <div>
-              <div class="bname" id="u-nick">...</div>
-              <div class="brole" id="u-role">Игрок</div>
-            </div>
-          </div>
-          <button class="earn-btn" onclick="work()" id="earn-btn-lbl">⚡ ЗАРАБОТАТЬ</button>
-        </div>
-      </div>
-      <div class="fx-chips">
-        <div class="fx-chip" onclick="showCardModal('uah')">
-          <div class="fx-flag">🇺🇦</div>
-          <span class="fx-sym">UAH</span>
-          <span class="fx-amt" id="uah-chip">₴0</span>
-        </div>
-        <div class="fx-chip" onclick="showCardModal('eur')">
-          <div class="fx-flag">🇪🇺</div>
-          <span class="fx-sym">EUR</span>
-          <span class="fx-amt" id="eur-chip">–</span>
-        </div>
-        <div class="fx-chip" onclick="openModal('m-newcard')">
-          <div class="fx-flag">➕</div>
-          <span class="fx-sym" style="font-size:8px">СЧЁТ</span>
-          <span class="fx-amt" id="at-newcard">Новый</span>
-        </div>
-      </div>
-    </div>
+    <link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="ItemPurchaseUpsell" data-bundle-source="Main" href="https://css.rbxcdn.com/3c4bd9b17b9020d9ebc87d4542a68a949a9de6150a55a92f0e65514520ee777e-ItemPurchaseUpsell.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="ItemPurchase" data-bundle-source="Main" href="https://css.rbxcdn.com/344ef49ef21d7c83c962928f052ca934f16efd9d21d8ce7709a8b72cf1461266-ItemPurchase.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="IdVerification" data-bundle-source="Main" href="https://css.rbxcdn.com/37b5bc69ed67ee094c95e908d68d809c55c28ab8f34ed714a7541f1f5eeacfa6-IdVerification.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="AccessManagementUpsell" data-bundle-source="Main" href="https://css.rbxcdn.com/d45e200658a1343116bbf4a88c367d093758085e7d001918d641c85b2143468f-AccessManagementUpsell.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="GameLaunch" data-bundle-source="Main" href="https://css.rbxcdn.com/69b88670b18ffafc870a935a5b08797d33d1a60e3833d1691c5215278c9f0cc4-GameLaunch.css" />
 
-    <div class="qa-row">
-      <div class="qa" onclick="openModal('m-transfer')"><span class="ic">💸</span><span class="lb" id="qa-transfer">ПЕРЕВОД</span></div>
-      <div class="qa" onclick="sw('exchange')"><span class="ic">💱</span><span class="lb" id="qa-exchange">ОБМЕН</span></div>
-      <div class="qa" onclick="openPropModal()"><span class="ic">🏛</span><span class="lb" id="qa-property">ИМУЩЕСТВО</span></div>
-      <div class="qa" onclick="sw('fines')"><span class="ic">📋</span><span class="lb" id="qa-fines">ШТРАФЫ</span></div>
-    </div>
 
-    <div class="qs-grid">
-      <div class="qs"><div class="qs-ic">📦</div><div class="qs-v" id="qs-inv">0</div><div class="qs-l" id="qs-inv-l">Объектов</div></div>
-      <div class="qs"><div class="qs-ic">💼</div><div class="qs-v" id="qs-inc">$0</div><div class="qs-l" id="qs-inc-l">Доход/час</div></div>
-    </div>
+    
 
-    <div class="sl" id="sl-ops">ПОСЛЕДНИЕ ОПЕРАЦИИ</div>
-    <div id="tx-list"></div>
-    <div style="height:8px"></div>
-  </div>
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="NotificationStream" data-bundle-source="Main" href="https://css.rbxcdn.com/935fb7331d9761008e6d48890a8f03c8124d73dd41b4f19f93a1844577186103-NotificationStream.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="SendrNotificationStream" data-bundle-source="Main" href="https://css.rbxcdn.com/c009eb4f50b2f8403866757f37aba982dbe3edba5d413f521ee609162f38ed2f-SendrNotificationStream.css" />
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="Chat" data-bundle-source="Main" href="https://css.rbxcdn.com/d1e85f4704d1951f3e17bb9697e666bf0c1c897cd4b977485fa8e34274dc4178-Chat.css" />
 
-  <!-- SHOP -->
-  <div id="p-shop" class="page">
-    <div class="shop-tabs">
-      <div class="stab on" onclick="shopTab('car',this)" id="st-car">🚗 Авто</div>
-      <div class="stab" onclick="shopTab('house',this)" id="st-house">🏠 Недвиж.</div>
-      <div class="stab" onclick="shopTab('biz',this)" id="st-biz">💼 Бизнес</div>
-    </div>
-    <div id="shop-car" class="shop-section on"></div>
-    <div id="shop-house" class="shop-section"></div>
-    <div id="shop-biz" class="shop-section"></div>
-    <div style="height:8px"></div>
-  </div>
 
-  <!-- TRADE -->
-  <div id="p-trade" class="page">
-    <div class="trade-form">
-      <div class="sl" style="margin-top:0" id="tl-post">ВЫСТАВИТЬ НА ПРОДАЖУ</div>
-      <select id="tr-obj" class="inp"></select>
-      <input id="tr-pr" class="inp" type="number" placeholder="Цена ($)">
-      <button class="btn btn-p" onclick="postToTrade()" id="tl-post-btn">ВЫСТАВИТЬ</button>
-    </div>
-    <div class="sl" id="tl-lots">АКТИВНЫЕ ЛОТЫ</div>
-    <div id="trade-board"></div>
-    <div style="height:8px"></div>
-  </div>
 
-  <!-- CHAT -->
-  <div id="p-chat" class="page" style="position:relative;min-height:calc(100dvh - 120px);padding-bottom:80px;">
-    <div class="chat-search">
-      <span style="color:var(--t3)">🔍</span>
-      <input id="chat-search-in" placeholder="Поиск игрока..." oninput="searchUsers()">
-    </div>
-    <div id="search-res" style="display:none;margin-bottom:8px"></div>
-    <div class="sl" id="sl-chats">ПЕРЕПИСКИ</div>
-    <div id="chat-list-wrap"></div>
-    <!-- DM -->
-    <div id="dm-view">
-      <div class="dm-head">
-        <span class="dm-back" onclick="closeDm()">←</span>
-        <div class="dm-ava" id="dm-ava">👤</div>
-        <div>
-          <div style="font-weight:700;font-size:14px" id="dm-name">...</div>
-          <div style="font-size:10px;color:var(--green)" id="dm-status-txt">онлайн</div>
-        </div>
-      </div>
-      <div class="dm-msgs" id="dm-msgs"></div>
-      <div class="dm-bar">
-        <input id="dm-in" class="inp" style="margin:0;flex:1" placeholder="Сообщение...">
-        <button class="dm-send" onclick="sendDm()">➤</button>
-      </div>
-    </div>
-  </div>
+<link rel="stylesheet" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-bundlename="UserAgreementsChecker" data-bundle-source="Main" href="https://css.rbxcdn.com/d5a3728b78be729b693aadf79a1f45f0fa49c15fe863a0d7dd631b75f9e82207.css" />
 
-  <!-- EXCHANGE -->
-  <div id="p-exchange" class="page">
-    <div class="sl" style="margin-top:0" id="sl-rates">КУРСЫ ВАЛЮТ</div>
-    <div class="rate-grid">
-      <div class="rate-card"><div class="rate-flag">🇺🇸</div><div class="rate-pair">USD → UAH</div><div class="rate-val" id="r-usd">42.50</div></div>
-      <div class="rate-card"><div class="rate-flag">🇪🇺</div><div class="rate-pair">EUR → UAH</div><div class="rate-val" id="r-eur">46.20</div></div>
-    </div>
-    <div style="background:var(--s1);border:1px solid var(--border);border-radius:var(--r2);padding:18px;margin-bottom:10px">
-      <div class="sl" style="margin-top:0" id="sl-exch">ОБМЕНЯТЬ</div>
-      <select id="exch-from" class="inp" onchange="calcExch()">
-        <option value="usd">$ USD</option><option value="uah">₴ UAH</option><option value="eur">€ EUR</option>
-      </select>
-      <input id="exch-amt" class="inp" type="number" placeholder="Сумма" oninput="calcExch()">
-      <select id="exch-to" class="inp" onchange="calcExch()">
-        <option value="uah">₴ UAH</option><option value="eur">€ EUR</option><option value="usd">$ USD</option>
-      </select>
-      <div id="exch-res" style="text-align:center;font-family:'JetBrains Mono',monospace;font-size:20px;color:var(--a);margin:14px 0;min-height:28px"></div>
-      <button class="btn btn-p" onclick="doExchange()" id="exch-btn">ОБМЕНЯТЬ</button>
-    </div>
-    <div style="height:8px"></div>
-  </div>
 
-  <!-- LEADERBOARD -->
-  <div id="p-lb" class="page">
-    <div class="sl" style="margin-top:0" id="sl-lb">ТОП ИГРОКОВ</div>
-    <div id="lb-list"></div>
-    <div style="height:8px"></div>
-  </div>
 
-  <!-- FINES -->
-  <div id="p-fines" class="page">
-    <div class="sl" style="margin-top:0" id="sl-fines">МОИ ШТРАФЫ</div>
-    <div id="fines-list"></div>
-    <div style="height:8px"></div>
-  </div>
 
-  <!-- INBOX -->
-  <div id="p-inbox" class="page">
-    <div class="sl" style="margin-top:0" id="sl-inbox">УВЕДОМЛЕНИЯ</div>
-    <div id="inbox-list"></div>
-    <div style="height:8px"></div>
-  </div>
+    <script type="text/javascript">
+    var Roblox = Roblox || {};
+    Roblox.RealTimeSettings = Roblox.RealTimeSettings ||
+        {
+            NotificationsEndpoint: "https://realtime-signalr.roblox.com/userhub",
+            NotificationsClientType: "CoreSignalR",
+            MaxConnectionTime: "21600000",
+            IsEventPublishingEnabled: false,
+            IsDisconnectOnSlowConnectionDisabled: true,
+            IsSignalRClientTransportRestrictionEnabled: true,
+            IsLocalStorageInRealTimeEnabled: true,
+            IsDebuggerEnabled: "False",
+            IsRealtimeWebAnalyticsEnabled: true,
+            IsRealtimeWebAnalyticsConnectionEventsEnabled: false
+        }
+    </script>
+    <script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="EnvironmentUrls" data-bundle-source="Main" src="https://js.rbxcdn.com/fc8e6f9e95e50f6da80942bd29d57886659233629d8caf66ac456117953186c6-EnvironmentUrls.js"></script>
 
-  <!-- PROFILE -->
-  <div id="p-prof" class="page">
-    <div class="prof-head">
-      <div class="pava-wrap">
-        <img class="pava" id="prof-ava" src="">
-        <div class="pcrown" id="prof-crown" style="display:none">👑</div>
-      </div>
-      <div class="pname" id="prof-nick">...</div>
-      <div class="prole" id="prof-role">Игрок</div>
-    </div>
-    <div style="background:var(--s1);border:1px solid var(--border);border-radius:var(--r2);padding:16px;margin-bottom:10px">
-      <div class="adm-lbl" id="pl-edit">РЕДАКТИРОВАТЬ ПРОФИЛЬ</div>
-      <input id="st-n" class="inp" placeholder="Никнейм">
-      <input id="st-a" class="inp" placeholder="URL аватарки">
-      <div style="font-size:10px;color:var(--t2);margin-bottom:8px" id="pl-color">Цвет акцента:</div>
-      <div class="clr-row" id="clr-swatches"></div>
-      <input type="color" id="st-c" class="inp" style="height:46px;padding:6px;cursor:pointer;margin-bottom:12px">
-      <div style="font-size:10px;color:var(--t2);margin-bottom:8px" id="pl-lang">Язык / Мова / Language:</div>
-      <div class="lang-row">
-        <div class="lang-btn on" id="lb-ru" onclick="setLang('ru')">🇷🇺 RU</div>
-        <div class="lang-btn" id="lb-uk" onclick="setLang('uk')">🇺🇦 UK</div>
-        <div class="lang-btn" id="lb-en" onclick="setLang('en')">🇬🇧 EN</div>
-      </div>
-      <button class="btn btn-p" onclick="saveProf()" id="pl-save">СОХРАНИТЬ</button>
-    </div>
-    <div style="height:8px"></div>
-  </div>
 
-  <!-- ADMIN -->
-  <div id="p-adm" class="page">
-    <div class="sl" style="margin-top:0" id="sl-adm">ПАНЕЛЬ АДМИНИСТРАТОРА</div>
-    <div class="adm-block" id="adm-give-block" style="display:none">
-      <div class="adm-lbl" id="adml-give">💰 ВЫДАТЬ ДЕНЬГИ</div>
-      <input id="ad-u-give" class="inp" placeholder="Логин"><input id="ad-v-give" class="inp" type="number" placeholder="Сумма ($)">
-      <button class="btn btn-p" onclick="adm('give')" id="adm-give-btn">ВЫДАТЬ</button>
-    </div>
-    <div class="adm-block">
-      <div class="adm-lbl" id="adml-fine">💸 ШТРАФ</div>
-      <input id="ad-u-fine" class="inp" placeholder="Логин">
-      <input id="ad-v-fine" class="inp" type="number" placeholder="Сумма ($)">
-      <input id="ad-r-fine" class="inp" placeholder="Причина штрафа">
-      <button class="btn btn-gold" onclick="adm('fine')" id="adm-fine-btn">ВЫПИСАТЬ ШТРАФ</button>
-    </div>
-    <div class="adm-block" id="adm-offer-block" style="display:none">
-      <div class="adm-lbl" id="adml-offer">⚡ ПРЕДЛОЖИТЬ АДМИНКУ</div>
-      <input id="ad-u-offer" class="inp" placeholder="Логин">
-      <button class="btn btn-p" onclick="adm('offer')" style="background:linear-gradient(135deg,var(--purple),#6d28d9)" id="adm-offer-btn">ОТПРАВИТЬ (500M $)</button>
-    </div>
-    <div class="adm-block">
-      <div class="adm-lbl" id="adml-ban">🚫 БАН / РАЗБАН</div>
-      <input id="ad-u-ban" class="inp" placeholder="Логин">
-      <button class="btn btn-r" onclick="adm('ban')" id="adm-ban-btn">ЗАБЛОКИРОВАТЬ</button>
-      <button class="btn btn-g" onclick="adm('unban')" id="adm-unban-btn">✅ РАЗБЛОКИРОВАТЬ</button>
-    </div>
-    <div style="height:8px"></div>
-  </div>
 
-</div>
+<script type="text/javascript">
+    var Roblox = Roblox || {};
+    Roblox.GaEventSettings = {
+        gaDFPPreRollEnabled: "false" === "true",
+        gaLaunchAttemptAndLaunchSuccessEnabled: "false" === "true",
+        gaPerformanceEventEnabled: "false" === "true"
+    };
+</script>
 
-<!-- BOTTOM NAV -->
-<div class="bnav" id="bnav">
-  <div class="ni on" id="ni-home" onclick="sw('home')"><span class="ic">🏠</span><span id="nl-home">ГЛАВНАЯ</span></div>
-  <div class="ni" id="ni-shop" onclick="sw('shop')"><span class="ic">🛍</span><span id="nl-shop">МАГАЗИН</span></div>
-  <div class="ni" id="ni-trade" onclick="sw('trade')"><span class="ic">🤝</span><span id="nl-trade">РЫНОК</span></div>
-  <div class="ni" id="ni-chat" onclick="sw('chat')"><span class="ic">💬</span><span id="nl-chat">ЧАТ</span></div>
-  <div class="ni" id="ni-lb" onclick="sw('lb')"><span class="ic">🏆</span><span id="nl-lb">ТОП</span></div>
-  <div class="ni" id="ni-inbox" onclick="sw('inbox')"><span class="ic">🔔</span><div class="nbadge" id="nbadge">0</div><span id="nl-inbox">ПОЧТА</span></div>
-  <div class="ni" id="ni-prof" onclick="sw('prof')"><span class="ic">👤</span><span id="nl-prof">ПРОФИЛЬ</span></div>
-  <div class="ni" id="ni-adm" style="display:none;color:var(--red)" onclick="sw('adm')"><span class="ic">🛠</span><span id="nl-adm">АДМІН</span></div>
-</div>
 
-<!-- MODALS -->
-<div class="modal-ov" id="m-transfer">
-  <div class="modal-box">
-    <span class="modal-cl" onclick="closeModal('m-transfer')">✕</span>
-    <div class="modal-tl" id="mt-tl">💸 Перевод средств</div>
-    <input id="tf-to" class="inp" placeholder="Логин получателя">
-    <select id="tf-cur" class="inp"><option value="usd">$ USD</option><option value="uah">₴ UAH</option><option value="eur">€ EUR</option></select>
-    <input id="tf-amt" class="inp" type="number" placeholder="Сумма">
-    <input id="tf-note" class="inp" placeholder="Комментарий (необязательно)">
-    <button class="btn btn-p" onclick="doTransfer()" id="mt-btn">ОТПРАВИТЬ</button>
-  </div>
-</div>
+    <script onerror='Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)' data-monitor='true' data-bundlename='headerinit' type='text/javascript' src='https://js.rbxcdn.com/0496306d944faeb488779bad1af0738e.js'></script>
 
-<div class="modal-ov" id="m-newcard">
-  <div class="modal-box">
-    <span class="modal-cl" onclick="closeModal('m-newcard')">✕</span>
-    <div class="modal-tl" id="mnc-tl">➕ Открыть валютный счёт</div>
-    <p style="font-size:12px;color:var(--t2);margin-bottom:14px" id="mnc-cost">Стоимость открытия: $10</p>
-    <button class="btn btn-p" onclick="openFxCard('uah')" style="margin-bottom:8px" id="mnc-uah">🇺🇦 Открыть UAH счёт</button>
-    <button class="btn btn-p" onclick="openFxCard('eur')" style="background:linear-gradient(135deg,var(--purple),#6d28d9)" id="mnc-eur">🇪🇺 Открыть EUR счёт</button>
-  </div>
-</div>
+    <script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="Polyfill" data-bundle-source="Main" src="https://js.rbxcdn.com/5c8a2ba3737908f693394045e81ebd71c77cde6f87550ea51f7833e8c98200ae.js"></script>
 
-<div class="modal-ov" id="m-upgrade">
-  <div class="modal-box">
-    <span class="modal-cl" onclick="closeModal('m-upgrade')">✕</span>
-    <div class="modal-tl" id="upg-tl">⬆️ Улучшение</div>
-    <p id="upg-desc" style="font-size:13px;color:var(--t2);margin-bottom:16px;line-height:1.5"></p>
-    <button class="btn btn-gold" onclick="confirmUpgrade()" id="upg-btn">КУПИТЬ УЛУЧШЕНИЕ</button>
-  </div>
-</div>
 
-<div class="modal-ov" id="m-card">
-  <div class="modal-box">
-    <span class="modal-cl" onclick="closeModal('m-card')">✕</span>
-    <div class="modal-tl" id="mcard-tl">Счёт</div>
-    <div id="mcard-body"></div>
-  </div>
-</div>
+    <script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="XsrfProtection" data-bundle-source="Main" src="https://js.rbxcdn.com/2f0fd0c2760ff1898187af6df3b764f4b08f77a315d0a33654f105f61b0ea6d0.js"></script>
 
-<!-- PROPERTY MODAL (tabbed) -->
-<div class="modal-ov" id="m-prop">
-  <div class="modal-box" style="padding-bottom:30px">
-    <span class="modal-cl" onclick="closeModal('m-prop')">✕</span>
-    <div class="modal-tl" id="mp-tl">🏛 Имущество</div>
-    <div class="prop-tabs">
-      <div class="ptab on" onclick="propTab('all',this)" id="pt-all">Всё</div>
-      <div class="ptab" onclick="propTab('car',this)" id="pt-car">🚗 Авто</div>
-      <div class="ptab" onclick="propTab('house',this)" id="pt-house">🏠 Недвиж.</div>
-      <div class="ptab" onclick="propTab('biz',this)" id="pt-biz">💼 Бизнес</div>
-    </div>
-    <div id="prop-all" class="prop-section on" style="max-height:55vh;overflow-y:auto"></div>
-    <div id="prop-car" class="prop-section" style="max-height:55vh;overflow-y:auto"></div>
-    <div id="prop-house" class="prop-section" style="max-height:55vh;overflow-y:auto"></div>
-    <div id="prop-biz" class="prop-section" style="max-height:55vh;overflow-y:auto"></div>
-  </div>
-</div>
 
-<div class="toast" id="toast"></div>
+    <script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="HeaderScripts" data-bundle-source="Main" src="https://js.rbxcdn.com/550770736b9bc9ea1af289d3d412ece690ced7125fc53981cdf5b0ada0b7f345-HeaderScripts.js"></script>
+
+
+<meta name="roblox-tracer-meta-data"
+      data-access-token=""
+      data-service-name="Web"
+      data-tracer-enabled="false"
+      data-api-sites-request-allow-list="friends.roblox.com,chat.roblox.com,thumbnails.roblox.com,games.roblox.com,gameinternationalization.roblox.com,localizationtables.roblox.com"
+      data-sample-rate="0"
+      data-is-instrument-page-performance-enabled="false"/><script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="RobloxTracer" data-bundle-source="Main" src="https://js.rbxcdn.com/f85ce090699c1c3962762b8a2f8b252f0f2a7d0424c146f41d6c5abbf0147a57.js"></script>
+
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="CrossTabCommunication" data-bundle-source="Main" src="https://js.rbxcdn.com/bfb3e7a7efed2f8ba4d12dc9fdb70dce1ff97ee13e988833a8638cf3ed8fd7f8.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="RealTime" data-bundle-source="Main" src="https://js.rbxcdn.com/22d5ad7788622164771c3a767cdb21d73ca0b9cbfd24dd9b918fd3d748d5c5a1-RealTime.js"></script>
+    
+
+
 
 <script>
-// ═══════════════════════════════════════
-//  FIREBASE
-// ═══════════════════════════════════════
-const firebaseConfig={apiKey:"AIzaSyDmf-lcDM5hXBwBqzymGlzdoHdTGfT2pRg",authDomain:"magniybank.firebaseapp.com",databaseURL:"https://magniybank-default-rtdb.firebaseio.com",projectId:"magniybank",storageBucket:"magniybank.firebasestorage.app",messagingSenderId:"1006815080708",appId:"1:1006815080708:web:e9c3afd0a15d8abbe46051"};
-firebase.initializeApp(firebaseConfig);
-const db=firebase.database();
-
-// ═══════════════════════════════════════
-//  STATE
-// ═══════════════════════════════════════
-let user=localStorage.getItem('mag_active_u');
-let uData=null;
-let lang=localStorage.getItem('mag_lang')||'ru';
-const CREATOR_CODE='MAG777';
-const ADMIN_PRICE=500000000;
-const RATES={usd:1,uah:42.5,eur:0.93}; // relative to USD
-const COLORS=['#5b8af0','#8b5cf6','#ec4899','#f97316','#10d97a','#22d3ee','#fbbf24','#ff4466'];
-let pendingUpgrade={};
-let currentDmUser=null;
-let authTempUser=null;
-
-// ═══════════════════════════════════════
-//  TRANSLATIONS
-// ═══════════════════════════════════════
-const T={
-  ru:{
-    sub:'Банк нового поколения',s1:'ВХОД / РЕГИСТРАЦИЯ',s2:'СОЗДАЙТЕ СЕКРЕТНЫЙ КОД',s3:'ВВЕДИТЕ СЕКРЕТНЫЙ КОД',
-    ph1:'Этот 4-значный код защищает аккаунт.\nЗапомните — восстановить нельзя.',ph3:'Введите 4-значный код для входа.',
-    btn1:'ПРОДОЛЖИТЬ',btn2:'СОХРАНИТЬ КОД',btn3:'ВОЙТИ',
-    ban:'ЗАБЛОКИРОВАНО',banSub:'Аккаунт заблокирован администрацией',banBtn:'ВЫЙТИ',
-    balTag:'Основной счёт · USD',earn:'⚡ ЗАРАБОТАТЬ',
-    qaTransfer:'ПЕРЕВОД',qaExchange:'ОБМЕН',qaProp:'ИМУЩЕСТВО',qaFines:'ШТРАФЫ',
-    qsInv:'Объектов',qsInc:'Доход/час',slOps:'ПОСЛЕДНИЕ ОПЕРАЦИИ',
-    shopTabCar:'🚗 Авто',shopTabHouse:'🏠 Недвиж.',shopTabBiz:'💼 Бизнес',
-    trPost:'ВЫСТАВИТЬ НА ПРОДАЖУ',trPostBtn:'ВЫСТАВИТЬ',trLots:'АКТИВНЫЕ ЛОТЫ',trEmpty:'Рынок пуст',
-    slChats:'ПЕРЕПИСКИ',dmStatus:'онлайн',
-    slRates:'КУРСЫ ВАЛЮТ',slExch:'ОБМЕНЯТЬ',exchBtn:'ОБМЕНЯТЬ',
-    slLb:'ТОП ИГРОКОВ',slFines:'МОИ ШТРАФЫ',finePaid:'ОПЛАЧЕНО',fineUnpaid:'НЕ ОПЛАЧЕНО',finePayBtn:'ОПЛАТИТЬ ШТРАФ',fineEmpty:'Штрафов нет 🎉',
-    slInbox:'УВЕДОМЛЕНИЯ',inboxEmpty:'Нет уведомлений',
-    plEdit:'РЕДАКТИРОВАТЬ ПРОФИЛЬ',plColor:'Цвет акцента:',plLang:'Язык / Мова / Language:',plSave:'СОХРАНИТЬ',
-    slAdm:'ПАНЕЛЬ АДМИНИСТРАТОРА',admGive:'💰 ВЫДАТЬ ДЕНЬГИ',admFine:'💸 ШТРАФ',admOffer:'⚡ ПРЕДЛОЖИТЬ АДМИНКУ',admBan:'🚫 БАН / РАЗБАН',
-    admGiveBtn:'ВЫДАТЬ',admFineBtn:'ВЫПИСАТЬ ШТРАФ',admOfferBtn:'ОТПРАВИТЬ (500M $)',admBanBtn:'ЗАБЛОКИРОВАТЬ',admUnbanBtn:'✅ РАЗБЛОКИРОВАТЬ',
-    mtTl:'💸 Перевод средств',mtBtn:'ОТПРАВИТЬ',mncTl:'➕ Открыть валютный счёт',mncCost:'Стоимость: $10',
-    mpTl:'🏛 Имущество',ptAll:'Всё',ptCar:'🚗 Авто',ptHouse:'🏠 Недвиж.',ptBiz:'💼 Бизнес',
-    nHome:'ГЛАВНАЯ',nShop:'МАГАЗИН',nTrade:'РЫНОК',nChat:'ЧАТ',nLb:'ТОП',nInbox:'ПОЧТА',nProf:'ПРОФИЛЬ',nAdm:'АДМІН',
-    newcard:'Новый',upgBtn:'КУПИТЬ УЛУЧШЕНИЕ',
-    notifAccept:'✅ ПРИНЯТЬ',notifDecline:'❌ ОТКЛОНИТЬ',
-    role_player:'Игрок',role_admin:'⚡ Администратор',role_creator:'👑 Создатель',
-    mnc_uah:'🇺🇦 Открыть UAH счёт',mnc_eur:'🇪🇺 Открыть EUR счёт',
-  },
-  uk:{
-    sub:'Банк нового покоління',s1:'ВХІД / РЕЄСТРАЦІЯ',s2:'СТВОРІТЬ СЕКРЕТНИЙ КОД',s3:'ВВЕДІТЬ СЕКРЕТНИЙ КОД',
-    ph1:'Цей 4-значний код захищає аккаунт.\nЗапам\'ятайте — відновити неможливо.',ph3:'Введіть 4-значний код для входу.',
-    btn1:'ПРОДОВЖИТИ',btn2:'ЗБЕРЕГТИ КОД',btn3:'УВІЙТИ',
-    ban:'ЗАБЛОКОВАНО',banSub:'Аккаунт заблоковано адміністрацією',banBtn:'ВИЙТИ',
-    balTag:'Основний рахунок · USD',earn:'⚡ ЗАРОБИТИ',
-    qaTransfer:'ПЕРЕКАЗ',qaExchange:'ОБМІН',qaProp:'МАЙНО',qaFines:'ШТРАФИ',
-    qsInv:'Об\'єктів',qsInc:'Дохід/год',slOps:'ОСТАННІ ОПЕРАЦІЇ',
-    shopTabCar:'🚗 Авто',shopTabHouse:'🏠 Нерух.',shopTabBiz:'💼 Бізнес',
-    trPost:'ВИСТАВИТИ НА ПРОДАЖ',trPostBtn:'ВИСТАВИТИ',trLots:'АКТИВНІ ЛОТИ',trEmpty:'Ринок порожній',
-    slChats:'ПЕРЕПИСКИ',dmStatus:'онлайн',
-    slRates:'КУРСИ ВАЛЮТ',slExch:'ОБМІНЯТИ',exchBtn:'ОБМІНЯТИ',
-    slLb:'ТОП ГРАВЦІВ',slFines:'МОЇ ШТРАФИ',finePaid:'СПЛАЧЕНО',fineUnpaid:'НЕ СПЛАЧЕНО',finePayBtn:'СПЛАТИТИ ШТРАФ',fineEmpty:'Штрафів немає 🎉',
-    slInbox:'СПОВІЩЕННЯ',inboxEmpty:'Немає повідомлень',
-    plEdit:'РЕДАГУВАТИ ПРОФІЛЬ',plColor:'Колір акценту:',plLang:'Язык / Мова / Language:',plSave:'ЗБЕРЕГТИ',
-    slAdm:'ПАНЕЛЬ АДМІНІСТРАТОРА',admGive:'💰 ВИДАТИ ГРОШІ',admFine:'💸 ШТРАФ',admOffer:'⚡ ЗАПРОПОНУВАТИ АДМІНКУ',admBan:'🚫 БАН / РОЗБАН',
-    admGiveBtn:'ВИДАТИ',admFineBtn:'ВИПИСАТИ ШТРАФ',admOfferBtn:'ВІДПРАВИТИ (500M $)',admBanBtn:'ЗАБЛОКУВАТИ',admUnbanBtn:'✅ РОЗБЛОКУВАТИ',
-    mtTl:'💸 Переказ коштів',mtBtn:'ВІДПРАВИТИ',mncTl:'➕ Відкрити валютний рахунок',mncCost:'Вартість: $10',
-    mpTl:'🏛 Майно',ptAll:'Усе',ptCar:'🚗 Авто',ptHouse:'🏠 Нерух.',ptBiz:'💼 Бізнес',
-    nHome:'ГОЛОВНА',nShop:'МАГАЗИН',nTrade:'РИНОК',nChat:'ЧАТ',nLb:'ТОП',nInbox:'ПОШТА',nProf:'ПРОФІЛЬ',nAdm:'АДМІН',
-    newcard:'Новий',upgBtn:'КУПИТИ ПОКРАЩЕННЯ',
-    notifAccept:'✅ ПРИЙНЯТИ',notifDecline:'❌ ВІДХИЛИТИ',
-    role_player:'Гравець',role_admin:'⚡ Адміністратор',role_creator:'👑 Творець',
-    mnc_uah:'🇺🇦 Відкрити UAH рахунок',mnc_eur:'🇪🇺 Відкрити EUR рахунок',
-  },
-  en:{
-    sub:'Next-gen digital bank',s1:'SIGN IN / REGISTER',s2:'CREATE SECRET PIN',s3:'ENTER SECRET PIN',
-    ph1:'This 4-digit PIN protects your account.\nRemember it — it cannot be recovered.',ph3:'Enter your 4-digit PIN to log in.',
-    btn1:'CONTINUE',btn2:'SAVE PIN',btn3:'LOG IN',
-    ban:'BANNED',banSub:'Account banned by administration',banBtn:'LOG OUT',
-    balTag:'Main account · USD',earn:'⚡ EARN',
-    qaTransfer:'TRANSFER',qaExchange:'EXCHANGE',qaProp:'PROPERTY',qaFines:'FINES',
-    qsInv:'Assets',qsInc:'Income/hr',slOps:'RECENT TRANSACTIONS',
-    shopTabCar:'🚗 Cars',shopTabHouse:'🏠 Real estate',shopTabBiz:'💼 Business',
-    trPost:'LIST FOR SALE',trPostBtn:'LIST',trLots:'ACTIVE LISTINGS',trEmpty:'Market is empty',
-    slChats:'CHATS',dmStatus:'online',
-    slRates:'EXCHANGE RATES',slExch:'EXCHANGE',exchBtn:'EXCHANGE',
-    slLb:'LEADERBOARD',slFines:'MY FINES',finePaid:'PAID',fineUnpaid:'UNPAID',finePayBtn:'PAY FINE',fineEmpty:'No fines 🎉',
-    slInbox:'NOTIFICATIONS',inboxEmpty:'No notifications',
-    plEdit:'EDIT PROFILE',plColor:'Accent color:',plLang:'Язык / Мова / Language:',plSave:'SAVE',
-    slAdm:'ADMIN PANEL',admGive:'💰 GIVE MONEY',admFine:'💸 FINE',admOffer:'⚡ OFFER ADMINSHIP',admBan:'🚫 BAN / UNBAN',
-    admGiveBtn:'GIVE',admFineBtn:'ISSUE FINE',admOfferBtn:'SEND OFFER (500M $)',admBanBtn:'BAN',admUnbanBtn:'✅ UNBAN',
-    mtTl:'💸 Transfer funds',mtBtn:'SEND',mncTl:'➕ Open currency account',mncCost:'Cost: $10',
-    mpTl:'🏛 Property',ptAll:'All',ptCar:'🚗 Cars',ptHouse:'🏠 Real estate',ptBiz:'💼 Business',
-    nHome:'HOME',nShop:'SHOP',nTrade:'MARKET',nChat:'CHAT',nLb:'TOP',nInbox:'INBOX',nProf:'PROFILE',nAdm:'ADMIN',
-    newcard:'New',upgBtn:'BUY UPGRADE',
-    notifAccept:'✅ ACCEPT',notifDecline:'❌ DECLINE',
-    role_player:'Player',role_admin:'⚡ Administrator',role_creator:'👑 Creator',
-    mnc_uah:'🇺🇦 Open UAH account',mnc_eur:'🇪🇺 Open EUR account',
-  }
-};
-function t(k){return (T[lang]&&T[lang][k])||T.ru[k]||k;}
-function applyLang(){
-  const ids={
-    'at-sub':'sub','at-s1':'s1','at-s2':'s2','at-s3':'s3','at-btn1':'btn1','at-btn2':'btn2','at-btn3':'btn3',
-    'ban-txt':'ban','ban-sub':'banSub','ban-btn':'banBtn',
-    'bal-tag':'balTag','earn-btn-lbl':'earn',
-    'qa-transfer':'qaTransfer','qa-exchange':'qaExchange','qa-property':'qaProp','qa-fines':'qaFines',
-    'qs-inv-l':'qsInv','qs-inc-l':'qsInc','sl-ops':'slOps',
-    'st-car':'shopTabCar','st-house':'shopTabHouse','st-biz':'shopTabBiz',
-    'tl-post':'trPost','tl-post-btn':'trPostBtn','tl-lots':'trLots',
-    'sl-chats':'slChats','dm-status-txt':'dmStatus',
-    'sl-rates':'slRates','sl-exch':'slExch','exch-btn':'exchBtn',
-    'sl-lb':'slLb','sl-fines':'slFines','sl-inbox':'slInbox',
-    'pl-edit':'plEdit','pl-color':'plColor','pl-lang':'plLang','pl-save':'plSave',
-    'sl-adm':'slAdm','adml-give':'admGive','adml-fine':'admFine','adml-offer':'admOffer','adml-ban':'admBan',
-    'adm-give-btn':'admGiveBtn','adm-fine-btn':'admFineBtn','adm-offer-btn':'admOfferBtn','adm-ban-btn':'admBanBtn','adm-unban-btn':'admUnbanBtn',
-    'mt-tl':'mtTl','mt-btn':'mtBtn','mnc-tl':'mncTl','mnc-cost':'mncCost',
-    'mp-tl':'mpTl','pt-all':'ptAll','pt-car':'ptCar','pt-house':'ptHouse','pt-biz':'ptBiz',
-    'nl-home':'nHome','nl-shop':'nShop','nl-trade':'nTrade','nl-chat':'nChat','nl-lb':'nLb','nl-inbox':'nInbox','nl-prof':'nProf','nl-adm':'nAdm',
-    'at-newcard':'newcard','upg-btn':'upgBtn','mnc-uah':'mnc_uah','mnc-eur':'mnc_eur',
-    'at-ph1':'ph1','at-ph3':'ph3',
-  };
-  for(let id in ids){let el=document.getElementById(id);if(el){if(id==='at-ph1'||id==='at-ph3')el.innerHTML=t(ids[id]).replace(/\n/g,'<br>');else el.textContent=t(ids[id]);}}
-  ['lb-ru','lb-uk','lb-en'].forEach(id=>{document.getElementById(id).classList.remove('on');});
-  document.getElementById('lb-'+lang).classList.add('on');
-  document.documentElement.lang=lang==='uk'?'uk':lang==='en'?'en':'ru';
-}
-function setLang(l){lang=l;localStorage.setItem('mag_lang',l);applyLang();}
-applyLang();
-
-// ═══════════════════════════════════════
-//  SHOP DATA (prices in USD)
-// ═══════════════════════════════════════
-const SHOP={
-  car:[
-    {n:"Daewoo Lanos",e:"🚗",p:500},{n:"Lada Priora",e:"🚙",p:1800},
-    {n:"Toyota Camry",e:"🚘",p:18000},{n:"BMW M3",e:"🏎",p:45000},
-    {n:"Porsche 911",e:"🟡",p:90000},{n:"Mercedes G63",e:"⚫",p:130000},
-    {n:"Ferrari SF90",e:"🔴",p:420000},{n:"Lamborghini Revuelto",e:"💛",p:600000},
-    {n:"Bugatti Chiron",e:"🔵",p:3000000},{n:"Rolls-Royce Phantom",e:"⬜",p:500000},
-  ],
-  house:[
-    {n:"Гараж",e:"🏚",p:3000},{n:"Комната",e:"🛏",p:12000},
-    {n:"Студия",e:"🏠",p:25000},{n:"Квартира",e:"🏢",p:60000},
-    {n:"Дача",e:"🏡",p:90000},{n:"Таунхаус",e:"🏘",p:200000},
-    {n:"Особняк",e:"🏰",p:500000},{n:"Пентхаус NYC",e:"🌆",p:2000000},
-    {n:"Остров",e:"🏝",p:8000000},{n:"Яхта",e:"⛵",p:1200000},
-  ],
-  biz:[
-    {n:"Ларёк",e:"🏪",p:8000,i:300,upg:[{n:"Расширение",b:150,c:5000},{n:"Автоматизация",b:300,c:12000}]},
-    {n:"Кофейня",e:"☕",p:20000,i:800,upg:[{n:"Новое меню",b:400,c:12000},{n:"Сеть",b:800,c:35000}]},
-    {n:"Барбершоп",e:"💈",p:30000,i:1200,upg:[{n:"Второй мастер",b:500,c:18000},{n:"Сеть барберов",b:1200,c:50000}]},
-    {n:"Автомойка",e:"🚿",p:40000,i:1600,upg:[{n:"Химчистка",b:700,c:25000},{n:"Премиум",b:1600,c:70000}]},
-    {n:"Ресторан",e:"🍽",p:120000,i:4500,upg:[{n:"Мишлен ★",b:2000,c:80000},{n:"Сеть",b:4500,c:200000}]},
-    {n:"Клуб",e:"🎵",p:200000,i:8000,upg:[{n:"VIP зона",b:3500,c:100000},{n:"Франшиза",b:8000,c:300000}]},
-    {n:"Отель 3★",e:"🏨",p:400000,i:15000,upg:[{n:"Реновация",b:6000,c:200000},{n:"5 звёзд",b:15000,c:600000}]},
-    {n:"ТЦ",e:"🏬",p:1000000,i:35000,upg:[{n:"Реклама",b:12000,c:400000},{n:"Расширение",b:35000,c:1000000}]},
-    {n:"Казино",e:"🎰",p:2000000,i:80000,upg:[{n:"VIP зал",b:30000,c:800000},{n:"Онлайн",b:80000,c:2000000}]},
-    {n:"Завод",e:"🏭",p:5000000,i:180000,upg:[{n:"Автолиния",b:70000,c:2000000},{n:"Экспорт",b:180000,c:6000000}]},
-    {n:"IT компания",e:"💻",p:3000000,i:120000,upg:[{n:"Продукт",b:50000,c:1500000},{n:"IPO",b:120000,c:4000000}]},
-    {n:"Медиахолдинг",e:"📺",p:8000000,i:300000,upg:[{n:"Стриминг",b:100000,c:3000000},{n:"Global",b:300000,c:9000000}]},
-  ]
-};
-
-// ═══════════════════════════════════════
-//  UTILS
-// ═══════════════════════════════════════
-function fmt(n,cur='usd'){
-  n=Number(n);
-  if(cur==='usd')return '$'+Math.abs(n).toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:2});
-  if(cur==='uah')return '₴'+Math.abs(n).toLocaleString('uk');
-  if(cur==='eur')return '€'+Math.abs(n).toLocaleString('de',{minimumFractionDigits:2,maximumFractionDigits:2});
-  return n;
-}
-function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
-function toast(msg,type='ok'){const t=document.getElementById('toast');t.textContent=msg;t.className='toast on '+type;setTimeout(()=>t.className='toast',2800);}
-function openModal(id){document.getElementById(id).classList.add('on');}
-function closeModal(id){document.getElementById(id).classList.remove('on');}
-function pushNotif(tgt,o){db.ref('notifications/'+tgt).push({...o,read:false,time:new Date().toLocaleString()});}
-function addTx(uid,label,amt,type){db.ref('users/'+uid+'/txs').push({label,amt,type,ts:Date.now()});}
-function ago(ts){let d=(Date.now()-ts)/1000;if(d<60)return'сейчас';if(d<3600)return Math.floor(d/60)+'м';if(d<86400)return Math.floor(d/3600)+'ч';return Math.floor(d/86400)+'д';}
-
-// ═══════════════════════════════════════
-//  THEME
-// ═══════════════════════════════════════
-function applyTheme(c){document.documentElement.style.setProperty('--a',c);document.documentElement.style.setProperty('--a2',c);localStorage.setItem('mag_theme_'+user,c);}
-(()=>{if(user){let t=localStorage.getItem('mag_theme_'+user);if(t)applyTheme(t);}})();
-
-// ═══════════════════════════════════════
-//  AUTH 2FA
-// ═══════════════════════════════════════
-function showStep(n){['step1','step2','step3'].forEach(s=>{document.getElementById(s).classList.remove('on');});document.getElementById('step'+n).classList.add('on');}
-function pinNext(i){let v=document.getElementById('pin'+i).value;if(v&&i<3)document.getElementById('pin'+(i+1)).focus();}
-function vpinNext(i){let v=document.getElementById('vpin'+i).value;if(v&&i<3)document.getElementById('vpin'+(i+1)).focus();if(i===3&&v)authStep3();}
-function getPin(prefix){return ['0','1','2','3'].map(i=>document.getElementById(prefix+'pin'+i).value).join('');}
-function backToStep1(){showStep(1);authTempUser=null;}
-
-function authStep1(){
-  let l=document.getElementById('l-in').value.toLowerCase().trim();
-  let p=document.getElementById('p-in').value;
-  let code=document.getElementById('a-code').value.trim();
-  if(!l||!p){toast('Введите логин и пароль','err');return;}
-  authTempUser={l,p,code};
-  db.ref('users/'+l).once('value',s=>{
-    if(!s.exists()){showStep(2);}
-    else{
-      let d=s.val();
-      if(d.pass!==p){toast('Неверный пароль','err');return;}
-      showStep(3);setTimeout(()=>document.getElementById('vpin0').focus(),100);
-    }
-  });
-}
-function authStep2(){
-  let pin=getPin('');
-  if(pin.length!==4||!/^\d{4}$/.test(pin)){toast('Введите 4 цифры','err');return;}
-  let {l,p,code}=authTempUser;
-  db.ref('users/'+l).set({
-    login:l,pass:p,pin,bal:5000,nick:l,ava:'',theme:'#5b8af0',inv:{},txs:{},
-    uah:0,eur:0,hasUah:false,hasEur:false,
-    isCreator:(code===CREATOR_CODE),isAdmin:(code===CREATOR_CODE),isBanned:false
-  }).then(()=>completeLogin(l));
-}
-function authStep3(){
-  let pin=getPin('v');
-  if(pin.length!==4){return;}
-  let {l}=authTempUser;
-  db.ref('users/'+l+'/pin').once('value',s=>{
-    if(s.val()===pin)completeLogin(l);
-    else{toast('Неверный код','err');['vpin0','vpin1','vpin2','vpin3'].forEach(id=>{document.getElementById(id).value='';});document.getElementById('vpin0').focus();}
-  });
-}
-function completeLogin(l){
-  let accs=JSON.parse(localStorage.getItem('mag_accs')||'[]');
-  if(!accs.includes(l))accs.push(l);
-  localStorage.setItem('mag_accs',JSON.stringify(accs));
-  localStorage.setItem('mag_active_u',l);
-  location.reload();
-}
-function renderAccs(){
-  let list=document.getElementById('acc-list');
-  let accs=JSON.parse(localStorage.getItem('mag_accs')||'[]');
-  if(!accs.length)return;
-  list.innerHTML='<p style="color:var(--t3);font-size:10px;margin-bottom:6px">СОХРАНЁННЫЕ</p>';
-  accs.forEach(a=>{list.innerHTML+=`<div class="acc-chip" onclick="quickLogin('${a}')"><div class="acc-dot"></div><span style="color:var(--a);font-weight:700;font-size:13px">${a}</span></div>`;});
-}
-renderAccs();
-function quickLogin(a){authTempUser={l:a};document.getElementById('l-in').value=a;showStep(3);setTimeout(()=>document.getElementById('vpin0').focus(),100);}
-function exitAcc(){localStorage.removeItem('mag_active_u');location.reload();}
-
-// ═══════════════════════════════════════
-//  MAIN FIREBASE LISTENER
-// ═══════════════════════════════════════
-if(user){
-  db.ref('users/'+user).on('value',s=>{
-    uData=s.val();if(!uData)return;
-    if(uData.isBanned){document.getElementById('s-auth').style.display='none';let bs=document.getElementById('s-banned');bs.style.display='flex';return;}
-    document.getElementById('s-auth').style.display='none';
-    applyTheme(uData.theme||'#5b8af0');
-    applyLang();
-
-    let bal=uData.bal||0;
-    document.getElementById('u-bal').textContent=fmt(bal,'usd');
-    document.getElementById('u-bal').className='bal-num'+(bal<0?' neg':'');
-    document.getElementById('u-bal-uah').textContent=bal<0?`⚠️ Долг: ${fmt(Math.abs(bal),'usd')}`:`≈ ₴${Math.abs(bal*RATES.uah/RATES.usd).toLocaleString('uk',{maximumFractionDigits:0})}`;
-
-    let ava=uData.ava||'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
-    document.getElementById('u-ava').src=ava;
-    document.getElementById('prof-ava').src=ava;
-    document.getElementById('u-nick').textContent=uData.nick;
-    document.getElementById('prof-nick').textContent=uData.nick;
-    let role=uData.isCreator?t('role_creator'):uData.isAdmin?t('role_admin'):t('role_player');
-    document.getElementById('u-role').textContent=role;
-    document.getElementById('prof-role').textContent=role;
-
-    let sc=!!uData.isCreator;
-    document.getElementById('u-crown').style.display=sc?'block':'none';
-    document.getElementById('prof-crown').style.display=sc?'block':'none';
-
-    document.getElementById('uah-chip').textContent=uData.hasUah?'₴'+(uData.uah||0).toLocaleString('uk'):'–';
-    document.getElementById('eur-chip').textContent=uData.hasEur?'€'+(uData.eur||0).toLocaleString('de'):'–';
-
-    if(uData.isAdmin||uData.isCreator){
-      document.getElementById('ni-adm').style.display='flex';
-      document.getElementById('adm-give-block').style.display=uData.isCreator?'block':'none';
-      document.getElementById('adm-offer-block').style.display=uData.isCreator?'block':'none';
-    }
-    document.getElementById('st-n').value=uData.nick;
-    document.getElementById('st-a').value=uData.ava||'';
-    document.getElementById('st-c').value=uData.theme||'#5b8af0';
-    initSwatches();
-    renderInv();
-    renderPropModal();
-    renderTradeSelect();
-    renderTxs();
-  });
-
-  db.ref('global_trade').on('value',s=>{
-    let board=document.getElementById('trade-board');board.innerHTML='';let n=0;
-    s.forEach(c=>{
-      let d=c.val();n++;
-      board.innerHTML+=`<div class="trade-item"><div class="ti-ic">${d.e||'📦'}</div><div style="flex:1;min-width:0"><div class="ti-n">${esc(d.n)}</div><div class="ti-s">от ${esc(d.sn)}</div></div><div class="ti-p">${fmt(d.p,'usd')}</div><button class="ti-buy" onclick="buyTrade('${c.key}')">КУПИТЬ</button></div>`;
-    });
-    if(!n)board.innerHTML=`<div style="color:var(--t2);text-align:center;padding:24px;font-size:13px">${t('trEmpty')}</div>`;
-  });
-
-  db.ref('dms').on('value',s=>{
-    let wrap=document.getElementById('chat-list-wrap');wrap.innerHTML='';
-    let threads=[];
-    s.forEach(c=>{let key=c.key;if(!key.includes(user))return;let msgs=[];c.forEach(m=>msgs.push(m.val()));if(msgs.length){let last=msgs[msgs.length-1];let other=key.split('_').find(x=>x!==user);threads.push({key,other,last});}});
-    threads.sort((a,b)=>b.last.ts-a.last.ts);
-    threads.forEach(th=>{
-      wrap.innerHTML+=`<div class="chat-row" onclick="openDm('${th.other}')"><div class="c-ava">👤</div><div class="c-right"><div class="c-top"><span class="c-name">${esc(th.other)}</span><span class="c-time">${ago(th.last.ts)}</span></div><div class="c-prev">${esc(th.last.t||'')}</div></div></div>`;
-    });
-    if(!threads.length)wrap.innerHTML=`<div style="color:var(--t2);text-align:center;padding:28px;font-size:13px">${t('slChats')}<br><span style="font-size:11px;color:var(--t3)">Найдите игрока через поиск ⬆️</span></div>`;
-  });
-
-  db.ref('notifications/'+user).on('value',s=>{
-    let list=document.getElementById('inbox-list');list.innerHTML='';let unread=0;
-    let items=[];s.forEach(c=>items.push({key:c.key,...c.val()}));items.reverse();
-    if(!items.length)list.innerHTML=`<div style="color:var(--t2);text-align:center;padding:30px;font-size:13px">${t('inboxEmpty')}</div>`;
-    items.forEach(d=>{
-      if(!d.read)unread++;
-      let extra='';
-      if(d.type==='admin_offer'&&!d.responded)extra=`<div class="notif-acts"><button class="n-ok" onclick="respondOffer('${d.key}','y')">${t('notifAccept')}</button><button class="n-no" onclick="respondOffer('${d.key}','n')">${t('notifDecline')}</button></div>`;
-      list.innerHTML+=`<div class="notif ${d.read?'':'unread'}"><div class="notif-top"><span class="notif-ic">${d.ico||'📩'}</span><span class="notif-tl">${esc(d.title||'')}</span></div><div class="notif-bd">${esc(d.body||'')}</div><div class="notif-ts">${d.time||''}</div>${extra}</div>`;
-      if(!d.read)setTimeout(()=>db.ref('notifications/'+user+'/'+d.key+'/read').set(true),2000);
-    });
-    let b=document.getElementById('nbadge');
-    if(unread>0){b.textContent=unread;b.classList.add('on');}else b.classList.remove('on');
-  });
-
-  db.ref('fines/'+user).on('value',s=>{
-    let list=document.getElementById('fines-list');list.innerHTML='';
-    let items=[];s.forEach(c=>items.push({key:c.key,...c.val()}));items.reverse();
-    if(!items.length){list.innerHTML=`<div style="color:var(--t2);text-align:center;padding:30px;font-size:13px">${t('fineEmpty')}</div>`;return;}
-    items.forEach(d=>{
-      list.innerHTML+=`<div class="fine-item"><div class="fine-top"><div class="fine-amt">${fmt(d.amt,'usd')}</div><div class="fine-st ${d.paid?'paid':'unpaid'}">${d.paid?t('finePaid'):t('fineUnpaid')}</div></div><div class="fine-reason">📋 ${esc(d.reason||'')}</div><div style="font-size:10px;color:var(--t3);margin-bottom:${d.paid?'0':'8px'}">${d.time||''}</div>${!d.paid?`<button class="fine-pay" onclick="payFine('${d.key}',${d.amt})">${t('finePayBtn')}</button>`:''}</div>`;
-    });
-  });
-
-  db.ref('users').orderByChild('bal').limitToLast(30).on('value',s=>{
-    let list=document.getElementById('lb-list');list.innerHTML='';
-    let pl=[];s.forEach(c=>pl.push(c.val()));pl.sort((a,b)=>b.bal-a.bal);
-    pl.forEach((p,i)=>{
-      let r=i+1;let rc=r===1?'g':r===2?'s':r===3?'b':'';
-      let isMe=p.login===user;
-      let cr=p.isCreator?'<span style="font-size:10px;margin-left:3px">👑</span>':'';
-      let avaHtml=p.ava?`<img src="${esc(p.ava)}" style="width:38px;height:38px;border-radius:50%;object-fit:cover">`:'👤';
-      list.innerHTML+=`<div class="lb-item" style="${isMe?'border-color:rgba(91,138,240,.4);background:rgba(91,138,240,.05)':''}"><div class="lb-rank ${rc}">${r<=3?['🥇','🥈','🥉'][r-1]:r}</div><div class="lb-ava">${avaHtml}</div><div style="flex:1"><div class="lb-n">${esc(p.nick||p.login)}${cr}${isMe?'<span style="font-size:9px;color:var(--a);margin-left:4px">ВЫ</span>':''}</div><div class="lb-r">${p.isCreator?t('role_creator'):p.isAdmin?t('role_admin'):t('role_player')}</div></div><div class="lb-b ${(p.bal||0)<0?'neg':''}">${fmt(p.bal||0,'usd')}</div></div>`;
-    });
-  });
-}
-
-// ═══════════════════════════════════════
-//  SWATCHES
-// ═══════════════════════════════════════
-function initSwatches(){
-  let wrap=document.getElementById('clr-swatches');wrap.innerHTML='';
-  COLORS.forEach(c=>{
-    let d=document.createElement('div');d.className='csw'+(uData&&uData.theme===c?' on':'');d.style.background=c;
-    d.onclick=()=>{document.getElementById('st-c').value=c;applyTheme(c);wrap.querySelectorAll('.csw').forEach(s=>s.classList.remove('on'));d.classList.add('on');};
-    wrap.appendChild(d);
-  });
-}
-
-// ═══════════════════════════════════════
-//  INVENTORY
-// ═══════════════════════════════════════
-function renderInv(){
-  if(!uData)return;
-  let inv=uData.inv||{};let keys=Object.keys(inv);
-  document.getElementById('qs-inv').textContent=keys.length;
-  let bizInc=0;
-  keys.forEach(k=>{let item=inv[k];if(item.i)bizInc+=(item.i+(item.upgTotal||0));});
-  document.getElementById('qs-inc').textContent=fmt(bizInc,'usd');
-}
-function renderPropModal(){
-  if(!uData)return;
-  let inv=uData.inv||{};let keys=Object.keys(inv);
-  let byType={car:[],house:[],biz:[]};
-  keys.forEach(k=>{let it=inv[k];let tp=it.tp||'other';if(byType[tp])byType[tp].push({k,it});});
-  function itemHtml(k,it){
-    let upgBtn='';
-    if(it.upg&&it.upg.length){let lvl=it.upgLevel||0;if(lvl<it.upg.length){let nx=it.upg[lvl];upgBtn=`<button class="upg-btn" onclick="openUpgrade('${k}')">${t('upgBtn').split(' ')[0]} +${fmt(nx.b,'usd')}</button>`;}}
-    let lvlB=it.upgLevel?`<span class="lvl-badge">LVL ${it.upgLevel}</span>`:'';
-    return `<div class="inv-item"><span class="inv-ic">${it.e||'📦'}</span><div style="flex:1"><div class="inv-n">${esc(it.n)}${lvlB}</div>${it.i?`<div class="inv-s">+${fmt(it.i+(it.upgTotal||0),'usd')}/hr</div>`:''}</div>${upgBtn}</div>`;
-  }
-  ['car','house','biz'].forEach(tp=>{
-    let sec=document.getElementById('prop-'+tp);sec.innerHTML='';
-    if(!byType[tp].length)sec.innerHTML=`<div style="color:var(--t2);font-size:13px;padding:12px 0;text-align:center">Нет объектов</div>`;
-    else byType[tp].forEach(({k,it})=>sec.innerHTML+=itemHtml(k,it));
-  });
-  let allSec=document.getElementById('prop-all');allSec.innerHTML='';
-  if(!keys.length)allSec.innerHTML=`<div style="color:var(--t2);font-size:13px;padding:12px 0;text-align:center">Имущества нет</div>`;
-  else keys.forEach(k=>allSec.innerHTML+=itemHtml(k,inv[k]));
-}
-function openPropModal(){renderPropModal();openModal('m-prop');}
-function propTab(id,el){
-  document.querySelectorAll('.ptab').forEach(e=>e.classList.remove('on'));el.classList.add('on');
-  document.querySelectorAll('.prop-section').forEach(e=>e.classList.remove('on'));
-  document.getElementById('prop-'+id).classList.add('on');
-}
-
-// ═══════════════════════════════════════
-//  TRANSACTIONS
-// ═══════════════════════════════════════
-function renderTxs(){
-  let box=document.getElementById('tx-list');box.innerHTML='';
-  if(!uData||!uData.txs){box.innerHTML=`<div style="color:var(--t2);font-size:13px;padding:8px 0">Операций нет</div>`;return;}
-  let txs=Object.values(uData.txs).sort((a,b)=>b.ts-a.ts).slice(0,6);
-  if(!txs.length){box.innerHTML=`<div style="color:var(--t2);font-size:13px;padding:8px 0">Операций нет</div>`;return;}
-  txs.forEach(tx=>{
-    let inc=tx.type==='inc';
-    box.innerHTML+=`<div class="tx"><div class="tx-ic ${tx.type}">${inc?'📥':'📤'}</div><div style="flex:1"><div class="tx-l">${esc(tx.label)}</div><div class="tx-s">${ago(tx.ts)}</div></div><div class="tx-a ${tx.type}">${inc?'+':'-'}${fmt(tx.amt,'usd')}</div></div>`;
-  });
-}
-
-// ═══════════════════════════════════════
-//  TRADE
-// ═══════════════════════════════════════
-function renderTradeSelect(){
-  let sel=document.getElementById('tr-obj');sel.innerHTML='';
-  let inv=(uData&&uData.inv)||{};let keys=Object.keys(inv);
-  if(!keys.length){sel.innerHTML='<option disabled>— Нет имущества —</option>';return;}
-  keys.forEach(k=>{let it=inv[k];sel.innerHTML+=`<option value="${k}">${it.e||'📦'} ${it.n}</option>`;});
-}
-function postToTrade(){
-  let key=document.getElementById('tr-obj').value;
-  let price=parseFloat(document.getElementById('tr-pr').value);
-  if(!key||!price||price<=0){toast('Выберите объект и цену','err');return;}
-  let item=(uData.inv||{})[key];if(!item){toast('Объект не найден','err');return;}
-  let newInv={...uData.inv};delete newInv[key];
-  db.ref('users/'+user).update({inv:newInv}).then(()=>{
-    let raw={...item};if(raw.upg)raw.upg=[...item.upg.map(u=>({...u}))];
-    db.ref('global_trade').push({n:item.n,e:item.e||'📦',p:price,s:user,sn:uData.nick,raw}).then(()=>{
-      document.getElementById('tr-pr').value='';toast('Лот выставлен ✓');
-    });
-  });
-}
-function buyTrade(id){
-  db.ref('global_trade/'+id).once('value',s=>{
-    let d=s.val();if(!d){toast('Лот уже куплен','err');return;}
-    if((uData.bal||0)<d.p){toast('Недостаточно средств','err');return;}
-    if(d.s===user){toast('Нельзя купить своё','err');return;}
-    let inv=uData.inv||{};inv[Date.now().toString()]=d.raw;
-    db.ref('users/'+user).update({bal:(uData.bal||0)-d.p,inv}).then(()=>{
-      db.ref('users/'+d.s+'/bal').transaction(c=>(c||0)+d.p);
-      db.ref('global_trade/'+id).remove();
-      addTx(user,`Покупка: ${d.n}`,d.p,'out');
-      addTx(d.s,`Продажа: ${d.n}`,d.p,'inc');
-      pushNotif(d.s,{ico:'💰',title:'Ваш лот куплен!',body:`${d.e||'📦'} ${d.n} за ${fmt(d.p,'usd')}`,type:'sale'});
-      toast(`${d.e||'📦'} ${d.n} куплено!`);
-    });
-  });
-}
-
-// ═══════════════════════════════════════
-//  SHOP
-// ═══════════════════════════════════════
-function shopTab(id,el){
-  document.querySelectorAll('.stab').forEach(e=>e.classList.remove('on'));el.classList.add('on');
-  document.querySelectorAll('.shop-section').forEach(e=>e.classList.remove('on'));
-  document.getElementById('shop-'+id).classList.add('on');
-}
-function renderShop(){
-  ['car','house','biz'].forEach(tp=>{
-    let c=document.getElementById('shop-'+tp);c.innerHTML='';
-    SHOP[tp].forEach((item,i)=>{
-      c.innerHTML+=`<div class="shop-card"><span class="s-em">${item.e}</span><div class="s-n">${item.n}</div>${item.i?`<div class="s-inc">+${fmt(item.i,'usd')}/hr</div>`:'<div style="height:13px"></div>'}<div class="s-p">${fmt(item.p,'usd')}</div><button class="s-btn" onclick="buyShop('${tp}',${i})">КУПИТЬ</button></div>`;
-    });
-  });
-}
-function buyShop(tp,i){
-  if(!uData)return;
-  let item=SHOP[tp][i];
-  if((uData.bal||0)<item.p){toast('Недостаточно средств','err');return;}
-  let inv=uData.inv||{};
-  let ni={...item,tp};
-  if(ni.upg)ni.upg=[...item.upg.map(u=>({...u}))];
-  inv[Date.now().toString()]=ni;
-  db.ref('users/'+user).update({bal:(uData.bal||0)-item.p,inv});
-  addTx(user,`Покупка: ${item.n}`,item.p,'out');
-  toast(`${item.e} ${item.n} куплено!`);
-}
-
-// ═══════════════════════════════════════
-//  UPGRADES
-// ═══════════════════════════════════════
-function openUpgrade(k){
-  if(!uData)return;
-  let item=uData.inv[k];if(!item||!item.upg)return;
-  let lvl=item.upgLevel||0;
-  if(lvl>=item.upg.length){toast('Максимальный уровень!','info');return;}
-  let u=item.upg[lvl];
-  pendingUpgrade={k,u,lvl};
-  document.getElementById('upg-tl').textContent=`⬆️ ${item.n} → Уровень ${lvl+1}`;
-  document.getElementById('upg-desc').textContent=`${u.n}: +${fmt(u.b,'usd')}/час\nЦена: ${fmt(u.c,'usd')}`;
-  document.getElementById('upg-btn').textContent=t('upgBtn');
-  openModal('m-upgrade');
-}
-function confirmUpgrade(){
-  if(!pendingUpgrade.k||!uData)return;
-  let {k,u,lvl}=pendingUpgrade;
-  let item=uData.inv[k];
-  if((uData.bal||0)<u.c){toast('Недостаточно средств','err');return;}
-  let newInv={...uData.inv};
-  let ni={...item,upgLevel:lvl+1,upgTotal:(item.upgTotal||0)+u.b};
-  if(ni.upg)ni.upg=item.upg;
-  newInv[k]=ni;
-  db.ref('users/'+user).update({bal:(uData.bal||0)-u.c,inv:newInv});
-  addTx(user,`Улучшение: ${item.n}`,u.c,'out');
-  toast(`+${fmt(u.b,'usd')}/ч добавлено!`);
-  closeModal('m-upgrade');
-}
-
-// ═══════════════════════════════════════
-//  TRANSFER
-// ═══════════════════════════════════════
-function doTransfer(){
-  let to=document.getElementById('tf-to').value.toLowerCase().trim();
-  let cur=document.getElementById('tf-cur').value;
-  let amt=parseFloat(document.getElementById('tf-amt').value);
-  let note=document.getElementById('tf-note').value.trim();
-  if(!to||!amt||amt<=0){toast('Заполните поля','err');return;}
-  if(to===user){toast('Нельзя себе','err');return;}
-  db.ref('users/'+to).once('value',s=>{
-    if(!s.exists()){toast('Игрок не найден','err');return;}
-    if(cur==='usd'){
-      let nb=(uData.bal||0)-amt;
-      db.ref('users/'+user+'/bal').set(nb);
-      db.ref('users/'+to+'/bal').transaction(c=>(c||0)+amt);
-      addTx(user,`Перевод → ${to}${note?' ('+note+')':''}`,amt,'out');
-      addTx(to,`Перевод от ${uData.nick}${note?' ('+note+')':''}`,amt,'inc');
-      pushNotif(to,{ico:'💸',title:'Получен перевод',body:`${uData.nick} отправил ${fmt(amt,'usd')}${note?' · '+note:''}`,type:'transfer'});
-      toast(`${fmt(amt,'usd')} отправлено!`);
-    } else {
-      let hk='has'+cur.charAt(0).toUpperCase()+cur.slice(1);
-      if(!uData[hk]){toast(`${cur.toUpperCase()} счёт не открыт`,'err');return;}
-      let sb=uData[cur]||0;if(sb<amt){toast('Недостаточно','err');return;}
-      db.ref('users/'+user+'/'+cur).set(sb-amt);
-      let rv=s.val();
-      if(rv['has'+cur.charAt(0).toUpperCase()+cur.slice(1)])db.ref('users/'+to+'/'+cur).transaction(c=>(c||0)+amt);
-      else{let uahAmt=amt*(RATES.uah/RATES[cur]);db.ref('users/'+to+'/bal').transaction(c=>(c||0)+uahAmt);}
-      toast(`${fmt(amt,cur)} отправлено!`);
-    }
-    closeModal('m-transfer');
-    document.getElementById('tf-amt').value='';document.getElementById('tf-note').value='';
-  });
-}
-
-// ═══════════════════════════════════════
-//  FX CARDS
-// ═══════════════════════════════════════
-function openFxCard(cur){
-  if(!uData)return;
-  let hk='has'+cur.charAt(0).toUpperCase()+cur.slice(1);
-  if(uData[hk]){toast('Счёт уже открыт','info');closeModal('m-newcard');return;}
-  if((uData.bal||0)<10){toast('Нужно $10','err');return;}
-  db.ref('users/'+user).update({bal:(uData.bal||0)-10,[hk]:true,[cur]:0});
-  addTx(user,`Открытие ${cur.toUpperCase()} счёта`,10,'out');
-  toast(`${cur.toUpperCase()} счёт открыт!`);closeModal('m-newcard');
-}
-function showCardModal(cur){
-  let hk='has'+cur.charAt(0).toUpperCase()+cur.slice(1);
-  if(!uData[hk]){openModal('m-newcard');return;}
-  let s={uah:{f:'🇺🇦',sym:'₴',key:'uah'},eur:{f:'🇪🇺',sym:'€',key:'eur'}}[cur];
-  document.getElementById('mcard-tl').textContent=s.f+' '+cur.toUpperCase()+' Счёт';
-  document.getElementById('mcard-body').innerHTML=`<div style="text-align:center;padding:20px 0"><div style="font-size:42px">${s.f}</div><div style="font-family:'JetBrains Mono',monospace;font-size:30px;font-weight:700;color:var(--a);margin:8px 0">${s.sym}${(uData[cur]||0).toLocaleString()}</div><div style="font-size:11px;color:var(--t2)">1 ${cur.toUpperCase()} = ${cur==='uah'?'$'+(1/RATES.uah).toFixed(4):'$'+(1/RATES.eur).toFixed(4)}</div></div>`;
-  openModal('m-card');
-}
-
-// ═══════════════════════════════════════
-//  EXCHANGE
-// ═══════════════════════════════════════
-function calcExch(){
-  let from=document.getElementById('exch-from').value;
-  let to=document.getElementById('exch-to').value;
-  let amt=parseFloat(document.getElementById('exch-amt').value)||0;
-  let res=document.getElementById('exch-res');
-  if(!amt){res.textContent='';return;}
-  let usdAmt=amt/RATES[from];
-  let out=usdAmt*RATES[to];
-  let syms={usd:'$',uah:'₴',eur:'€'};
-  res.textContent=`${syms[from]}${amt} → ${syms[to]}${out.toFixed(2)}`;
-}
-function doExchange(){
-  let from=document.getElementById('exch-from').value;
-  let to=document.getElementById('exch-to').value;
-  let amt=parseFloat(document.getElementById('exch-amt').value);
-  if(!amt||amt<=0||from===to){toast('Проверьте данные','err');return;}
-  let hf=from==='usd'?true:uData['has'+from.charAt(0).toUpperCase()+from.slice(1)];
-  let ht=to==='usd'?true:uData['has'+to.charAt(0).toUpperCase()+to.slice(1)];
-  if(!hf){toast(`${from.toUpperCase()} счёт не открыт`,'err');return;}
-  if(!ht){toast(`${to.toUpperCase()} счёт не открыт`,'err');return;}
-  let srcBal=from==='usd'?(uData.bal||0):(uData[from]||0);
-  if(srcBal<amt){toast('Недостаточно','err');return;}
-  let usdAmt=amt/RATES[from];
-  let out=parseFloat((usdAmt*RATES[to]).toFixed(2));
-  let up={};
-  up[from==='usd'?'bal':from]=srcBal-amt;
-  up[to==='usd'?'bal':to]=(to==='usd'?(uData.bal||0):(uData[to]||0))+out;
-  if(from==='usd'&&to==='usd')return;
-  db.ref('users/'+user).update(up);
-  addTx(user,`Обмен ${from.toUpperCase()}→${to.toUpperCase()}`,amt,'out');
-  toast('Обмен выполнен ✓');
-}
-
-// ═══════════════════════════════════════
-//  CHAT (DM)
-// ═══════════════════════════════════════
-function dmKey(a,b){return [a,b].sort().join('_');}
-function searchUsers(){
-  let q=document.getElementById('chat-search-in').value.toLowerCase().trim();
-  let res=document.getElementById('search-res');
-  if(!q){res.style.display='none';res.innerHTML='';return;}
-  db.ref('users').once('value',s=>{
-    res.style.display='block';res.innerHTML='';let found=0;
-    s.forEach(c=>{
-      let d=c.val();
-      if(d.login!==user&&(d.login.includes(q)||(d.nick||'').toLowerCase().includes(q))){
-        found++;
-        res.innerHTML+=`<div class="chat-row" onclick="openDm('${d.login}')"><div class="c-ava">👤</div><div class="c-right"><div class="c-top"><span class="c-name">${esc(d.nick||d.login)}</span></div><div class="c-prev">Написать сообщение</div></div></div>`;
-      }
-    });
-    if(!found)res.innerHTML='<div style="color:var(--t2);font-size:13px;padding:10px 14px">Не найдено</div>';
-  });
-}
-function openDm(other){
-  currentDmUser=other;
-  document.getElementById('dm-name').textContent=other;
-  document.getElementById('search-res').style.display='none';
-  document.getElementById('chat-search-in').value='';
-  let view=document.getElementById('dm-view');view.style.display='flex';
-  db.ref('dms/'+dmKey(user,other)).on('value',s=>{
-    let msgs=document.getElementById('dm-msgs');msgs.innerHTML='';
-    s.forEach(m=>{
-      let d=m.val();let isMe=d.f===user;
-      msgs.innerHTML+=`<div class="dm-wrap ${isMe?'me':'other'}"><div class="dm-bub">${esc(d.t)}</div><div class="dm-t">${ago(d.ts)}</div></div>`;
-    });
-    msgs.scrollTop=msgs.scrollHeight;
-  });
-}
-function closeDm(){
-  document.getElementById('dm-view').style.display='none';
-  if(currentDmUser){db.ref('dms/'+dmKey(user,currentDmUser)).off();currentDmUser=null;}
-}
-function sendDm(){
-  if(!currentDmUser||!uData)return;
-  let t2=document.getElementById('dm-in').value.trim();if(!t2)return;
-  db.ref('dms/'+dmKey(user,currentDmUser)).push({f:user,t:t2,ts:Date.now()}).then(()=>{
-    document.getElementById('dm-in').value='';
-    pushNotif(currentDmUser,{ico:'💬',title:`Сообщение от ${uData.nick}`,body:t2.substring(0,60),type:'dm'});
-  });
-}
-document.getElementById('dm-in').addEventListener('keydown',e=>{if(e.key==='Enter')sendDm();});
-
-// ═══════════════════════════════════════
-//  FINES
-// ═══════════════════════════════════════
-function payFine(key,amt){
-  let nb=(uData.bal||0)-amt;
-  db.ref('users/'+user+'/bal').set(nb);
-  db.ref('fines/'+user+'/'+key).update({paid:true});
-  addTx(user,'Оплата штрафа',amt,'out');
-  toast('Штраф оплачен');
-}
-
-// ═══════════════════════════════════════
-//  ADMIN OFFER
-// ═══════════════════════════════════════
-function respondOffer(key,action){
-  if(action==='y'){
-    if((uData.bal||0)<ADMIN_PRICE){toast('Нужно $500,000,000','err');return;}
-    db.ref('users/'+user).update({bal:(uData.bal||0)-ADMIN_PRICE,isAdmin:true});
-    db.ref('notifications/'+user+'/'+key).update({responded:true,read:true});
-    addTx(user,'Покупка администратора',ADMIN_PRICE,'out');
-    toast('Права администратора получены! ⚡');
-  } else {
-    db.ref('notifications/'+user+'/'+key).update({responded:true,read:true});toast('Отклонено');
-  }
-}
-
-// ═══════════════════════════════════════
-//  WORK
-// ═══════════════════════════════════════
-function work(){db.ref('users/'+user+'/bal').transaction(c=>(c||0)+1).then(()=>{addTx(user,'Работа',1,'inc');toast('+$1.00 заработано');});}
-
-// ═══════════════════════════════════════
-//  PROFILE
-// ═══════════════════════════════════════
-function saveProf(){
-  let n=document.getElementById('st-n').value.trim()||uData.nick;
-  let a=document.getElementById('st-a').value.trim();
-  let c=document.getElementById('st-c').value;
-  db.ref('users/'+user).update({nick:n,ava:a,theme:c}).then(()=>{
-    applyTheme(c);
-    let av=a||'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
-    document.getElementById('prof-ava').src=av;
-    document.getElementById('u-ava').src=av;
-    toast(t('plSave')+' ✓');
-  });
-}
-
-// ═══════════════════════════════════════
-//  ADMIN
-// ═══════════════════════════════════════
-function adm(type){
-  if(!uData||(!uData.isAdmin&&!uData.isCreator)){toast('Нет прав','err');return;}
-  if(type==='give'){
-    if(!uData.isCreator){toast('Только для создателя','err');return;}
-    let tl=document.getElementById('ad-u-give').value.toLowerCase().trim();
-    let v=parseFloat(document.getElementById('ad-v-give').value);
-    if(!tl||!v){toast('Заполните поля','err');return;}
-    db.ref('users/'+tl+'/bal').transaction(c=>(c||0)+v).then(()=>{
-      addTx(tl,'Выдача от администратора',v,'inc');
-      pushNotif(tl,{ico:'💰',title:'Начисление средств',body:`Вам начислено ${fmt(v,'usd')}`,type:'money'});
-      toast(`${fmt(v,'usd')} выдано ${tl}`);
-    });
-  }
-  if(type==='fine'){
-    let tl=document.getElementById('ad-u-fine').value.toLowerCase().trim();
-    let v=parseFloat(document.getElementById('ad-v-fine').value);
-    let reason=document.getElementById('ad-r-fine').value.trim();
-    if(!tl||!v||!reason){toast('Заполните все поля','err');return;}
-    db.ref('users/'+tl).once('value',s=>{
-      if(!s.exists()){toast('Игрок не найден','err');return;}
-      db.ref('fines/'+tl).push({amt:v,reason,paid:false,time:new Date().toLocaleString(),issuedBy:uData.nick});
-      pushNotif(tl,{ico:'💸',title:'Вам выписан штраф!',body:`${fmt(v,'usd')} · Причина: ${reason}`,type:'fine'});
-      toast(`Штраф ${fmt(v,'usd')} выписан ${tl}`);
-    });
-  }
-  if(type==='offer'){
-    if(!uData.isCreator){toast('Только для создателя','err');return;}
-    let tl=document.getElementById('ad-u-offer').value.toLowerCase().trim();
-    if(!tl){toast('Введите логин','err');return;}
-    db.ref('users/'+tl).once('value',s=>{
-      if(!s.exists()){toast('Игрок не найден','err');return;}
-      pushNotif(tl,{ico:'⚡',title:'Предложение администрации!',body:`Вам предложены права администратора за ${fmt(ADMIN_PRICE,'usd')}. Нажмите «Принять».`,type:'admin_offer',responded:false});
-      toast(`Предложение отправлено ${tl}`);
-    });
-  }
-  if(type==='ban'){
-    let tl=document.getElementById('ad-u-ban').value.toLowerCase().trim();
-    if(!tl){toast('Введите логин','err');return;}
-    db.ref('users/'+tl).update({isBanned:true}).then(()=>{
-      pushNotif(tl,{ico:'🚫',title:'Аккаунт заблокирован',body:'Ваш аккаунт заблокирован администрацией.',type:'ban'});
-      toast(`${tl} заблокирован`);
-    });
-  }
-  if(type==='unban'){
-    let tl=document.getElementById('ad-u-ban').value.toLowerCase().trim();
-    if(!tl){toast('Введите логин','err');return;}
-    db.ref('users/'+tl).update({isBanned:false}).then(()=>toast(`${tl} разблокирован`));
-  }
-}
-
-// ═══════════════════════════════════════
-//  NAV
-// ═══════════════════════════════════════
-function sw(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
-  let pg=document.getElementById('p-'+id);if(pg)pg.classList.add('active');
-  let ni=document.getElementById('ni-'+id);if(ni)ni.classList.add('on');
-  if(id==='shop')renderShop();
-  if(id==='trade')renderTradeSelect();
-}
-
-// close modals on bg click
-document.querySelectorAll('.modal-ov').forEach(el=>el.addEventListener('click',e=>{if(e.target===el)el.classList.remove('on');}));
+    //Set if it browser's do not track flag is enabled
+    var Roblox = Roblox || {};
+    (function() {
+        var dnt = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+        if (typeof window.external !== "undefined" &&
+            typeof window.external.msTrackingProtectionEnabled !== "undefined") {
+            dnt = dnt || window.external.msTrackingProtectionEnabled();
+        }
+        Roblox.browserDoNotTrack = dnt == "1" || dnt == "yes" || dnt === true;
+    })();
 </script>
+
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+
+                window.GoogleAnalyticsDisableRoblox2 = true;
+        _gaq.push(['b._setAccount', 'UA-486632-1']);
+            _gaq.push(['b._setSampleRate', '5']);
+        _gaq.push(['b._setCampSourceKey', 'rbx_source']);
+        _gaq.push(['b._setCampMediumKey', 'rbx_medium']);
+        _gaq.push(['b._setCampContentKey', 'rbx_campaign']);
+
+            _gaq.push(['b._setDomainName', 'roblox.com']);
+
+            _gaq.push(['b._setCustomVar', 1, 'Visitor', 'Member', 2]);
+                _gaq.push(['b._setPageGroup', 1, 'ModerationPortalPage']);
+            _gaq.push(['b._trackPageview']);
+
+        _gaq.push(['c._setAccount', 'UA-26810151-2']);
+            _gaq.push(['c._setSampleRate', '1']);
+            _gaq.push(['c._setDomainName', 'roblox.com']);
+            _gaq.push(['c._setPageGroup', 1, 'ModerationPortalPage']);
+
+            (function() {
+                if (!Roblox.browserDoNotTrack) {
+                    var ga = document.createElement('script');
+                    ga.type = 'text/javascript';
+                    ga.async = true;
+                    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                    var s = document.getElementsByTagName('script')[0];
+                    s.parentNode.insertBefore(ga, s);
+                }
+        })();
+             </script>
+
+            <script type="text/javascript">
+            if (Roblox && Roblox.EventStream) {
+                Roblox.EventStream.Init("//ecsv2.roblox.com/www/e.png",
+                    "//ecsv2.roblox.com/www/e.png",
+                    "//ecsv2.roblox.com/pe?t=studio",
+                    "//ecsv2.roblox.com/pe?t=diagnostic");
+            }
+        </script>
+
+
+
+<script type="text/javascript">
+    if (Roblox && Roblox.PageHeartbeatEvent) {
+        Roblox.PageHeartbeatEvent.Init([2,8,20,60]);
+    }
+</script>        <script>
+            var __nspid = "alpts0";
+            var __nsptags = [];
+            (function (w, d) {
+                var x = function () {
+                    var j = d.createElement("script"); j.type = "text/javascript"; j.async = true;
+                    j.src = "http" + ("https:" === d.location.protocol ? "s://cs" : "://c") + ".ns1p.net/p.js?a=" + __nspid;
+                    d.body.appendChild(j);
+                }
+                if (w.addEventListener) { w.addEventListener("load", x, false); }
+                else if (w.attachEvent) { w.attachEvent("onload", x); }
+                else { w.onload = x; }
+            }(window, document));
+        </script>
+
+    <script>
+    Roblox = Roblox || {};
+    Roblox.AbuseReportPVMeta = {
+        desktopEnabled: true,
+        phoneEnabled: false,
+        inAppEnabled: false
+    };
+</script>
+
+
+<meta name="thumbnail-meta-data" 
+      data-is-webapp-cache-enabled="False"
+      data-webapp-cache-expirations-timespan="00:01:00"
+      data-request-min-cooldown="1000"
+      data-request-max-cooldown="30000"
+      data-request-max-retry-attempts="4"
+      data-request-batch-size="100"
+      data-thumbnail-metrics-sample-size="20"
+      data-concurrent-thumbnail-request-count="4"/>
+                          
+
+</head>
+<body id="rbx-body" dir="ltr" class="rbx-body   light-theme age-select-theme builder-font " data-performance-relative-value="0.005" data-internal-page-name="ModerationPortalPage" data-send-event-percentage="0">
+    <script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="Theme" data-bundle-source="Main" src="https://js.rbxcdn.com/df47f66829660d787c2cf8d32e529e6572da3a7987668896b2b45a3f916fb6c6-Theme.js"></script>
+
+
+    
+    <meta name="csrf-token" data-token="qs0T1HhYerYK" />
+
+    
+    <script src="https://roblox.com/js/hsts.js?v=3" type="text/javascript" id="hsts" async></script>
+
+    <script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="Linkify" data-bundle-source="Main" src="https://js.rbxcdn.com/1d87d1231072878a0f6164e84b8cfa6f90a1b31b18ba5d8f410b947d4b029fe8.js"></script>
+
+
+<div id="image-retry-data"
+     data-image-retry-max-times="30"
+     data-image-retry-timer="500"
+     data-ga-logging-percent="10">
+</div><div id="http-retry-data"
+     data-http-retry-max-timeout="0"
+     data-http-retry-base-timeout="0"
+     data-http-retry-max-times="1">
+</div>    
+
+
+<div id="wrap" class="wrap no-gutter-ads logged-in">
+
+
+<div id="navigation-container" class="builder-font ixp-marketplace-rename-treatment"
+    data-number-of-autocomplete-suggestions="7"
+    data-is-redirect-library-to-creator-marketplace-enabled="True"
+    data-platform-event-left-nav-entry-start-time="10/23/2025 16:00:00"
+    data-platform-event-left-nav-entry-end-time="11/03/2025 17:00:00"
+    data-platform-event-left-nav-url="https://www.roblox.com/spotlight/halloween-spotlight">
+    <div id="header" class="navbar-fixed-top rbx-header" role="navigation"> <div class="container-fluid"> <div class="rbx-navbar-header"> <div id="header-menu-icon" class="rbx-nav-collapse"> <button type="button" class="btn-navigation-nav-menu-md menu-button"> <span class="icon-nav-menu"></span> </button> </div> <div class="navbar-header"> <a id="nav-logo-link" class="navbar-brand" href="/home"> <span class="icon-logo"></span><span class="icon-logo-r"></span> </a> <div id="age-badge-container"></div> </div> </div> <ul class="nav rbx-navbar hidden-xs hidden-sm col-md-5 col-lg-4"> <li> <a id="nav-charts-md-link" class="font-header-2 nav-menu-title text-header" href="/charts">Charts</a> </li> <li> <a id="nav-marketplace-md-link" class="font-header-2 nav-menu-title text-header" href="/catalog">Marketplace</a> </li> <li> <a id="header-develop-md-link" class="font-header-2 nav-menu-title text-header" href="/develop">Create</a> </li> <li id="navigation-robux-container"></li> </ul> <ul class="nav rbx-navbar hidden-md hidden-lg col-xs-12"> <li> <a id="nav-charts-sm-link" class="font-header-2 nav-menu-title text-header" href="/charts">Charts</a> </li> <li> <a id="nav-marketplace-sm-link" class="font-header-2 nav-menu-title text-header" href="/catalog">Marketplace</a> </li> <li> <a id="header-develop-sm-link" class="font-header-2 nav-menu-title text-header" href="/develop">Create</a> </li> <li id="navigation-robux-mobile-container"></li> </ul> <div id="right-navigation-header"></div> </div> </div> <div id="left-navigation-container"></div> <div id="verificationUpsell-container"> <div verificationUpsell-container></div> </div> <div id="phoneVerificationUpsell-container"> <div phoneVerificationUpsell-container></div> </div> <div id="contactMethodPrompt-container"> <div contactMethodPrompt-container></div> </div> <div id="navigation-account-switcher-container"> <div navigation-account-switcher-container></div> </div> 
+
+</div>
+    <main class="container-main content-no-ads 
+                
+                
+                
+                
+                "
+         id="container-main" tabindex="-1">
+            <script type="text/javascript">
+                if (top.location != self.location) {
+                    top.location = self.location.href;
+                }
+            </script>
+            <div class="alert-container">
+                <noscript>
+                    <div>
+                        <div class="alert-info" role="alert">Please enable Javascript to use all the features on this site.
+                        </div>
+                    </div>
+                </noscript>
+
+                
+
+                    <div id="account-security-prompt-container"></div>
+
+            </div>
+
+        <div class="content" id="content">
+            
+<div id="moderation-portal-page-web-app"></div>
+
+        </div>
+    </main><!--Bootstrap Footer React Component -->
+
+<footer class="container-footer" id="footer-container"
+        data-is-giftcards-footer-enabled="True">
+</footer></div>
+    <div id="chat-container"
+         class="chat chat-container"
+         chat-base>
+    </div>
+    <div id="user-agreements-checker-container"></div>
+    <div id="access-management-upsell-container"></div>
+    <div id="global-privacy-control-checker-container"></div>
+    <div id="cookie-banner-wrapper" class="cookie-banner-wrapper"></div>
+
+<div id="PlaceLauncherStatusPanel" style="display:none"
+     data-is-duar-auto-opt-in-enabled="true"
+     data-is-duar-opt-out-disabled="true"
+     data-os-name="Windows"
+     data-protocol-roblox-locale="en_us"
+     data-protocol-game-locale="ru_ru"
+     data-protocol-channel-name="LIVE"
+     data-protocol-studio-channel-name="zdrscpujune2026control"
+     data-protocol-player-channel-name="zhc">
+</div>
+<iframe id="downloadInstallerIFrame" name="downloadInstallerIFrame" style="visibility:hidden;height:0;width:1px;position:absolute"></iframe>
+
+<script onerror='Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)' data-monitor='true' data-bundlename='eventtracker' type='text/javascript' src='https://js.rbxcdn.com/098e80c8e9f4dad5295663f4a79f9a64.js'></script>
+
+<div id="modal-confirmation" class="modal-confirmation" data-modal-type="confirmation">
+    <div id="modal-dialog"  class="modal-dialog" role="dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true"><span class="icon-close"></span></span><span class="sr-only">Close</span>
+                </button>
+                <h5 class="modal-title"></h5>
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-top-body">
+                    <div class="modal-message"></div>
+                    <div class="modal-image-container roblox-item-image" data-image-size="medium" data-no-overlays data-no-click>
+                        <img class="modal-thumb" alt="generic image"/>
+                    </div>
+                    <div class="modal-checkbox checkbox">
+                        <input id="modal-checkbox-input" type="checkbox"/>
+                        <label for="modal-checkbox-input"></label>
+                    </div>
+                </div>
+                <div class="modal-btns">
+                    <a href id="confirm-btn"><span></span></a>
+                    <a href id="decline-btn"><span></span></a>
+                </div>
+                <div class="loading modal-processing">
+                    <img class="loading-default" src='https://images.rbxcdn.com/4bed93c91f909002b1f17f05c0ce13d1.gif' alt="Processing..." />
+                </div>
+            </div>
+            <div class="modal-footer text-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script type="text/javascript">
+        $(function () {
+            Roblox.CookieUpgrader.domain = 'roblox.com';
+            Roblox.CookieUpgrader.upgrade("GuestData", { expires: Roblox.CookieUpgrader.thirtyYearsFromNow });
+            Roblox.CookieUpgrader.upgrade("RBXSource", { expires: function (cookie) { return Roblox.CookieUpgrader.getExpirationFromCookieValue("rbx_acquisition_time", cookie); } });
+            Roblox.CookieUpgrader.upgrade("RBXViralAcquisition", { expires: function (cookie) { return Roblox.CookieUpgrader.getExpirationFromCookieValue("time", cookie); } });
+
+                Roblox.CookieUpgrader.upgrade("RBXMarketing", { expires: Roblox.CookieUpgrader.thirtyYearsFromNow });
+                
+                Roblox.CookieUpgrader.upgrade("RBXSessionTracker", { expires: Roblox.CookieUpgrader.fourHoursFromNow });
+                
+                Roblox.CookieUpgrader.upgrade("RBXEventTrackerV2", {expires: Roblox.CookieUpgrader.thirtyYearsFromNow});
+                        });
+    </script>
+
+
+
+    <script onerror='Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)' data-monitor='true' data-bundlename='intl-polyfill' type='text/javascript' src='https://js.rbxcdn.com/4bae454bf5dab3028073fea1e91b6f19.js'></script>
+
+
+    <script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="InternationalCore" data-bundle-source="Main" src="https://js.rbxcdn.com/730a5206adda5785166891801b1e0f9ae622a95558b260a144db60278b243f5f.js"></script>
+
+    <script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="TranslationResources" data-bundle-source="Main" src="https://js.rbxcdn.com/4d2c3582a51f181b1d85fcc080513179bebd9bbde79534e1803bb0bf69132445-TranslationResources.js"></script>
+
+
+    <script onerror='Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)' data-monitor='true' data-bundlename='leanbase' type='text/javascript' src='https://js.rbxcdn.com/3549e188c34f5a2d6fd6ff275813b3bc.js'></script>
+
+
+    <script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="CoreUtilities" data-bundle-source="Main" src="https://js.rbxcdn.com/3774bf08be3e84bdc90d6d05ea11f0bafd1f917660151b8729ddda8954712d4a-CoreUtilities.js"></script>
+
+    <script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="CoreRobloxUtilities" data-bundle-source="Main" src="https://js.rbxcdn.com/41bd9f2b3a9485661a0c9637526141c355311899d473b7a4ad2cca837f5e47f0.js"></script>
+
+
+    <script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="React" data-bundle-source="Main" src="https://js.rbxcdn.com/c27f57f4a397dabc2fe3b74fec93c2401913bdf49373f9339c00b6f18b32d2ac.js"></script>
+
+    <script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="WebBlox" data-bundle-source="Main" src="https://js.rbxcdn.com/63b59480fef503ff6648900d1051bae7531757a38ce24f77587552fca279d16c.js"></script>
+
+    <script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="ReactUtilities" data-bundle-source="Main" src="https://js.rbxcdn.com/95f8bb82135ec3f4173f3194002ad0d239b3384622912fa4a7e93e506c0ab6e1-ReactUtilities.js"></script>
+
+    <script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="ReactStyleGuide" data-bundle-source="Main" src="https://js.rbxcdn.com/59e33e660d43722b733768bb6e14e9cb8a4a8c76237d0c584d563ac9e1f98886-ReactStyleGuide.js"></script>
+
+
+
+<meta name="sentry-meta"
+      data-env-name="production"
+      data-dsn="https://24df60727c94bd0aa14ab1269d104a21@o293668.ingest.us.sentry.io/4509158985826304"
+      data-sample-rate="0.0005"
+      data-traces-sample-rate="0.001" /><script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="Sentry" data-bundle-source="Main" src="https://js.rbxcdn.com/22e8dd84d4adffa8222b96a369c69b860cd5ccd0200a380b20617e75be8baeaf-Sentry.js"></script>
+
+    <script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="ConfigureWebApps" data-bundle-source="Main" src="https://js.rbxcdn.com/f237746d0aea12de9860040043f8d9bee7dab0baf4a87bb6fc87de6d160c4000.js"></script>
+
+
+    <script onerror='Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)' data-monitor='true' data-bundlename='angular' type='text/javascript' src='https://js.rbxcdn.com/3756ad214dde52cb58a1300177547475.js'></script>
+
+    <script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="AngularJsUtilities" data-bundle-source="Main" src="https://js.rbxcdn.com/e3ee1d26df4ed304eedf103641f389dcfe507d24f0aa079d366824f187f14ffa-AngularJsUtilities.js"></script>
+
+    <script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="InternationalAngularJs" data-bundle-source="Main" src="https://js.rbxcdn.com/47aa20a4d7ec095fabb9db116c99c5c798b2fa37161a5f59a340cb352279596f.js"></script>
+
+    <script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="Thumbnails" data-bundle-source="Main" src="https://js.rbxcdn.com/699733c92c2fba2e29883bd6080855e5d583b016eb27800ad49e7ce19f5a0980-Thumbnails.js"></script>
+
+
+
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="PresenceStatus" data-bundle-source="Main" src="https://js.rbxcdn.com/932cd731257164fc9eba426e6b3c5c8d08469faafc68ceb51f979f331807631d-PresenceStatus.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Common.Presence" data-bundle-source="Unknown" src="https://js.rbxcdn.com/7f4c2753c55dc89d4c9bf2dbfbf34e224194f6255457c0bd8c8c1ed0e6350f3a.js"></script>
+
+    <div ng-modules="baseTemplateApp">
+        <!-- Template bundle: base -->
+<script type="text/javascript">
+"use strict"; angular.module("baseTemplateApp", []).run(['$templateCache', function($templateCache) { 
+
+ }]);
+</script>
+
+    </div>
+
+    <div ng-modules="pageTemplateApp">
+        <!-- Template bundle: page -->
+<script type="text/javascript">
+"use strict"; angular.module("pageTemplateApp", []).run(['$templateCache', function($templateCache) { 
+
+ }]);
+</script>
+
+    </div>
+
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="CaptchaCore" data-bundle-source="Main" src="https://js.rbxcdn.com/8e79851738baf4a99514ce726568faa52a0155d6298e0ed7521a210bde79c688-CaptchaCore.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="EmailVerifyCodeModal" data-bundle-source="Main" src="https://js.rbxcdn.com/5b3170c956b0c87ade14d298bcf45d0bae3991c1b427b7e1624bf94e488792c0-EmailVerifyCodeModal.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Authentication.OneTimePasscode" data-bundle-source="Unknown" src="https://js.rbxcdn.com/cfcd81415cfff6b93a5e4b3af0fc378467122eb075bc63b1934c6136ae6cf8ac.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Authentication.Login" data-bundle-source="Unknown" src="https://js.rbxcdn.com/7968ab5d0e55b6670bbf21effd2f7176f10ff90ef7f84288a64b1b4024bb1c6d.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="Challenge" data-bundle-source="Main" src="https://js.rbxcdn.com/998bccb1ea2b5d4955660c7f3325baef7d4660b7215d34da952b0c69192aa50f-Challenge.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Authentication.TwoStepVerification" data-bundle-source="Unknown" src="https://js.rbxcdn.com/37e403d2aa6bd395faab8904f1be6844e5ca2a04f22db4581f6f586f97502094.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.PhoneVerificationChallenge" data-bundle-source="Unknown" src="https://js.rbxcdn.com/e7e3731285889059db29156a67cd4e5358a2dbf2102a88f49403c524cab2ba91.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.Reauthentication" data-bundle-source="Unknown" src="https://js.rbxcdn.com/730fcbf0eba6dd82de9b0029e157627f023e6f448059c5b4c6a4f356222b3ac0.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.RostileChallenge" data-bundle-source="Unknown" src="https://js.rbxcdn.com/88bacf62dae20f1d352d30afbd3df4c64ba7a24c551c6ee02152719cfb11b830.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.PrivateAccessTokenChallenge" data-bundle-source="Unknown" src="https://js.rbxcdn.com/94a14bf31ad0a75d3878f6772e6d5a251e7da9b64894e2176a07f65f4d79d8a3.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Authentication.Captcha" data-bundle-source="Unknown" src="https://js.rbxcdn.com/44ff0f2cc820b734456e36bcd3528a30460f0576ff6ff17478b2d84824b64abd.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.BiometricChallenge" data-bundle-source="Unknown" src="https://js.rbxcdn.com/e92d027c197738388b36f7a8164dd7bdfc61a638ac1acaeb577a92fb77a98857.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.DeviceIntegrityChallenge" data-bundle-source="Unknown" src="https://js.rbxcdn.com/993eb6cb9b2ed18baadeca1088086e99ede5c9877cb7fe9700e0c6854bfeefe0.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.Denied" data-bundle-source="Unknown" src="https://js.rbxcdn.com/e8589b4de7e49cffa448d5ced862119339a4a366e7a9df35b7e886b68b3f9453.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.SecurityQuestions" data-bundle-source="Unknown" src="https://js.rbxcdn.com/2da1b676b979a60ce3b9471d919f53c6523c606f10e6ba75fa3c168945b8455a.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.EmailVerificationChallenge" data-bundle-source="Unknown" src="https://js.rbxcdn.com/0fe97bffcb328f446dd0f247d2d42e740d354ef70bd54b9371ece139569a5e72.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.ProofOfWorkChallenge" data-bundle-source="Unknown" src="https://js.rbxcdn.com/b41227fe1ecc1f4409f2e33f02d4d968f6d6389349d2221f481ff3b34e01a257.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.ForceAuthenticator" data-bundle-source="Unknown" src="https://js.rbxcdn.com/5fbd8389fb24177a5be64285e12645c445dee91f0a686d5bed5865f0e009d387.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.ProofOfSpaceChallenge" data-bundle-source="Unknown" src="https://js.rbxcdn.com/3fec2c529efef400a78a26a5c0a2d33e3e7ec0a13971616a31cd958214c71e37.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.ForceTwoStepVerification" data-bundle-source="Unknown" src="https://js.rbxcdn.com/264d4bed21a614e8a15806c5d97af0aa92f26a99f5bf89b2e94cd705728b9f1f.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="VerificationUpsell" data-bundle-source="Main" src="https://js.rbxcdn.com/ea02dd03dee8d01ac1d70c79d1a67cd19f1a2cee81b5796e32ae0102917d8992-VerificationUpsell.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.VerificationUpsell" data-bundle-source="Unknown" src="https://js.rbxcdn.com/8fcc9e5eaaf61b9acd481c37ec0024f1c8afec224ddcf2381209a2e3f5c3d206.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.AccountSettings" data-bundle-source="Unknown" src="https://js.rbxcdn.com/3ec8beb221238f8d6e1ecfb5906ad09390b4b5987dd88772c1256e9c12590ba7.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="Experimentation" data-bundle-source="Main" src="https://js.rbxcdn.com/c4b0a446b38285f3db5472340f4ef27d737c87b78348e36dc7acbcfec89d70bf.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="RobloxBadges" data-bundle-source="Main" src="https://js.rbxcdn.com/0f91ae7a3efbb94ac1888931d53d6309fc65812b5a64b240c4861d9ab48011e1.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_CommonUI.Features" data-bundle-source="Unknown" src="https://js.rbxcdn.com/7862fd939cba78dcbd20c914fe8475f60c38be8b0096460a8356ef41b5b02297.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.ProfileBadges" data-bundle-source="Unknown" src="https://js.rbxcdn.com/ebc57f8a4aabceab9f38dda880bf11c04f2c92f441e535f0bcaa21b294736e65.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="AccountSwitcher" data-bundle-source="Main" src="https://js.rbxcdn.com/e4375c197a361f33c4df0667defc9d2df5ea277f976a2efdceeb4af2a4eb515f-AccountSwitcher.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Authentication.AccountSwitch" data-bundle-source="Unknown" src="https://js.rbxcdn.com/63dacb1fad541c7c50a937cbab11cd0858b78187acc6c0af105381aa406e7147.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_CommonUI.Controls" data-bundle-source="Unknown" src="https://js.rbxcdn.com/8bb519e5ff19cfc45bbf0fb7bfcf333106922bf91abce540c3ff310336604cda.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="PriceTag" data-bundle-source="Main" src="https://js.rbxcdn.com/cd456bb506f1b0b06a2eb645ca018d367185ca84725ec00d524e35ce431f4a8c.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="SearchLandingPage" data-bundle-source="Main" src="https://js.rbxcdn.com/922f1f640898de9a575c904140589572eab24dd3d62cbb01bfb2ae58510d72d5-SearchLandingPage.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.Recommendations" data-bundle-source="Unknown" src="https://js.rbxcdn.com/babce206b492515143d22e96c7508c6c11b2f1298a66f5d98b0b2c567c005962.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="UserProfiles" data-bundle-source="Main" src="https://js.rbxcdn.com/05355f4f42e31d8469852179b730ec7f252467eb07a3139c9f3c2551f378bb9c.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="Navigation" data-bundle-source="Main" src="https://js.rbxcdn.com/a866ae83c77b58e3b95398add28cfd32345c7f3220f0cb40e389e0904c7ba602-Navigation.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.ShopDialog" data-bundle-source="Unknown" src="https://js.rbxcdn.com/13b3b0cf97cfb5da4538eb0c59f252188b4f724f9328c264a58d24a714e41fe5.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.NotApproved" data-bundle-source="Unknown" src="https://js.rbxcdn.com/836e14b57fccdb2e94d99a75c3a644639b642e89d1b5e13f617f3af93905dd08.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Authentication.Passkey" data-bundle-source="Unknown" src="https://js.rbxcdn.com/1f5c50ba918a5773a2e4a0308683747225b446c67f5089282954865c0e0f76a6.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_IAPExperience.PurchaseError" data-bundle-source="Unknown" src="https://js.rbxcdn.com/3e545d98e98d8a8a188a4ef6ce70138b165954d7b45c0c0e54a5cf23ad0cc12b.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.DownloadLanding" data-bundle-source="Unknown" src="https://js.rbxcdn.com/216135f7ba01885698bc4fc47c508d6830140f104c1cd855133a09b2a9a0e02c.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Purchasing.RedeemGameCard" data-bundle-source="Unknown" src="https://js.rbxcdn.com/7f8a8b75460a2c2711bfba4bd29d3e45723a12469f942aaeeab8c380e3dedc11.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Common.AlertsAndOptions" data-bundle-source="Unknown" src="https://js.rbxcdn.com/e171b6008ca0199b35099c1bf14e13b50d48456d5f4db1208a2421ef55e11de0.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_CommonUI.Messages" data-bundle-source="Unknown" src="https://js.rbxcdn.com/5b4d2974640af2d875cc0e4a6c40f515e8ad343b0525513f03d93c35bcf9d7d7.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Authentication.LogoutModal" data-bundle-source="Unknown" src="https://js.rbxcdn.com/537d3ec6e2cbc418604174fc9628078ed3fd4adc40e41637bc716c735a60677a.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Common.VisitGame" data-bundle-source="Unknown" src="https://js.rbxcdn.com/acb69086253120ce7945704ce42a0b684c9171ed587de439e2c0f9479fd4ad51.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.RobloxSubscription" data-bundle-source="Unknown" src="https://js.rbxcdn.com/90310ef51556ece314746b6a29cb077aa75129b2f806add9a80be9835078ba1c.js"></script>
+
+    
+
+        <script>
+            $(function () {
+                Roblox.DeveloperConsoleWarning.showWarning();
+            });
+        </script>
+
+
+<script type="text/javascript">
+    $(function(){
+        function trackReturns() {
+            function dayDiff(d1, d2) {
+                return Math.floor((d1-d2)/86400000);
+            }
+            if (!localStorage) {
+                return false;
+            }
+
+            var cookieName = 'RBXReturn';
+            var cookieOptions = {expires:9001};
+            var cookieStr = localStorage.getItem(cookieName) || "";
+            var cookie = {};
+
+            try {
+                cookie = JSON.parse(cookieStr);
+            } catch (ex) {
+                // busted cookie string from old previous version of the code
+            }
+
+            try {
+                if (typeof cookie.ts === "undefined" || isNaN(new Date(cookie.ts))) {
+                    localStorage.setItem(cookieName, JSON.stringify({ ts: new Date().toDateString() }));
+                    return false;
+                }
+            } catch (ex) {
+                return false;
+            }
+
+            var daysSinceFirstVisit = dayDiff(new Date(), new Date(cookie.ts));
+            if (daysSinceFirstVisit == 1 && typeof cookie.odr === "undefined") {
+                RobloxEventManager.triggerEvent('rbx_evt_odr', {});
+                cookie.odr = 1;
+            }
+            if (daysSinceFirstVisit >= 1 && daysSinceFirstVisit <= 7 && typeof cookie.sdr === "undefined") {
+                RobloxEventManager.triggerEvent('rbx_evt_sdr', {});
+                cookie.sdr = 1;
+            }
+            try {
+                localStorage.setItem(cookieName, JSON.stringify(cookie));
+            } catch (ex) {
+                return false;
+            }
+        }
+
+        GoogleListener.init();
+
+
+
+        RobloxEventManager.initialize(true);
+        RobloxEventManager.triggerEvent('rbx_evt_pageview');
+        trackReturns();
+        
+
+        RobloxEventManager._idleInterval = 450000;
+        RobloxEventManager.registerCookieStoreEvent('rbx_evt_initial_install_start');
+        RobloxEventManager.registerCookieStoreEvent('rbx_evt_ftp');
+        RobloxEventManager.registerCookieStoreEvent('rbx_evt_initial_install_success');
+        RobloxEventManager.registerCookieStoreEvent('rbx_evt_fmp');
+        
+    });
+
+</script>
+
+    <script onerror='Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)' data-monitor='true' data-bundlename='page' type='text/javascript' src='https://js.rbxcdn.com/cf914e6dfd0335b7c977f71ed6944152.js'></script>
+
+
+    <script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="StyleGuide" data-bundle-source="Main" src="https://js.rbxcdn.com/35606b039fece6df25a74e7c01fd589a6770b6ff6f4f93e7255bf65f25267a47-StyleGuide.js"></script>
+
+    <script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="Builder" data-bundle-source="Main" src="https://js.rbxcdn.com/bfc8e8849699c72898e770a6a0c44013191f0ab609e63ea6674d0a7caede568c-Builder.js"></script>
+
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="CookieBannerV3" data-bundle-source="Main" src="https://js.rbxcdn.com/afb4ccdf2bd35f548be38a0f6f713688c247878f36577967dd380b0931d2850c-CookieBannerV3.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="Footer" data-bundle-source="Main" src="https://js.rbxcdn.com/d0e52d0d965be24069cbad066cb9cb59db4b77f59ca5353c47b8b31ab4f07082-Footer.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.Tracking" data-bundle-source="Unknown" src="https://js.rbxcdn.com/7043536ec0248f489b68b5e62dd3336f6962fb50d18a65b766453a206a772d4f.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.Privacy" data-bundle-source="Unknown" src="https://js.rbxcdn.com/cbae3669084e2a46b6f7730f4ec3e09af389fc747b2affe7e5173e463227ab4b.js"></script>
+
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="AccountSecurityPrompt" data-bundle-source="Main" src="https://js.rbxcdn.com/f05aba47524887b7f29d6a38c38b01f247dc58c91d45bcce971f378c5ec1c666-AccountSecurityPrompt.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.AccountSecurityPrompt" data-bundle-source="Unknown" src="https://js.rbxcdn.com/0089de28097df89a1d7ffa268edbe3c15549a4454976767cee0e0c43d731701c.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="AccessManagementUpsellV2" data-bundle-source="Main" src="https://js.rbxcdn.com/f85357190da7141b666d3409475b156aec3688624d55082e3f88ae68b480df68-AccessManagementUpsellV2.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.IdVerification" data-bundle-source="Unknown" src="https://js.rbxcdn.com/4df6ec52559e1c250d3f2e8286e1ffca9f33998dcddcfaf096a4bcd364bbf808.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.Parents" data-bundle-source="Unknown" src="https://js.rbxcdn.com/8efa7fd4122a8eae414d87e84d53e6a6d452252672feb08fe00aaa9a6ffaa325.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Amp.FAEUpsell" data-bundle-source="Unknown" src="https://js.rbxcdn.com/7f9c52f6ff5099533899102c817c9a114e783eb23164263dfc12b3ec96210556.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.AgeVerificationUpsell" data-bundle-source="Unknown" src="https://js.rbxcdn.com/458e4db7e6e243b2dc68967195eefe76d8329aa041cc0144cc28962e7ee3ea60.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Amp.Upsell" data-bundle-source="Unknown" src="https://js.rbxcdn.com/b9796ea7983f6d73db40cdbbb06c1b6e2011c9958e67ecd9e4e02ba266800954.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.LegallySensitiveContent" data-bundle-source="Unknown" src="https://js.rbxcdn.com/79a001970d56e74ff0ca8afb71545b675bffe8a2597f7c9211d4e94810164953.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="GlobalPrivacyControlChecker" data-bundle-source="Main" src="https://js.rbxcdn.com/ef0d5bf50bd1c7c225e07156087085a29bb9b23ee09368dee2338a64fe9a7745.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="ModerationPortalPage" data-bundle-source="Main" src="https://js.rbxcdn.com/5677744ab81e9f4d4a9c5aed225de8956d46991fa6c3589dbc1c3cc82d287f61-ModerationPortalPage.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.AppealsPortal" data-bundle-source="Unknown" src="https://js.rbxcdn.com/22b3f298705f86cb74dcfe345853da0a69b564366d0afd59bb0ae0d12e33aafd.js"></script>
+
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="NotificationStream" data-bundle-source="Main" src="https://js.rbxcdn.com/de4790c5599f6b339f29fb10ab25da2c9c9d3e66dca14d141572e3764b567687-NotificationStream.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Notifications.NotificationStream" data-bundle-source="Unknown" src="https://js.rbxcdn.com/d4422b697fd0380f04521415aba49511f10e71e1e74721ee35e98d6c07283cd4.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="SendrNotificationStream" data-bundle-source="Main" src="https://js.rbxcdn.com/3cc9e3898a5884d8f4a6367aa73d51ad715d5216ce3d242bd179bd6a6bc2fe26-SendrNotificationStream.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.ReportAbuse" data-bundle-source="Unknown" src="https://js.rbxcdn.com/4d772dea111e8ebbcbd5c5a1d316ee5e0dbe856a4a3f923194ff4adbec977938.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.Friends" data-bundle-source="Unknown" src="https://js.rbxcdn.com/e7ecf4895aa0713d38654478e95668718efbfd2651a2f1d411fac200d1194e8a.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_AccountIdentity.AgeCheck" data-bundle-source="Unknown" src="https://js.rbxcdn.com/231248c535b6381f5aabcc11d044dcc634ff06fd41bb9145fbd385f06bf8e694.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.PlayerSearchResults" data-bundle-source="Unknown" src="https://js.rbxcdn.com/7fa1ab56dbe8f9e5e5f277401acb4ef2631d9bbf40f42338a54fb690dd3cf6ce.js"></script>
+
+
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="Contacts" data-bundle-source="Main" src="https://js.rbxcdn.com/6291b18e0d22b742564031e30914caa8a4326d2db7916b04ab8524c6b306f25a.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="Chat" data-bundle-source="Main" src="https://js.rbxcdn.com/45673a16a1a4b37322ddb5c9f1f01aaa86777d59320bef7c0ec8989009a2adeb-Chat.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.Chat" data-bundle-source="Unknown" src="https://js.rbxcdn.com/fd05e7e8c6db2c32639b83dd78cca30cf12f2facd80ee34fa210573148a0c01d.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.InExperienceIntervention" data-bundle-source="Unknown" src="https://js.rbxcdn.com/52fa5e108a4648249b8d5969e87264f18d3f0bb94478d118424da8df66ad2a4a.js"></script>
+
+    <script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="ItemPurchaseUpsell" data-bundle-source="Main" src="https://js.rbxcdn.com/e63c728cbb3b8b19183c6444acda3e8f09b2009689025aab54ef54330352aede-ItemPurchaseUpsell.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Purchasing.PurchaseDialog" data-bundle-source="Unknown" src="https://js.rbxcdn.com/c8462fd29169772279c11fd00d86989691ab980a6f609efdc4b6770ccc431877.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.Premium" data-bundle-source="Unknown" src="https://js.rbxcdn.com/93b87ee7ac50dd94377a95fab2382fbaca3d96d15d5de6a567536c7ce17f5ced.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="ItemDetailsHydrationService" data-bundle-source="Main" src="https://js.rbxcdn.com/c8ac397606b8d4dfab9ea0d9af928273fcc51341a741b50ee831308aaed3517b-ItemDetailsHydrationService.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="ItemPurchase" data-bundle-source="Main" src="https://js.rbxcdn.com/83b2d43f7b602baff53f0b4275445b5af437137bf4e8d090d4badf5aafa33856-ItemPurchase.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.ItemModel" data-bundle-source="Unknown" src="https://js.rbxcdn.com/54c13aaea011e94d285d4171277dbaa0a2ec1bf763b408d71f2adc7f72bad919.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.Item" data-bundle-source="Unknown" src="https://js.rbxcdn.com/0f75a173261ace474005809f5a4f985eb1f6974dd0a74683bb734a4f837f768d.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="IdVerification" data-bundle-source="Main" src="https://js.rbxcdn.com/6d0743dbab0070921c5bb3eff46802cead3a6881479fd3c902639ffba397d5f3-IdVerification.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Verification.Identity" data-bundle-source="Unknown" src="https://js.rbxcdn.com/d2103009f17303199e698315acec635d3ebd96fb6072fa9804cd14c6fef0914d.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="AccessManagementUpsell" data-bundle-source="Main" src="https://js.rbxcdn.com/4e3e9c2f50f98960207aef1cc243c85914cda72e2c1f78ea66f35f61096e2c8a-AccessManagementUpsell.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="GameLaunch" data-bundle-source="Main" src="https://js.rbxcdn.com/5561a1ace4160b2e7fdbf4bc8e1aa4e36ff56a92e4108d4bb7b843598feaed93-GameLaunch.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.GameLaunchGuestMode" data-bundle-source="Unknown" src="https://js.rbxcdn.com/5d2b10e51dd6cc2329604087e74e8eeb57c37024d75e0be8c47eca40e741a269.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_Feature.ExperienceDetails" data-bundle-source="Unknown" src="https://js.rbxcdn.com/0b48ccb40579523d8a4679cdc01cd8b8a4308db2cbc69e13f85c2bc3613f7b69.js"></script>
+
+
+
+
+
+
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="UserAgreementsChecker" data-bundle-source="Main" src="https://js.rbxcdn.com/18a39f1adad50fcd69442f5ddd58c68c80ee0ff59fadc808ffda3195ceb492a8.js"></script>
+<script type="text/javascript" onerror="Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)" data-monitor="true" data-bundlename="DynamicLocalizationResourceScript_CommonUI.UserAgreements" data-bundle-source="Unknown" src="https://js.rbxcdn.com/64daef195122aa9c881d456010e7b98d698b1c6b1aaba58c81abc27da0db8fed.js"></script>
+
+
+
+
+    <script onerror='Roblox.BundleDetector && Roblox.BundleDetector.reportBundleError(this)' data-monitor='true' data-bundlename='pageEnd' type='text/javascript' src='https://js.rbxcdn.com/41d8306de6dfb3eb2d147d3d8ad07611.js'></script>
+
 </body>
 </html>
