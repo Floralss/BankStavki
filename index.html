@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Black Roleplay — Minecraft RP Сервер</title>
+<link rel="stylesheet" href="css/main.css"/>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="navbar">
+  <a class="nav-logo" href="index.html"><span class="nb">BLACK</span><span class="ng">ROLEPLAY</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Главная</a></li>
+    <li><a href="forum.html">Форум</a></li>
+    <li><a href="factions.html">Фракции</a></li>
+    <li><a href="rules.html">Правила</a></li>
+    <li><a href="donate.html">Донат</a></li>
+    <li><a href="staff.html">Команда</a></li>
+  </ul>
+  <div class="nav-right">
+    <span class="online-badge">🟢 Онлайн: <span id="online-count">—</span></span>
+    <a href="login.html" class="btn-nav">Войти</a>
+    <a href="register.html" class="btn-nav accent">Регистрация</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">✦ СЕРВЕР ОТКРЫТ ✦</div>
+    <h1 class="hero-title"><span class="hn">BLACK</span><span class="hg">ROLEPLAY</span></h1>
+    <p class="hero-sub">Лучший Minecraft Roleplay сервер на версии 1.21<br>Живи жизнью своего персонажа в городе Майами</p>
+    <div class="hero-ip">
+      <span>play.blackroleplay.net</span>
+      <button onclick="copyIP()">📋 Копировать</button>
+    </div>
+    <div class="hero-btns">
+      <a href="#download" class="btn-hero-main">⬇ Скачать лаунчер</a>
+      <a href="factions.html" class="btn-hero-sec">🏙 Фракции</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-n">1.21</div><div class="stat-l">Версия</div></div>
+    <div class="stat"><div class="stat-n" id="stat-online">500+</div><div class="stat-l">Игроков</div></div>
+    <div class="stat"><div class="stat-n">10+</div><div class="stat-l">Фракций</div></div>
+    <div class="stat"><div class="stat-n">24/7</div><div class="stat-l">Онлайн</div></div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="container">
+    <h2 class="sec-title">ВОЗМОЖНОСТИ СЕРВЕРА</h2>
+    <div class="features-grid">
+      <div class="feat-card"><div class="feat-icon">🚔</div><h3>Фракции</h3><p>ЛСПД, ФИБ, Шерифка, Армия, Больница, Мафии и Банды — 10 рангов в каждой</p></div>
+      <div class="feat-card"><div class="feat-icon">🏠</div><h3>Недвижимость</h3><p>Покупай и продавай дома, сдавай в аренду или выставляй на аукцион</p></div>
+      <div class="feat-card"><div class="feat-icon">🚗</div><h3>Транспорт</h3><p>Огромный автопарк. Покупай машины, регистрируй номера, паркуйся по правилам</p></div>
+      <div class="feat-card"><div class="feat-icon">💰</div><h3>Экономика</h3><p>Работай, зарабатывай, открывай бизнесы. Реальная игровая экономика</p></div>
+      <div class="feat-card"><div class="feat-icon">⚖️</div><h3>Правосудие</h3><p>Система арестов, штрафов, тюрьмы, розыска — как в настоящем городе</p></div>
+      <div class="feat-card"><div class="feat-icon">💎</div><h3>Донат</h3><p>BLcoin — донат валюта. Транспорт, VIP, опыт. Без pay-to-win</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- DOWNLOAD -->
+<section class="download" id="download">
+  <div class="container">
+    <h2 class="sec-title">СКАЧАТЬ ЛАУНЧЕР</h2>
+    <div class="dl-box">
+      <div class="dl-logo"><span class="nb">BLACK</span><span class="ng">ROLEPLAY</span><br><span style="font-size:.7rem;color:#666;letter-spacing:2px;">LAUNCHER v1.0</span></div>
+      <div class="dl-info">
+        <div class="dl-row"><span>Версия игры:</span><span>Minecraft Java 1.21</span></div>
+        <div class="dl-row"><span>Требования:</span><span>Java 17+, Windows 10/11</span></div>
+        <div class="dl-row"><span>Размер:</span><span>~15 MB + сборка</span></div>
+        <div class="dl-row"><span>Firebase Auth:</span><span>✅ Регистрация/Вход</span></div>
+      </div>
+      <a href="BlackRoleplay_Setup.exe" class="btn-dl">⬇ Скачать для Windows</a>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section class="news-sec">
+  <div class="container">
+    <h2 class="sec-title">НОВОСТИ</h2>
+    <div class="news-grid">
+      <article class="news-item big">
+        <div class="news-tag">ОТКРЫТИЕ</div>
+        <h3>Открытие сервера Mayami [1]!</h3>
+        <p>Добро пожаловать на Black Roleplay! Первый сервер Mayami официально открыт. Регистрируйтесь и начинайте своё приключение в городе Майами.</p>
+        <div class="news-meta"><span>20.06.2025</span><a href="forum.html">Читать далее →</a></div>
+      </article>
+      <article class="news-item">
+        <div class="news-tag">ОБНОВЛЕНИЕ</div>
+        <h3>Система фракций v2.0</h3>
+        <p>Добавлены новые ранги и возможности для всех фракций. 10 рангов, кастомные теги.</p>
+        <div class="news-meta"><span>19.06.2025</span></div>
+      </article>
+      <article class="news-item">
+        <div class="news-tag">ИВЕНТ</div>
+        <h3>День открытых дверей в ЛСПД</h3>
+        <p>Хочешь вступить в ЛСПД? Приходи на собеседование в эту субботу!</p>
+        <div class="news-meta"><span>18.06.2025</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-logo"><span class="nb">BLACK</span><span class="ng">ROLEPLAY</span></div>
+    <div class="footer-links">
+      <a href="rules.html">Правила</a>
+      <a href="donate.html">Донат</a>
+      <a href="forum.html">Форум</a>
+      <a href="staff.html">Команда</a>
+    </div>
+    <div class="footer-social">
+      <a href="#">Telegram</a>
+      <a href="#">Discord</a>
+      <a href="#">VK</a>
+    </div>
+    <div class="footer-cr">© 2025 Black Roleplay. Все права защищены.</div>
+  </div>
+</footer>
+
+<div id="toast-copy" class="copy-toast hidden">✅ IP скопирован!</div>
+<script src="js/main.js"></script>
+</body>
+</html>
