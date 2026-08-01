@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Админ-панель — BLACK SOCIAL</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    .admin-header { margin: 32px 0 24px; }
+    .admin-header h1 { font-size: 1.8rem; margin-bottom: 8px; }
+    .admin-header p { color: var(--text-secondary); }
+    .preview-badge { display: inline-block; padding: 6px 14px; border-radius: 6px; font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 8px; }
+    .color-input-wrap { display: flex; gap: 10px; align-items: center; }
+    .color-input-wrap input[type="color"] { width: 48px; height: 40px; border: none; border-radius: 8px; cursor: pointer; background: none; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo"><span class="logo-icon">⬛</span><span class="logo-text">BLACK<span class="accent">SOCIAL</span></span></a>
+      <nav class="nav">
+        <a href="index.html" class="nav-link">Форум</a>
+        <a href="admin.html" class="nav-link active">Админ-панель</a>
+      </nav>
+      <div class="user-menu" id="userMenu" style="display:none;">
+        <div class="user-avatar" id="userAvatar">?</div>
+        <div class="user-info">
+          <div class="user-name" id="userName">User</div>
+          <div class="user-badge" id="userBadge">—</div>
+        </div>
+        <button class="btn-icon" id="logoutBtn" title="Выйти">⎋</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <div class="admin-header">
+        <h1>⚙️ Админ-панель</h1>
+        <p>Управление рангами, разделами, правами и пользователями</p>
+      </div>
+
+      <div id="accessDenied" style="display:none;">
+        <div class="admin-card" style="text-align:center;padding:60px;">
+          <h2 style="margin-bottom:12px;">⛔ Доступ запрещён</h2>
+          <p style="color:var(--text-secondary);">Только администраторы и владелец.</p>
+          <a href="index.html" class="btn btn-primary" style="margin-top:20px;">На форум</a>
+        </div>
+      </div>
+
+      <div id="adminContent" style="display:none;">
+        <div class="admin-grid">
+          <!-- Create Rank -->
+          <div class="admin-card">
+            <h3>🏷️ Создать ранг / бейдж</h3>
+            <form id="createRankForm">
+              <div class="form-group"><label>Название</label><input type="text" id="rankName" required placeholder="Лидер" maxlength="30"></div>
+              <div class="form-group"><label>Текст бейджа</label><input type="text" id="rankBadge" required placeholder="ЛИДЕР" maxlength="20"></div>
+              <div class="form-group">
+                <label>Цвет</label>
+                <div class="color-input-wrap">
+                  <input type="color" id="rankColor" value="#f5c518">
+                  <input type="text" id="rankColorText" value="#f5c518" style="flex:1;">
+                </div>
+                <div class="preview-badge" id="badgePreview" style="background:#f5c518;color:#0a0a0c;">ЛИДЕР</div>
+              </div>
+              <div class="form-group">
+                <label>Права</label>
+                <div class="perm-grid">
+                  <label class="perm-item"><input type="checkbox" id="permCreateTopic" checked> Создавать темы</label>
+                  <label class="perm-item"><input type="checkbox" id="permReply" checked> Отвечать</label>
+                  <label class="perm-item"><input type="checkbox" id="permModerate"> Модерация</label>
+                  <label class="perm-item"><input type="checkbox" id="permManageUsers"> Управление юзерами</label>
+                  <label class="perm-item"><input type="checkbox" id="permManageRanks"> Управление рангами</label>
+                  <label class="perm-item"><input type="checkbox" id="permIsAdmin"> Админ-доступ</label>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Создать ранг</button>
+            </form>
+          </div>
+
+          <!-- Ranks list -->
+          <div class="admin-card">
+            <h3>📋 Ранги</h3>
+            <div class="rank-list" id="ranksList"><div class="loading">Загрузка...</div></div>
+          </div>
+        </div>
+
+        <!-- Create Category -->
+        <div class="admin-card" style="margin-top:24px;">
+          <h3>📁 Создать раздел форума</h3>
+          <form id="createCategoryForm" style="display:grid;grid-template-columns:1fr 1fr 80px auto;gap:12px;align-items:end;">
+            <div class="form-group" style="margin:0;"><label>Название</label><input type="text" id="catTitle" required placeholder="Новый раздел"></div>
+            <div class="form-group" style="margin:0;"><label>Описание</label><input type="text" id="catDesc" placeholder="Описание раздела"></div>
+            <div class="form-group" style="margin:0;"><label>Иконка</label><input type="text" id="catIcon" value="📁" maxlength="2"></div>
+            <button type="submit" class="btn btn-primary">Создать</button>
+          </form>
+        </div>
+
+        <!-- Assign Rank -->
+        <div class="admin-card" style="margin-top:24px;">
+          <h3>👤 Выдать ранг пользователю</h3>
+          <form id="assignRankForm" style="display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end;">
+            <div class="form-group" style="margin:0;"><label>Email пользователя</label><input type="text" id="assignUser" required placeholder="email@gmail.com"></div>
+            <div class="form-group" style="margin:0;"><label>Ранг</label><select id="assignRankSelect" required></select></div>
+            <button type="submit" class="btn btn-primary">Выдать</button>
+          </form>
+        </div>
+
+        <!-- Users -->
+        <div class="admin-card" style="margin-top:24px;">
+          <h3>👥 Пользователи</h3>
+          <div class="user-list" id="usersList"><div class="loading">Загрузка...</div></div>
+        </div>
+
+        <!-- Preview -->
+        <div class="admin-card" style="margin-top:24px;">
+          <h3>👁️ Превью бейджа</h3>
+          <div class="profile-card" id="profilePreview" style="margin-top:16px;">
+            <div class="avatar">MD</div>
+            <div class="info">
+              <div class="nickname">Maks_Deep</div>
+              <div class="rank-badge">ЛИДЕР</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="toastContainer"></div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, collection, doc, setDoc, getDoc, getDocs, updateDoc, query, orderBy, where, enableNetwork } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBGFONUBgybQr0KCn_Ao_ZT9HkWVSU4jEw",
+      authDomain: "black-social-af844.firebaseapp.com",
+      projectId: "black-social-af844",
+      storageBucket: "black-social-af844.firebasestorage.app",
+      messagingSenderId: "296441938682",
+      appId: "1:296441938682:web:096a3e642bd00116f7bf43",
+      measurementId: "G-2PX2QMR8HS"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const OWNER_EMAIL = "strepoomich27@gmail.com";
+
+    let currentUser = null;
+    let currentUserData = null;
+    let ranksCache = {};
+
+    const DEFAULT_RANKS = [
+      { id: "newbie", name: "Новичок", badge: "НОВИЧОК", color: "#6b6b7b" },
+      { id: "member", name: "Участник", badge: "УЧАСТНИК", color: "#3b82f6" },
+      { id: "leader", name: "Лидер", badge: "ЛИДЕР", color: "#f5c518" },
+      { id: "admin", name: "Администратор", badge: "ADMIN", color: "#ef4444" },
+      { id: "owner", name: "Владелец", badge: "ВЛАДЕЛЕЦ", color: "#a855f7" }
+    ];
+    DEFAULT_RANKS.forEach(r => ranksCache[r.id] = r);
+
+    function toast(msg, type = "info") {
+      const c = document.getElementById("toastContainer");
+      if (!c) return;
+      const el = document.createElement("div");
+      el.className = "toast " + type;
+      el.textContent = msg;
+      c.appendChild(el);
+      setTimeout(() => el.remove(), 4000);
+    }
+    function getInitials(n) { return n ? n.substring(0, 2).toUpperCase() : "?"; }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        document.getElementById("accessDenied").style.display = "block";
+        document.getElementById("adminContent").style.display = "none";
+        return;
+      }
+      currentUser = user;
+      const isOwner = user.email && user.email.toLowerCase() === OWNER_EMAIL.toLowerCase();
+
+      try {
+        await enableNetwork(db);
+        const snap = await getDoc(doc(db, "users", user.uid));
+        currentUserData = snap.exists() ? snap.data() : { nickname: user.displayName || user.email.split("@")[0], rankId: isOwner ? "owner" : "newbie" };
+      } catch {
+        currentUserData = { nickname: user.displayName || user.email.split("@")[0], rankId: isOwner ? "owner" : "newbie" };
+      }
+
+      const rank = ranksCache[currentUserData.rankId] || { badge: "—", color: "#f5c518", permissions: {} };
+      const canAccess = isOwner || rank.permissions?.isAdmin || rank.permissions?.isOwner || currentUserData.rankId === "owner" || currentUserData.rankId === "admin";
+
+      if (!canAccess) {
+        document.getElementById("accessDenied").style.display = "block";
+        document.getElementById("adminContent").style.display = "none";
+        return;
+      }
+
+      document.getElementById("accessDenied").style.display = "none";
+      document.getElementById("adminContent").style.display = "block";
+      document.getElementById("userMenu").style.display = "flex";
+      document.getElementById("userName").textContent = currentUserData.nickname || "User";
+      document.getElementById("userBadge").textContent = rank.badge || "ВЛАДЕЛЕЦ";
+      document.getElementById("userBadge").style.color = rank.color || "#a855f7";
+      document.getElementById("userAvatar").textContent = getInitials(currentUserData.nickname);
+
+      loadRanks();
+      loadUsers();
+      fillRankSelect();
+    });
+
+    document.getElementById("logoutBtn")?.addEventListener("click", async () => { await signOut(auth); location.href = "index.html"; });
+
+    function updatePreview() {
+      const badge = (document.getElementById("rankBadge").value || "БЕЙДЖ").toUpperCase();
+      const color = document.getElementById("rankColor").value;
+      document.getElementById("badgePreview").textContent = badge;
+      document.getElementById("badgePreview").style.background = color;
+      document.querySelector("#profilePreview .rank-badge").textContent = badge;
+      document.querySelector("#profilePreview .rank-badge").style.background = color;
+    }
+    document.getElementById("rankBadge")?.addEventListener("input", updatePreview);
+    document.getElementById("rankColor")?.addEventListener("input", e => { document.getElementById("rankColorText").value = e.target.value; updatePreview(); });
+    document.getElementById("rankColorText")?.addEventListener("input", e => { document.getElementById("rankColor").value = e.target.value; updatePreview(); });
+
+    document.getElementById("createRankForm")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const name = document.getElementById("rankName").value.trim();
+      const badge = document.getElementById("rankBadge").value.trim().toUpperCase();
+      const color = document.getElementById("rankColor").value;
+      const permissions = {
+        canCreateTopic: document.getElementById("permCreateTopic").checked,
+        canReply: document.getElementById("permReply").checked,
+        canModerate: document.getElementById("permModerate").checked,
+        canManageUsers: document.getElementById("permManageUsers").checked,
+        canManageRanks: document.getElementById("permManageRanks").checked,
+        isAdmin: document.getElementById("permIsAdmin").checked,
+        isOwner: false
+      };
+      const id = name.toLowerCase().replace(/[^a-zа-я0-9]/gi, "_") + "_" + Date.now().toString(36);
+      try {
+        await enableNetwork(db);
+        await setDoc(doc(db, "ranks", id), { id, name, badge, color, permissions, createdAt: new Date().toISOString() });
+        ranksCache[id] = { id, name, badge, color, permissions };
+        toast("Ранг «" + badge + "» создан!", "success");
+        document.getElementById("createRankForm").reset();
+        document.getElementById("rankColor").value = "#f5c518";
+        document.getElementById("rankColorText").value = "#f5c518";
+        updatePreview();
+        loadRanks();
+        fillRankSelect();
+      } catch (err) {
+        toast("Ошибка: " + err.message, "error");
+      }
+    });
+
+    document.getElementById("createCategoryForm")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const title = document.getElementById("catTitle").value.trim();
+      const description = document.getElementById("catDesc").value.trim();
+      const icon = document.getElementById("catIcon").value.trim() || "📁";
+      if (!title) return;
+      const id = title.toLowerCase().replace(/[^a-zа-я0-9]/gi, "_") + "_" + Date.now().toString(36);
+      try {
+        await enableNetwork(db);
+        await setDoc(doc(db, "categories", id), { id, title, description, icon, order: 100 });
+        toast("Раздел «" + title + "» создан!", "success");
+        document.getElementById("createCategoryForm").reset();
+        document.getElementById("catIcon").value = "📁";
+      } catch (err) {
+        toast("Ошибка: " + err.message, "error");
+      }
+    });
+
+    async function loadRanks() {
+      const list = document.getElementById("ranksList");
+      list.innerHTML = "";
+      // Always show defaults
+      Object.values(ranksCache).forEach(rank => {
+        const el = document.createElement("div");
+        el.className = "rank-item";
+        el.innerHTML = `<div><div style="font-weight:600;margin-bottom:4px;">${rank.name}</div><span class="rank-preview" style="background:${rank.color};color:#0a0a0c;">${rank.badge}</span></div>`;
+        list.appendChild(el);
+      });
+      try {
+        await enableNetwork(db);
+        const snap = await getDocs(collection(db, "ranks"));
+        snap.forEach(d => {
+          const rank = d.data();
+          if (!ranksCache[d.id]) {
+            ranksCache[d.id] = rank;
+            const el = document.createElement("div");
+            el.className = "rank-item";
+            el.innerHTML = `<div><div style="font-weight:600;margin-bottom:4px;">${rank.name}</div><span class="rank-preview" style="background:${rank.color};color:#0a0a0c;">${rank.badge}</span></div>`;
+            list.appendChild(el);
+          }
+        });
+      } catch (err) {
+        console.warn(err);
+      }
+    }
+
+    function fillRankSelect() {
+      const select = document.getElementById("assignRankSelect");
+      select.innerHTML = "";
+      Object.values(ranksCache).forEach(rank => {
+        const opt = document.createElement("option");
+        opt.value = rank.id;
+        opt.textContent = rank.name + " (" + rank.badge + ")";
+        select.appendChild(opt);
+      });
+    }
+
+    document.getElementById("assignRankForm")?.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const input = document.getElementById("assignUser").value.trim();
+      const rankId = document.getElementById("assignRankSelect").value;
+      try {
+        await enableNetwork(db);
+        let userId = null;
+        const byUid = await getDoc(doc(db, "users", input));
+        if (byUid.exists()) userId = input;
+        else {
+          const q = query(collection(db, "users"), where("email", "==", input));
+          const snap = await getDocs(q);
+          if (!snap.empty) userId = snap.docs[0].id;
+        }
+        if (!userId) { toast("Пользователь не найден", "error"); return; }
+        await updateDoc(doc(db, "users", userId), { rankId });
+        toast("Ранг выдан!", "success");
+        loadUsers();
+      } catch (err) {
+        toast("Ошибка: " + err.message, "error");
+      }
+    });
+
+    async function loadUsers() {
+      const list = document.getElementById("usersList");
+      list.innerHTML = '<div class="loading">Загрузка...</div>';
+      try {
+        await enableNetwork(db);
+        const snap = await getDocs(collection(db, "users"));
+        list.innerHTML = "";
+        if (snap.empty) {
+          list.innerHTML = '<div class="loading">Пользователей пока нет</div>';
+          return;
+        }
+        snap.forEach(d => {
+          const user = d.data();
+          const rank = ranksCache[user.rankId] || { badge: "—", color: "#666" };
+          const el = document.createElement("div");
+          el.className = "user-item";
+          el.innerHTML = `<div style="display:flex;align-items:center;gap:12px;"><div class="user-avatar" style="width:32px;height:32px;font-size:0.75rem;">${getInitials(user.nickname)}</div><div><div style="font-weight:600;">${user.nickname || "—"}</div><div style="font-size:0.75rem;color:var(--text-muted);">${user.email || ""}</div></div></div><span class="rank-preview" style="background:${rank.color};color:#0a0a0c;">${rank.badge}</span>`;
+          list.appendChild(el);
+        });
+      } catch (err) {
+        list.innerHTML = '<div class="loading" style="color:#ef4444;">Не удалось загрузить (offline / rules)<br><small>' + err.message + '</small></div>';
+      }
+    }
+  </script>
+</body>
+</html>
