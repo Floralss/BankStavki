@@ -1,0 +1,79 @@
+rules_version = '2';
+
+// Security rules for the BLACK forum.
+// Paste this into Firebase Console → Firestore Database → Rules, then Publish.
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Owner is identified by email, so ownership works even before their
+    // user document / "owner" rank document exist (bootstrap case).
+    function isOwner() {
+      return isSignedIn() && request.auth.token.email == "strepoomich27@gmail.com";
+    }
+
+    function myProfile() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function hasPerm(p) {
+      return isSignedIn() && (
+        isOwner() ||
+        (
+          exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+          exists(/databases/$(database)/documents/ranks/$(myProfile().rankId)) &&
+          get(/databases/$(database)/documents/ranks/$(myProfile().rankId)).data.permissions[p] == true
+        )
+      );
+    }
+
+    match /users/{uid} {
+      allow read: if true;
+      allow create: if isSignedIn() && request.auth.uid == uid;
+      // Users may edit their own profile fields but not their own rank,
+      // unless they hold manageUsers permission (or are the owner).
+      allow update: if isSignedIn() && (
+        (request.auth.uid == uid && request.resource.data.rankId == resource.data.rankId) ||
+        hasPerm("manageUsers") || isOwner()
+      );
+      allow delete: if hasPerm("manageUsers") || isOwner();
+    }
+
+    match /ranks/{rankId} {
+      allow read: if true;
+      // Bootstrap: allow the very first "owner"/"member" ranks to be created
+      // by the owner account when the collection is empty.
+      allow create: if isOwner() || hasPerm("manageRanks");
+      allow update, delete: if hasPerm("manageRanks") || isOwner();
+    }
+
+    match /categories/{catId} {
+      allow read: if true;
+      allow write: if hasPerm("manageCategories") || isOwner();
+    }
+
+    match /topics/{topicId} {
+      allow read: if true;
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && (
+        resource.data.authorId == request.auth.uid ||
+        hasPerm("pinTopics") || hasPerm("lockTopics") || isOwner()
+      );
+      allow delete: if hasPerm("manageCategories") || isOwner();
+    }
+
+    match /posts/{postId} {
+      allow read: if true;
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && resource.data.authorId == request.auth.uid;
+      allow delete: if isSignedIn() && (
+        resource.data.authorId == request.auth.uid ||
+        hasPerm("deleteAnyPost") || isOwner()
+      );
+    }
+  }
+}
