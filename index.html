@@ -3,182 +3,725 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BLACK SOCIAL — Форум</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <title>BLACK SOCIAL</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0c; --bg2: #121216; --card: #18181f; --hover: #22222b;
+      --border: #2a2a35; --text: #f0f0f5; --text2: #a0a0b0; --muted: #6b6b7b;
+      --accent: #f5c518; --accent2: #ffd54f; --danger: #ef4444; --ok: #22c55e;
+      --radius: 12px;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Inter',system-ui,sans-serif; background:var(--bg); color:var(--text); min-height:100vh; line-height:1.5;
+      background-image: radial-gradient(ellipse at top, rgba(245,197,24,.03), transparent 50%); }
+    a { color:var(--accent); text-decoration:none; }
+    a:hover { color:var(--accent2); }
+    .container { max-width:1100px; margin:0 auto; padding:0 16px; }
+
+    /* Header */
+    .header { background:rgba(10,10,12,.9); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); position:sticky; top:0; z-index:100; }
+    .header-inner { display:flex; align-items:center; justify-content:space-between; height:60px; gap:12px; }
+    .logo { font-family:'Orbitron',sans-serif; font-weight:700; font-size:1.15rem; color:var(--text); letter-spacing:1px; }
+    .logo span { color:var(--accent); }
+    .nav { display:flex; gap:4px; flex-wrap:wrap; }
+    .nav a, .nav button { background:none; border:none; color:var(--text2); padding:8px 12px; border-radius:8px; font-weight:500; cursor:pointer; font-size:.9rem; font-family:inherit; }
+    .nav a:hover, .nav a.active, .nav button:hover { background:rgba(245,197,24,.12); color:var(--accent); }
+    .user-menu { display:none; align-items:center; gap:10px; padding:4px 10px 4px 4px; background:var(--card); border:1px solid var(--border); border-radius:40px; }
+    .user-avatar { width:34px; height:34px; border-radius:50%; background:#111; border:2px solid var(--accent); display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--accent); font-size:.8rem; overflow:hidden; }
+    .user-avatar img { width:100%; height:100%; object-fit:cover; }
+    .user-name { font-weight:600; font-size:.85rem; color:var(--accent); }
+    .user-badge { font-size:.65rem; font-weight:800; text-transform:uppercase; letter-spacing:.5px; padding:1px 6px; border-radius:4px; display:inline-block; }
+
+    /* Buttons */
+    .btn { display:inline-flex; align-items:center; gap:6px; padding:10px 18px; border-radius:8px; font-weight:600; font-size:.9rem; border:none; cursor:pointer; font-family:inherit; transition:.15s; }
+    .btn-primary { background:var(--accent); color:#0a0a0c; }
+    .btn-primary:hover { background:var(--accent2); }
+    .btn-outline { background:transparent; border:1px solid var(--border); color:var(--text); }
+    .btn-outline:hover { border-color:var(--accent); color:var(--accent); }
+    .btn-block { width:100%; justify-content:center; }
+    .btn-google { background:#fff; color:#333; border:1px solid #ddd; width:100%; justify-content:center; }
+    .btn-sm { padding:6px 12px; font-size:.8rem; }
+    .btn-icon { background:none; border:none; color:var(--muted); cursor:pointer; font-size:1.1rem; padding:4px 8px; border-radius:6px; }
+    .btn-icon:hover { color:var(--danger); }
+
+    /* Hero */
+    .hero { margin:28px 0 32px; padding:32px; background:linear-gradient(135deg,var(--card),#1a1a24); border:1px solid var(--border); border-radius:var(--radius); }
+    .hero h1 { font-size:1.7rem; font-weight:800; margin-bottom:6px; }
+    .hero h1 span { color:var(--accent); }
+    .hero p { color:var(--text2); }
+
+    /* Sections */
+    .section { margin-bottom:36px; }
+    .section-h { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+    .section-h h2 { font-size:1.15rem; }
+
+    .cat-card, .topic-item, .admin-card, .post {
+      background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; margin-bottom:10px;
+    }
+    .cat-card { display:flex; align-items:center; gap:14px; cursor:default; transition:.15s; }
+    .cat-card:hover { border-color:var(--accent); background:var(--hover); }
+    .cat-icon { width:44px; height:44px; border-radius:10px; background:rgba(245,197,24,.12); display:flex; align-items:center; justify-content:center; font-size:1.3rem; flex-shrink:0; }
+    .cat-title { font-weight:700; }
+    .cat-desc { color:var(--text2); font-size:.85rem; }
+
+    .topic-item { display:flex; align-items:center; gap:12px; cursor:pointer; }
+    .topic-item:hover { background:var(--hover); }
+    .topic-av { width:38px; height:38px; border-radius:50%; background:#222; border:2px solid var(--border); display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--accent); font-size:.8rem; flex-shrink:0; }
+    .topic-title { font-weight:600; font-size:.95rem; }
+    .topic-meta { font-size:.8rem; color:var(--muted); }
+    .topic-meta .author { color:var(--accent); }
+
+    /* Profile card */
+    .profile-card { display:flex; align-items:center; gap:16px; background:linear-gradient(145deg,#1a1a22,#121218); border:1px solid var(--border); border-radius:var(--radius); padding:20px; }
+    .profile-card .av { width:64px; height:64px; border-radius:14px; background:#111; border:3px solid var(--accent); display:flex; align-items:center; justify-content:center; font-size:1.5rem; font-weight:800; color:var(--accent); overflow:hidden; }
+    .profile-card .av img { width:100%; height:100%; object-fit:cover; }
+    .profile-card .nick { font-size:1.25rem; font-weight:800; margin-bottom:4px; }
+    .profile-card .badge { display:inline-block; font-weight:800; font-size:.7rem; text-transform:uppercase; letter-spacing:1px; padding:3px 10px; border-radius:5px; }
+
+    /* Modal */
+    .modal { display:none; position:fixed; inset:0; background:rgba(0,0,0,.75); backdrop-filter:blur(4px); z-index:200; align-items:center; justify-content:center; padding:16px; }
+    .modal.open { display:flex; }
+    .modal-box { background:var(--bg2); border:1px solid var(--border); border-radius:var(--radius); padding:28px; width:100%; max-width:420px; position:relative; max-height:90vh; overflow-y:auto; }
+    .modal-box.lg { max-width:700px; }
+    .modal-x { position:absolute; top:12px; right:14px; background:none; border:none; color:var(--muted); font-size:1.4rem; cursor:pointer; }
+    .modal-x:hover { color:var(--text); }
+
+    .tabs { display:flex; gap:4px; margin-bottom:20px; background:var(--card); padding:4px; border-radius:8px; }
+    .tabs button { flex:1; padding:9px; background:none; border:none; color:var(--text2); font-weight:600; border-radius:6px; cursor:pointer; font-family:inherit; }
+    .tabs button.on { background:var(--accent); color:#0a0a0c; }
+
+    .form-group { margin-bottom:14px; }
+    .form-group label { display:block; font-size:.85rem; font-weight:500; color:var(--text2); margin-bottom:5px; }
+    .form-group input, .form-group select, .form-group textarea {
+      width:100%; padding:11px 12px; background:var(--card); border:1px solid var(--border); border-radius:8px; color:var(--text); font-size:.95rem; font-family:inherit;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline:none; border-color:var(--accent); }
+    .form-group textarea { resize:vertical; min-height:80px; }
+    .form-group small { color:var(--muted); font-size:.8rem; }
+    .divider { display:flex; align-items:center; margin:16px 0; color:var(--muted); font-size:.85rem; }
+    .divider::before, .divider::after { content:''; flex:1; height:1px; background:var(--border); }
+    .divider span { padding:0 10px; }
+
+    .perm-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+    .perm-item { display:flex; align-items:center; gap:6px; font-size:.85rem; color:var(--text2); }
+    .perm-item input { accent-color:var(--accent); width:auto; }
+
+    .admin-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    @media(max-width:700px){ .admin-grid{grid-template-columns:1fr;} .nav{display:none;} }
+
+    .rank-item, .user-item { display:flex; align-items:center; justify-content:space-between; padding:10px; background:var(--bg2); border-radius:8px; border:1px solid var(--border); margin-bottom:6px; }
+    .rank-preview { display:inline-block; padding:2px 8px; border-radius:4px; font-size:.7rem; font-weight:800; text-transform:uppercase; }
+
+    .post { display:flex; gap:14px; }
+    .post-author { width:120px; flex-shrink:0; text-align:center; }
+    .post-author .av { width:52px; height:52px; border-radius:10px; background:#111; border:2px solid var(--accent); margin:0 auto 6px; display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--accent); }
+    .post-author .name { font-weight:700; font-size:.9rem; }
+    .post-author .badge { display:inline-block; font-size:.65rem; font-weight:800; padding:2px 7px; border-radius:4px; text-transform:uppercase; margin-top:3px; }
+    .post-body { flex:1; white-space:pre-wrap; }
+    .post-date { font-size:.8rem; color:var(--muted); margin-top:10px; }
+
+    #toastBox { position:fixed; bottom:20px; right:20px; z-index:300; display:flex; flex-direction:column; gap:6px; }
+    .toast { background:var(--card); border:1px solid var(--border); border-left:4px solid var(--accent); padding:12px 16px; border-radius:8px; max-width:300px; animation:in .25s ease; }
+    .toast.err { border-left-color:var(--danger); }
+    .toast.ok { border-left-color:var(--ok); }
+    @keyframes in { from{transform:translateX(80px);opacity:0} to{transform:none;opacity:1} }
+
+    .page { display:none; }
+    .page.on { display:block; }
+    .loading { text-align:center; padding:30px; color:var(--muted); }
+    .hidden { display:none!important; }
+  </style>
 </head>
 <body>
-  <!-- Header -->
   <header class="header">
     <div class="container header-inner">
-      <a href="index.html" class="logo">
-        <span class="logo-icon">⬛</span>
-        <span class="logo-text">BLACK<span class="accent">SOCIAL</span></span>
-      </a>
-      <nav class="nav" id="mainNav">
-        <a href="index.html" class="nav-link active">Форум</a>
-        <a href="#" class="nav-link" id="profileLink" style="display:none;">Профиль</a>
-        <a href="settings.html" class="nav-link" id="settingsLink" style="display:none;">Настройки</a>
-        <a href="admin.html" class="nav-link" id="adminLink" style="display:none;">Админ-панель</a>
+      <a href="#" class="logo" onclick="showPage('forum')">BLACK<span>SOCIAL</span></a>
+      <nav class="nav">
+        <button onclick="showPage('forum')" id="navForum" class="active">Форум</button>
+        <button onclick="showPage('settings')" id="navSettings" class="hidden">Настройки</button>
+        <button onclick="showPage('admin')" id="navAdmin" class="hidden">Админ</button>
       </nav>
-      <div class="header-actions" id="headerActions">
-        <button class="btn btn-outline" id="loginBtn">Войти</button>
-        <button class="btn btn-primary" id="registerBtn">Регистрация</button>
+      <div id="authBtns">
+        <button class="btn btn-outline btn-sm" onclick="openAuth('login')">Войти</button>
+        <button class="btn btn-primary btn-sm" onclick="openAuth('reg')">Регистрация</button>
       </div>
-      <div class="user-menu" id="userMenu" style="display:none;">
-        <div class="user-avatar" id="userAvatar">?</div>
-        <div class="user-info">
-          <div class="user-name" id="userName">User</div>
-          <div class="user-badge" id="userBadge">Новичок</div>
+      <div class="user-menu" id="userMenu">
+        <div class="user-avatar" id="uAv">?</div>
+        <div>
+          <div class="user-name" id="uName">User</div>
+          <div class="user-badge" id="uBadge">—</div>
         </div>
-        <button class="btn-icon" id="logoutBtn" title="Выйти">⎋</button>
+        <button class="btn-icon" onclick="doLogout()" title="Выйти">⎋</button>
       </div>
     </div>
   </header>
 
-  <!-- Main Content -->
-  <main class="main">
-    <div class="container">
-      <!-- Welcome Banner -->
-      <section class="hero" id="heroSection">
-        <div class="hero-content">
-          <h1>Добро пожаловать в <span class="accent">BLACK SOCIAL</span></h1>
-          <p>Форум в стиле Black. Общение, RolePlay, сообщества.</p>
-        </div>
-      </section>
-
-      <!-- Forum Categories -->
-      <section class="forum-section">
-        <div class="section-header">
+  <main class="container" style="padding-top:8px;padding-bottom:40px;">
+    <!-- FORUM PAGE -->
+    <div class="page on" id="pageForum">
+      <div class="hero">
+        <h1>Добро пожаловать в <span>BLACK SOCIAL</span></h1>
+        <p>Форум в стиле Black. Общение, RolePlay, сообщества.</p>
+      </div>
+      <div class="section">
+        <div class="section-h">
           <h2>Разделы форума</h2>
-          <button class="btn btn-primary" id="createTopicBtn" style="display:none;">+ Создать тему</button>
+          <button class="btn btn-primary btn-sm hidden" id="btnNewTopic" onclick="openNewTopic()">+ Создать тему</button>
         </div>
+        <div id="catList"><div class="loading">Загрузка...</div></div>
+      </div>
+      <div class="section">
+        <div class="section-h"><h2>Последние темы</h2></div>
+        <div id="topicList"><div class="loading">Тем пока нет</div></div>
+      </div>
+    </div>
 
-        <div class="categories" id="categoriesList">
-          <!-- Categories will be loaded here -->
-          <div class="loading">Загрузка разделов...</div>
-        </div>
-      </section>
+    <!-- SETTINGS PAGE -->
+    <div class="page" id="pageSettings">
+      <div style="margin:28px 0 20px;"><h1 style="font-size:1.5rem;">⚙️ Настройки</h1></div>
+      <div class="admin-card" style="margin-bottom:16px;">
+        <h3 style="margin-bottom:14px;">👤 Профиль</h3>
+        <form id="formProfile">
+          <div class="form-group"><label>Никнейм</label><input id="setNick" maxlength="24" required></div>
+          <div class="form-group"><label>Описание</label><textarea id="setBio" rows="3" maxlength="200"></textarea></div>
+          <div class="form-group"><label>Аватар (URL картинки)</label><input id="setAv" type="url" placeholder="https://..."></div>
+          <div class="profile-card" style="margin-bottom:14px;">
+            <div class="av" id="prevAv">?</div>
+            <div>
+              <div class="nick" id="prevNick">Ник</div>
+              <div class="badge" id="prevBadge" style="background:#a855f7;color:#fff;">РАНГ</div>
+              <div id="prevBio" style="margin-top:6px;font-size:.85rem;color:var(--text2);"></div>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Сохранить</button>
+        </form>
+      </div>
+      <div class="admin-card">
+        <h3 style="margin-bottom:14px;">🔒 Смена пароля</h3>
+        <form id="formPass">
+          <div class="form-group"><label>Новый пароль</label><input type="password" id="newPass" minlength="6"></div>
+          <div class="form-group"><label>Ещё раз</label><input type="password" id="newPass2" minlength="6"></div>
+          <button type="submit" class="btn btn-outline">Сменить пароль</button>
+        </form>
+      </div>
+    </div>
 
-      <!-- Recent Topics -->
-      <section class="forum-section">
-        <div class="section-header">
-          <h2>Последние темы</h2>
+    <!-- ADMIN PAGE -->
+    <div class="page" id="pageAdmin">
+      <div style="margin:28px 0 20px;"><h1 style="font-size:1.5rem;">⚙️ Админ-панель</h1></div>
+      <div class="admin-grid">
+        <div class="admin-card">
+          <h3 style="margin-bottom:12px;">🏷️ Создать ранг</h3>
+          <form id="formRank">
+            <div class="form-group"><label>Название</label><input id="rankName" required placeholder="Спец админ"></div>
+            <div class="form-group"><label>Текст бейджа</label><input id="rankBadge" required placeholder="СПЕЦ АДМИН"></div>
+            <div class="form-group"><label>Текст баннера</label><input id="rankBanner" placeholder="Спец админ"></div>
+            <div class="form-group">
+              <label>CSS (для ника, бейджа и баннера)</label>
+              <textarea id="rankCss" rows="5" placeholder="/* ник */&#10;.rank-name { color:#ff2400; font-weight:500; text-shadow:#ff2400 1px 1px 10px; }&#10;/* бейдж */&#10;.rank-badge { background:#ff2400; color:#fff; }&#10;/* баннер */&#10;.rank-banner { color:#ff2400; }"></textarea>
+              <small>Пиши CSS-классы: .rank-name, .rank-badge, .rank-banner</small>
+            </div>
+            <div class="form-group">
+              <label>Права</label>
+              <div class="perm-grid">
+                <label class="perm-item"><input type="checkbox" id="pTopic" checked> Темы</label>
+                <label class="perm-item"><input type="checkbox" id="pReply" checked> Ответы</label>
+                <label class="perm-item"><input type="checkbox" id="pMod"> Модерация</label>
+                <label class="perm-item"><input type="checkbox" id="pUsers"> Юзеры</label>
+                <label class="perm-item"><input type="checkbox" id="pRanks"> Ранги</label>
+                <label class="perm-item"><input type="checkbox" id="pAdmin"> Админ</label>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Создать</button>
+          </form>
         </div>
-        <div class="topics-list" id="topicsList">
-          <div class="loading">Загрузка тем...</div>
+        <div class="admin-card">
+          <h3 style="margin-bottom:12px;">📋 Ранги</h3>
+          <div id="rankList"><div class="loading">—</div></div>
         </div>
-      </section>
+      </div>
+      <div class="admin-card" style="margin-top:16px;">
+        <h3 style="margin-bottom:12px;">📁 Создать раздел</h3>
+        <form id="formCat" style="display:grid;grid-template-columns:1fr 1fr 70px auto;gap:10px;align-items:end;">
+          <div class="form-group" style="margin:0;"><label>Название</label><input id="catTitle" required></div>
+          <div class="form-group" style="margin:0;"><label>Описание</label><input id="catDesc"></div>
+          <div class="form-group" style="margin:0;"><label>Иконка</label><input id="catIcon" value="📁" maxlength="2"></div>
+          <button type="submit" class="btn btn-primary">+</button>
+        </form>
+      </div>
+      <div class="admin-card" style="margin-top:16px;">
+        <h3 style="margin-bottom:12px;">👤 Выдать ранг</h3>
+        <form id="formAssign" style="display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;">
+          <div class="form-group" style="margin:0;"><label>Email</label><input id="assignEmail" required placeholder="user@gmail.com"></div>
+          <div class="form-group" style="margin:0;"><label>Ранг</label><select id="assignRank"></select></div>
+          <button type="submit" class="btn btn-primary">Выдать</button>
+        </form>
+      </div>
+      <div class="admin-card" style="margin-top:16px;">
+        <h3 style="margin-bottom:12px;">👥 Пользователи</h3>
+        <div id="userList"><div class="loading">—</div></div>
+      </div>
     </div>
   </main>
 
-  <!-- Auth Modal -->
+  <!-- AUTH MODAL -->
   <div class="modal" id="authModal">
-    <div class="modal-content">
-      <button class="modal-close" id="closeModal">×</button>
-      <div class="auth-tabs">
-        <button class="tab active" data-tab="login">Вход</button>
-        <button class="tab" data-tab="register">Регистрация</button>
+    <div class="modal-box">
+      <button class="modal-x" onclick="closeModal('authModal')">×</button>
+      <div class="tabs">
+        <button class="on" data-t="login" onclick="switchTab(this)">Вход</button>
+        <button data-t="reg" onclick="switchTab(this)">Регистрация</button>
       </div>
-
-      <!-- Login Form -->
-      <form id="loginForm" class="auth-form">
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" id="loginEmail" required placeholder="you@email.com">
-        </div>
-        <div class="form-group">
-          <label>Пароль</label>
-          <input type="password" id="loginPassword" required placeholder="••••••••">
-        </div>
+      <form id="formLogin">
+        <div class="form-group"><label>Email</label><input type="email" id="loginEmail" required></div>
+        <div class="form-group"><label>Пароль</label><input type="password" id="loginPass" required></div>
         <button type="submit" class="btn btn-primary btn-block">Войти</button>
         <div class="divider"><span>или</span></div>
-        <button type="button" class="btn btn-google btn-block" id="googleLoginBtn">
-          <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.96-2.184l-2.908-2.258c-.806.54-1.837.86-3.052.86-2.347 0-4.33-1.584-5.04-3.715H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.96 10.703c-.18-.54-.282-1.117-.282-1.703 0-.586.102-1.163.282-1.703V4.965H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.035l3.003-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.965L3.96 7.297C4.67 5.163 6.653 3.58 9 3.58z"/></svg>
-          Войти через Google
-        </button>
+        <button type="button" class="btn btn-google" onclick="googleAuth()">Войти через Google</button>
       </form>
-
-      <!-- Register Form -->
-      <form id="registerForm" class="auth-form" style="display:none;">
-        <div class="form-group">
-          <label>Никнейм</label>
-          <input type="text" id="regNickname" required placeholder="Maks_Deep" minlength="3" maxlength="20">
-        </div>
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" id="regEmail" required placeholder="you@email.com">
-        </div>
-        <div class="form-group">
-          <label>Пароль</label>
-          <input type="password" id="regPassword" required placeholder="••••••••" minlength="6">
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Создать аккаунт</button>
+      <form id="formReg" class="hidden">
+        <div class="form-group"><label>Ник</label><input id="regNick" required maxlength="20"></div>
+        <div class="form-group"><label>Email</label><input type="email" id="regEmail" required></div>
+        <div class="form-group"><label>Пароль</label><input type="password" id="regPass" required minlength="6"></div>
+        <button type="submit" class="btn btn-primary btn-block">Создать</button>
         <div class="divider"><span>или</span></div>
-        <button type="button" class="btn btn-google btn-block" id="googleRegisterBtn">
-          <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.96-2.184l-2.908-2.258c-.806.54-1.837.86-3.052.86-2.347 0-4.33-1.584-5.04-3.715H.957v2.332C2.438 15.983 5.482 18 9 18z"/><path fill="#FBBC05" d="M3.96 10.703c-.18-.54-.282-1.117-.282-1.703 0-.586.102-1.163.282-1.703V4.965H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.035l3.003-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.965L3.96 7.297C4.67 5.163 6.653 3.58 9 3.58z"/></svg>
-          Зарегистрироваться через Google
-        </button>
+        <button type="button" class="btn btn-google" onclick="googleAuth()">Через Google</button>
       </form>
     </div>
   </div>
 
-  <!-- Create Topic Modal -->
+  <!-- NEW TOPIC MODAL -->
   <div class="modal" id="topicModal">
-    <div class="modal-content">
-      <button class="modal-close" id="closeTopicModal">×</button>
-      <h2>Создать новую тему</h2>
-      <form id="createTopicForm">
-        <div class="form-group">
-          <label>Раздел</label>
-          <select id="topicCategory" required></select>
-        </div>
-        <div class="form-group">
-          <label>Заголовок</label>
-          <input type="text" id="topicTitle" required maxlength="100" placeholder="Название темы">
-        </div>
-        <div class="form-group">
-          <label>Содержание</label>
-          <textarea id="topicContent" required rows="6" placeholder="Текст сообщения..."></textarea>
-        </div>
-        <div class="form-group">
-          <label>Статус темы</label>
-          <select id="topicStatus">
-            <option value="open">Открыта</option>
-            <option value="important">Важно</option>
-            <option value="closed">Закрыта</option>
-          </select>
+    <div class="modal-box">
+      <button class="modal-x" onclick="closeModal('topicModal')">×</button>
+      <h2 style="margin-bottom:14px;">Новая тема</h2>
+      <form id="formTopic">
+        <div class="form-group"><label>Раздел</label><select id="topicCat" required></select></div>
+        <div class="form-group"><label>Заголовок</label><input id="topicTitle" required maxlength="100"></div>
+        <div class="form-group"><label>Текст</label><textarea id="topicBody" required rows="5"></textarea></div>
+        <div class="form-group"><label>Статус</label>
+          <select id="topicStatus"><option value="open">Открыта</option><option value="important">Важно</option><option value="closed">Закрыта</option></select>
         </div>
         <button type="submit" class="btn btn-primary btn-block">Опубликовать</button>
       </form>
     </div>
   </div>
 
-  <!-- Topic View Modal / Page -->
-  <div class="modal modal-lg" id="viewTopicModal">
-    <div class="modal-content">
-      <button class="modal-close" id="closeViewTopic">×</button>
-      <div id="topicViewContent">
-        <!-- Topic content loaded here -->
-      </div>
+  <!-- VIEW TOPIC -->
+  <div class="modal" id="viewModal">
+    <div class="modal-box lg">
+      <button class="modal-x" onclick="closeModal('viewModal')">×</button>
+      <div id="viewContent"></div>
     </div>
   </div>
 
-  <!-- Toast notifications -->
-  
-  <!-- Profile Modal -->
+  <!-- PROFILE MODAL -->
   <div class="modal" id="profileModal">
-    <div class="modal-content">
-      <button class="modal-close" id="closeProfileModal">×</button>
-      <h2 style="margin-bottom:20px;">Профиль</h2>
-      <div id="profileContent"></div>
+    <div class="modal-box">
+      <button class="modal-x" onclick="closeModal('profileModal')">×</button>
+      <h2 style="margin-bottom:14px;">Профиль</h2>
+      <div id="profileBox"></div>
     </div>
   </div>
 
-<div id="toastContainer"></div>
+  <div id="toastBox"></div>
 
-  <!-- Firebase + App Scripts -->
-  <script type="module" src="js/app.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, updateProfile, updatePassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, collection, doc, setDoc, getDoc, getDocs, addDoc, updateDoc, query, orderBy, limit, where, serverTimestamp, enableNetwork } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const cfg = {
+      apiKey: "AIzaSyBGFONUBgybQr0KCn_Ao_ZT9HkWVSU4jEw",
+      authDomain: "black-social-af844.firebaseapp.com",
+      projectId: "black-social-af844",
+      storageBucket: "black-social-af844.firebasestorage.app",
+      messagingSenderId: "296441938682",
+      appId: "1:296441938682:web:096a3e642bd00116f7bf43",
+      measurementId: "G-2PX2QMR8HS"
+    };
+    const app = initializeApp(cfg);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const gProv = new GoogleAuthProvider();
+    const OWNER = "strepoomich27@gmail.com";
+
+    const DEF_RANKS = {
+      newbie: { id:"newbie", name:"Новичок", badge:"НОВИЧОК", css:".rank-badge{background:#6b6b7b;color:#fff}", permissions:{canCreateTopic:1,canReply:1} },
+      owner: { id:"owner", name:"Владелец", badge:"ВЛАДЕЛЕЦ", css:".rank-name{color:#a855f7;font-weight:700}.rank-badge{background:#a855f7;color:#fff}", permissions:{canCreateTopic:1,canReply:1,canModerate:1,canManageUsers:1,canManageRanks:1,isAdmin:1,isOwner:1} }
+    };
+
+    let user = null, uData = null, ranks = {...DEF_RANKS};
+
+    // Utils
+    const $ = s => document.querySelector(s);
+    const $$ = s => document.querySelectorAll(s);
+    function toast(m, t="") {
+      const el = document.createElement("div");
+      el.className = "toast " + (t==="error"?"err":t==="success"?"ok":"");
+      el.textContent = m;
+      $("#toastBox").appendChild(el);
+      setTimeout(() => el.remove(), 4000);
+    }
+    function esc(t) { const d=document.createElement("div"); d.textContent=t||""; return d.innerHTML; }
+    function ini(n) { return n ? n.substring(0,2).toUpperCase() : "?"; }
+    function isOwner(e) { return e && e.toLowerCase() === OWNER.toLowerCase(); }
+    function fmt(ts) {
+      if (!ts) return "";
+      try { const d = ts.toDate ? ts.toDate() : new Date(ts); return d.toLocaleString("ru-RU",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"}); } catch { return ""; }
+    }
+    function rankOf(id) { return ranks[id] || ranks.newbie || DEF_RANKS.newbie; }
+
+    // Pages
+    window.showPage = function(name) {
+      $$(".page").forEach(p => p.classList.remove("on"));
+      $("#page" + name.charAt(0).toUpperCase() + name.slice(1))?.classList.add("on");
+      $$(".nav button").forEach(b => b.classList.remove("active"));
+      if (name==="forum") $("#navForum")?.classList.add("active");
+      if (name==="settings") { $("#navSettings")?.classList.add("active"); fillSettings(); }
+      if (name==="admin") { $("#navAdmin")?.classList.add("active"); loadAdmin(); }
+    };
+
+    window.openAuth = function(tab) {
+      $("#authModal").classList.add("open");
+      switchTab(tab==="reg" ? $$(".tabs button")[1] : $$(".tabs button")[0]);
+    };
+    window.closeModal = id => $("#"+id)?.classList.remove("open");
+    window.switchTab = function(btn) {
+      $$(".tabs button").forEach(b => b.classList.remove("on"));
+      btn.classList.add("on");
+      const t = btn.dataset.t;
+      $("#formLogin").classList.toggle("hidden", t!=="login");
+      $("#formReg").classList.toggle("hidden", t!=="reg");
+    };
+
+    function updateUI() {
+      if (user) {
+        $("#authBtns").classList.add("hidden");
+        $("#userMenu").style.display = "flex";
+        const nick = uData?.nickname || user.displayName || user.email?.split("@")[0] || "User";
+        const r = rankOf(uData?.rankId || (isOwner(user.email)?"owner":"newbie"));
+        $("#uName").textContent = nick;
+        $("#uName").className = "user-name rank-name";
+        $("#uBadge").textContent = r.badge;
+        $("#uBadge").className = "user-badge rank-badge";
+        // apply css if any
+        applyRankCss(r);
+        const av = $("#uAv");
+        if (uData?.photoURL || user.photoURL) av.innerHTML = '<img src="'+(uData?.photoURL||user.photoURL)+'">';
+        else av.textContent = ini(nick);
+        $("#btnNewTopic").classList.remove("hidden");
+        $("#navSettings").classList.remove("hidden");
+        if (isOwner(user.email) || r.permissions?.isAdmin || r.permissions?.isOwner || uData?.rankId==="owner") {
+          $("#navAdmin").classList.remove("hidden");
+        }
+      } else {
+        $("#authBtns").classList.remove("hidden");
+        $("#userMenu").style.display = "none";
+        $("#btnNewTopic").classList.add("hidden");
+        $("#navSettings").classList.add("hidden");
+        $("#navAdmin").classList.add("hidden");
+      }
+    }
+
+    function applyRankCss(r) {
+      let st = document.getElementById("dynRankCss");
+      if (!st) { st = document.createElement("style"); st.id = "dynRankCss"; document.head.appendChild(st); }
+      st.textContent = r.css || "";
+    }
+
+    async function ensureUser(u, nick) {
+      const owner = isOwner(u.email);
+      const fb = { uid:u.uid, email:u.email||"", nickname: nick||u.displayName||(u.email?u.email.split("@")[0]:"User"), photoURL:u.photoURL||null, rankId: owner?"owner":"newbie", bio:"" };
+      try {
+        await enableNetwork(db);
+        const ref = doc(db,"users",u.uid);
+        const s = await getDoc(ref);
+        if (s.exists()) {
+          const d = s.data();
+          if (owner && d.rankId!=="owner") { try{await updateDoc(ref,{rankId:"owner"}); d.rankId="owner";}catch(e){} }
+          return d;
+        }
+        await setDoc(ref, {...fb, createdAt:serverTimestamp(), postsCount:0, topicsCount:0});
+        if (owner) toast("Права владельца выданы!","success");
+        return fb;
+      } catch(e) { console.warn(e); return fb; }
+    }
+
+    onAuthStateChanged(auth, async (u) => {
+      if (u) {
+        user = u;
+        uData = { nickname: u.displayName||u.email?.split("@")[0], rankId: isOwner(u.email)?"owner":"newbie", email:u.email, photoURL:u.photoURL };
+        updateUI();
+        uData = await ensureUser(u);
+        updateUI();
+        loadRanksCache();
+      } else {
+        user = null; uData = null; updateUI();
+      }
+      loadCats(); loadTopics();
+    });
+
+    // Auth forms
+    $("#formLogin").onsubmit = async e => {
+      e.preventDefault();
+      try {
+        const c = await signInWithEmailAndPassword(auth, $("#loginEmail").value.trim(), $("#loginPass").value);
+        user = c.user;
+        uData = await ensureUser(c.user);
+        closeModal("authModal"); updateUI(); toast("Вход выполнен!","success");
+      } catch(err) { toast(err.code==="auth/invalid-credential"?"Неверный email/пароль":err.message,"error"); }
+    };
+    $("#formReg").onsubmit = async e => {
+      e.preventDefault();
+      const nick = $("#regNick").value.trim(), email=$("#regEmail").value.trim(), pass=$("#regPass").value;
+      try {
+        const c = await createUserWithEmailAndPassword(auth, email, pass);
+        try{await updateProfile(c.user,{displayName:nick});}catch(e){}
+        user = c.user; uData = await ensureUser(c.user, nick);
+        closeModal("authModal"); updateUI(); toast("Аккаунт создан!","success");
+      } catch(err) { toast(err.code==="auth/email-already-in-use"?"Email уже есть — войди":err.message,"error"); }
+    };
+    window.googleAuth = async () => {
+      try {
+        const r = await signInWithPopup(auth, gProv);
+        user = r.user; uData = await ensureUser(r.user);
+        closeModal("authModal"); updateUI(); toast("Google вход!","success");
+      } catch(err) { toast(err.code==="auth/unauthorized-domain"?"Добавь floralss.github.io в Authorized domains":err.message,"error"); }
+    };
+    window.doLogout = async () => { await signOut(auth); user=null; uData=null; updateUI(); toast("Вы вышли"); showPage("forum"); };
+
+    // Forum data
+    async function loadCats() {
+      const box = $("#catList");
+      box.innerHTML = '<div class="loading">Загрузка...</div>';
+      try {
+        await enableNetwork(db);
+        const snap = await getDocs(collection(db,"categories"));
+        if (snap.empty) { box.innerHTML = '<div class="loading">Разделов нет. Создай в <a href="#" onclick="showPage(\'admin\')">Админке</a></div>'; return; }
+        const cats = []; snap.forEach(d => cats.push({id:d.id,...d.data()}));
+        cats.sort((a,b)=>(a.order||0)-(b.order||0));
+        box.innerHTML = "";
+        cats.forEach(c => {
+          const el = document.createElement("div");
+          el.className = "cat-card";
+          el.innerHTML = `<div class="cat-icon">${c.icon||"📁"}</div><div><div class="cat-title">${esc(c.title)}</div><div class="cat-desc">${esc(c.description||"")}</div></div>`;
+          box.appendChild(el);
+        });
+      } catch(e) { box.innerHTML = '<div class="loading">Ошибка: '+e.message+'</div>'; }
+    }
+
+    async function loadTopics() {
+      const box = $("#topicList");
+      try {
+        await enableNetwork(db);
+        const snap = await getDocs(query(collection(db,"topics"), orderBy("createdAt","desc"), limit(20)));
+        if (snap.empty) { box.innerHTML = '<div class="loading">Тем пока нет</div>'; return; }
+        box.innerHTML = "";
+        snap.forEach(d => {
+          const t = d.data();
+          const st = t.status==="closed"?' <span style="color:#ef4444;font-size:.75rem">[Закрыта]</span>':(t.status==="important"?' <span style="color:#f5c518;font-size:.75rem">[Важно]</span>':"");
+          const el = document.createElement("div");
+          el.className = "topic-item";
+          el.innerHTML = `<div class="topic-av">${ini(t.authorNickname)}</div><div style="flex:1"><div class="topic-title">${esc(t.title)}${st}</div><div class="topic-meta"><span class="author rank-name">${esc(t.authorNickname||"")}</span> · ${fmt(t.createdAt)}</div></div><div style="color:var(--muted);font-size:.8rem">${t.repliesCount||0}</div>`;
+          el.onclick = () => openTopic(d.id);
+          box.appendChild(el);
+        });
+      } catch(e) { console.warn(e); }
+    }
+
+    window.openNewTopic = async () => {
+      if (!user) return toast("Войдите","error");
+      const sel = $("#topicCat"); sel.innerHTML = "";
+      try {
+        const snap = await getDocs(collection(db,"categories"));
+        if (snap.empty) { sel.innerHTML = '<option value="general">Общий</option>'; }
+        else snap.forEach(d => { const o=document.createElement("option"); o.value=d.id; o.textContent=d.data().title; sel.appendChild(o); });
+      } catch { sel.innerHTML = '<option value="general">Общий</option>'; }
+      $("#topicModal").classList.add("open");
+    };
+
+    $("#formTopic").onsubmit = async e => {
+      e.preventDefault();
+      if (!user) return;
+      const title=$("#topicTitle").value.trim(), content=$("#topicBody").value.trim(), catId=$("#topicCat").value, status=$("#topicStatus").value;
+      if (!title||!content) return;
+      try {
+        await enableNetwork(db);
+        let catTitle=""; try{const c=await getDoc(doc(db,"categories",catId)); if(c.exists()) catTitle=c.data().title;}catch(e){}
+        const ref = await addDoc(collection(db,"topics"), {
+          title, content, categoryId:catId, categoryTitle:catTitle, status,
+          authorId:user.uid, authorNickname:uData?.nickname||"User", authorRankId:uData?.rankId||"newbie",
+          createdAt:serverTimestamp(), repliesCount:0
+        });
+        await addDoc(collection(db,"posts"), {
+          topicId:ref.id, content, authorId:user.uid, authorNickname:uData?.nickname||"User",
+          authorRankId:uData?.rankId||"newbie", createdAt:serverTimestamp(), isFirst:true
+        });
+        closeModal("topicModal"); $("#formTopic").reset(); toast("Тема создана!","success"); loadTopics();
+      } catch(err) { toast("Ошибка: "+err.message,"error"); }
+    };
+
+    async function openTopic(id) {
+      const box = $("#viewContent");
+      box.innerHTML = '<div class="loading">Загрузка...</div>';
+      $("#viewModal").classList.add("open");
+      try {
+        const ts = await getDoc(doc(db,"topics",id));
+        if (!ts.exists()) { box.innerHTML="Тема не найдена"; return; }
+        const t = ts.data();
+        const ps = await getDocs(query(collection(db,"posts"), where("topicId","==",id), orderBy("createdAt","asc")));
+        let html = `<h2 style="margin-bottom:8px">${esc(t.title)}</h2><div style="color:var(--muted);font-size:.9rem;margin-bottom:16px">Автор: <span class="rank-name" style="color:var(--accent)">${esc(t.authorNickname)}</span> · ${t.status||"open"}</div>`;
+        ps.forEach(p => {
+          const post=p.data(); const r=rankOf(post.authorRankId);
+          html += `<div class="post"><div class="post-author"><div class="av">${ini(post.authorNickname)}</div><div class="name rank-name">${esc(post.authorNickname)}</div><div class="badge rank-badge">${r.badge}</div></div><div class="post-body">${esc(post.content)}<div class="post-date">${fmt(post.createdAt)}</div></div></div>`;
+        });
+        if (user && t.status!=="closed") {
+          html += `<div style="margin-top:16px;border-top:1px solid var(--border);padding-top:14px"><form id="replyForm"><div class="form-group"><textarea id="replyBody" rows="3" required placeholder="Ответ..."></textarea></div><button class="btn btn-primary" type="submit">Отправить</button></form></div>`;
+        }
+        box.innerHTML = html;
+        applyRankCss(rankOf(t.authorRankId));
+        $("#replyForm")?.addEventListener("submit", async ev => {
+          ev.preventDefault();
+          const content = $("#replyBody").value.trim(); if (!content) return;
+          try {
+            await addDoc(collection(db,"posts"), { topicId:id, content, authorId:user.uid, authorNickname:uData?.nickname||"User", authorRankId:uData?.rankId||"newbie", createdAt:serverTimestamp() });
+            toast("Ответ добавлен","success"); openTopic(id);
+          } catch(err) { toast(err.message,"error"); }
+        });
+      } catch(e) { box.innerHTML = "Ошибка: "+e.message; }
+    }
+
+    // Settings
+    function fillSettings() {
+      if (!user) return;
+      $("#setNick").value = uData?.nickname || "";
+      $("#setBio").value = uData?.bio || "";
+      $("#setAv").value = uData?.photoURL || "";
+      const r = rankOf(uData?.rankId || "newbie");
+      $("#prevNick").textContent = uData?.nickname || "Ник";
+      $("#prevBadge").textContent = r.badge;
+      $("#prevBio").textContent = uData?.bio || "";
+      applyRankCss(r);
+    }
+    $("#setNick").oninput = () => { $("#prevNick").textContent = $("#setNick").value || "Ник"; };
+    $("#setBio").oninput = () => { $("#prevBio").textContent = $("#setBio").value; };
+    $("#formProfile").onsubmit = async e => {
+      e.preventDefault(); if (!user) return;
+      const nickname=$("#setNick").value.trim(), bio=$("#setBio").value.trim(), photoURL=$("#setAv").value.trim();
+      try {
+        await updateDoc(doc(db,"users",user.uid), { nickname, bio, photoURL: photoURL||null });
+        try{await updateProfile(user,{displayName:nickname,photoURL:photoURL||null});}catch(e){}
+        uData = {...uData, nickname, bio, photoURL};
+        updateUI(); toast("Сохранено!","success");
+      } catch(err) { toast(err.message,"error"); }
+    };
+    $("#formPass").onsubmit = async e => {
+      e.preventDefault();
+      const p1=$("#newPass").value, p2=$("#newPass2").value;
+      if (p1.length<6) return toast("Мин. 6 символов","error");
+      if (p1!==p2) return toast("Пароли не совпадают","error");
+      try { await updatePassword(user, p1); toast("Пароль изменён!","success"); $("#formPass").reset(); }
+      catch(err) { toast(err.code==="auth/requires-recent-login"?"Перелогинься и попробуй снова":err.message,"error"); }
+    };
+
+    // Admin
+    async function loadRanksCache() {
+      try {
+        const snap = await getDocs(collection(db,"ranks"));
+        snap.forEach(d => { ranks[d.id] = d.data(); });
+      } catch(e) {}
+    }
+
+    async function loadAdmin() {
+      if (!user || (!isOwner(user.email) && uData?.rankId!=="owner" && uData?.rankId!=="admin")) {
+        toast("Нет доступа","error"); showPage("forum"); return;
+      }
+      // ranks list
+      const rl = $("#rankList"); rl.innerHTML = "";
+      Object.values(ranks).forEach(r => {
+        const el = document.createElement("div");
+        el.className = "rank-item";
+        el.innerHTML = `<div><b>${esc(r.name)}</b><br><span class="rank-preview rank-badge">${esc(r.badge)}</span></div>`;
+        rl.appendChild(el);
+      });
+      applyRankCss(Object.values(ranks)[0]||{});
+      // assign select
+      const sel = $("#assignRank"); sel.innerHTML = "";
+      Object.values(ranks).forEach(r => { const o=document.createElement("option"); o.value=r.id; o.textContent=r.name+" ("+r.badge+")"; sel.appendChild(o); });
+      // users
+      const ul = $("#userList"); ul.innerHTML = '<div class="loading">...</div>';
+      try {
+        const snap = await getDocs(collection(db,"users"));
+        ul.innerHTML = "";
+        if (snap.empty) ul.innerHTML = '<div class="loading">Нет пользователей</div>';
+        snap.forEach(d => {
+          const u = d.data(); const r = rankOf(u.rankId);
+          const el = document.createElement("div");
+          el.className = "user-item";
+          el.innerHTML = `<div><b>${esc(u.nickname||"—")}</b><br><small style="color:var(--muted)">${esc(u.email||"")}</small></div><span class="rank-preview rank-badge">${esc(r.badge)}</span>`;
+          ul.appendChild(el);
+        });
+      } catch(e) { ul.innerHTML = '<div class="loading">'+e.message+'</div>'; }
+    }
+
+    $("#formRank").onsubmit = async e => {
+      e.preventDefault();
+      const name=$("#rankName").value.trim(), badge=$("#rankBadge").value.trim().toUpperCase();
+      const banner=$("#rankBanner").value.trim(), css=$("#rankCss").value.trim();
+      const permissions = {
+        canCreateTopic: $("#pTopic").checked, canReply: $("#pReply").checked,
+        canModerate: $("#pMod").checked, canManageUsers: $("#pUsers").checked,
+        canManageRanks: $("#pRanks").checked, isAdmin: $("#pAdmin").checked, isOwner: false
+      };
+      const id = name.toLowerCase().replace(/[^a-zа-я0-9]/gi,"_")+"_"+Date.now().toString(36);
+      try {
+        await setDoc(doc(db,"ranks",id), { id, name, badge, banner, css, permissions, createdAt: new Date().toISOString() });
+        ranks[id] = { id, name, badge, banner, css, permissions };
+        toast("Ранг создан!","success");
+        $("#formRank").reset();
+        loadAdmin();
+      } catch(err) { toast(err.message,"error"); }
+    };
+
+    $("#formCat").onsubmit = async e => {
+      e.preventDefault();
+      const title=$("#catTitle").value.trim(), description=$("#catDesc").value.trim(), icon=$("#catIcon").value.trim()||"📁";
+      if (!title) return;
+      const id = title.toLowerCase().replace(/[^a-zа-я0-9]/gi,"_")+"_"+Date.now().toString(36);
+      try {
+        await setDoc(doc(db,"categories",id), { id, title, description, icon, order: Date.now() });
+        toast("Раздел создан!","success");
+        $("#formCat").reset(); $("#catIcon").value="📁";
+        loadCats();
+      } catch(err) { toast(err.message,"error"); }
+    };
+
+    $("#formAssign").onsubmit = async e => {
+      e.preventDefault();
+      const email = $("#assignEmail").value.trim(), rankId = $("#assignRank").value;
+      try {
+        const q = query(collection(db,"users"), where("email","==",email));
+        const snap = await getDocs(q);
+        if (snap.empty) return toast("Пользователь не найден","error");
+        await updateDoc(doc(db,"users",snap.docs[0].id), { rankId });
+        toast("Ранг выдан!","success");
+        loadAdmin();
+      } catch(err) { toast(err.message,"error"); }
+    };
+
+    // Profile click
+    $("#userMenu")?.addEventListener("click", (e) => {
+      if (e.target.closest(".btn-icon")) return;
+      if (!user) return;
+      const r = rankOf(uData?.rankId || "newbie");
+      $("#profileBox").innerHTML = `<div class="profile-card" style="max-width:100%"><div class="av">${uData?.photoURL?'<img src="'+uData.photoURL+'">':ini(uData?.nickname)}</div><div><div class="nick rank-name">${esc(uData?.nickname||"User")}</div><div class="badge rank-badge">${esc(r.badge)}</div><div style="margin-top:8px;font-size:.85rem;color:var(--text2)">${esc(uData?.bio||"")}<br>Email: ${esc(user.email||"")}</div></div></div>`;
+      applyRankCss(r);
+      $("#profileModal").classList.add("open");
+    });
+
+    console.log("BLACK SOCIAL single-file ready");
+  </script>
 </body>
 </html>
